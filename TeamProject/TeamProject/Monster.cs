@@ -26,20 +26,18 @@ namespace TeamProject
             hp = level * 20;
             critical = 20;
         }
-        public void GiveDamage(Player _player, int _atk)
+        public int TakeDamage(int _atk)
         {
+            int er = (int)(_atk * 0.1);
             int rand = new Random().Next(1, 101);
+            int damage = new Random().Next(_atk - er, _atk + er);
             if (rand <= critical)
             {
-                _player.hp -= _atk;
+                return damage * 2;
             }
             else
             {
-                _player.hp -= _atk - (int)(_atk * def / 15);
-            }
-            if (_player.hp <= 0)
-            {
-                Console.WriteLine($"플레이어 : {_player.name}님께서 사망하였습니다.");
+                return damage - (int)(damage * def / 50);
             }
         }
     }
