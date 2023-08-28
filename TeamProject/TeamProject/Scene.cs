@@ -10,10 +10,11 @@ namespace TeamProject
     internal class Scene
     {
         Player player;
-        Monster[] monster;
+        Monster[] monsters;
+        int beforeHp = 0;
         public Scene()
         {
-            player = new Player("조범준", "전사", 0, 0, 0);
+            player = new Player("조범준", "전사", 10, 5, 100, 30, 0);
         }
 
         public int InputString(int min, int max, bool isAttack)
@@ -26,7 +27,7 @@ namespace TeamProject
             {
                 Console.WriteLine("대상을 선택해주세요.");
             }
-            Console.Write(">>");
+            Console.Write(">> ");
             string input = Console.ReadLine();
             int inputNum;
 
@@ -37,7 +38,7 @@ namespace TeamProject
                 Console.WriteLine("=====================");
                 Console.WriteLine();
                 Console.WriteLine("다시 입력해주세요.");
-                Console.WriteLine(">>");
+                Console.WriteLine(">> ");
                 input = Console.ReadLine();
             }
             return inputNum;
@@ -128,7 +129,7 @@ namespace TeamProject
             int j = 4;
             if (!isBattle)
             {
-                foreach (Monster mon in monster)
+                foreach (Monster mon in monsters)
                 {
                     Console.Write("레벨 | {0} \t이름 | {1}", mon.level, mon.name);
                     Console.SetCursorPosition(34, j++);
@@ -145,7 +146,7 @@ namespace TeamProject
             else
             {
                 int i = 1;
-                foreach (Monster mon in monster)
+                foreach (Monster mon in monsters)
                 {
                     Console.Write("{0} 레벨 | {1} \t이름 | {2}", i++, mon.level, mon.name);
                     Console.SetCursorPosition(36, j++);
@@ -168,12 +169,15 @@ namespace TeamProject
 
         public bool DisplayBattle()
         {
+            beforeHp = player.hp;
             Dungeon dungeon = new Dungeon();
             Monster mon1 = new Monster("공허충", "몬스터", 1);
             Monster mon2 = new Monster("미니언즈", "몬스터", 2);
-            monster = new Monster[2];
-            monster[0] = mon1;
-            monster[1] = mon2;
+            monsters = new Monster[2];
+            monsters[0] = mon1;
+            monsters[1] = mon2;
+
+            //monsters = dungeon.MonsterGen();
 
             BattleInfo(false);
 
@@ -189,6 +193,7 @@ namespace TeamProject
                 {
                     isAttack = DisplayAttackSelect();
                 }
+                return false;
             }
 
             return true;
@@ -201,24 +206,36 @@ namespace TeamProject
             Console.WriteLine("0. 취소");
             Console.WriteLine();
 
-            int inputNum = InputString(0, monster.Length, true);
+            int inputNum = InputString(0, monsters.Length, true);
 
             if (inputNum == 0)
             {
                 return false;
             }
-            else if (inputNum >= 1 && inputNum <= monster.Length)
+            else if (inputNum >= 1 && inputNum <= monsters.Length)
             {
                 //몬스터 데미지
-                Console.WriteLine("============================");
-                Console.WriteLine(" {0}의 데미지를 입혔습니다");
-                Console.WriteLine("============================");
+                Console.WriteLine("====================================");
+                Console.WriteLine(" {0}에게 {1}의 데미지를 입혔습니다", monsters[inputNum].name, player.atk);
+                Console.WriteLine("====================================");
+                Console.WriteLine("{0}의 체력 {1} -> {2}", monsters[inputNum].name, monsters[inputNum].hp, monsters[inputNum].hp);
+                Thread.Sleep(1000);
+                
+                Console.WriteLine();
+                Console.WriteLine("====================================");
+                foreach(Monster monster in monsters)
+                {
+                    Console.WriteLine(" {0}에게 {1}의 데미지를 입었습니다", monster.name, monster.atk);
+                }
+                Console.WriteLine("====================================");
+                Console.WriteLine("{0}의 체력 {1} -> {2}", player.name, player.hp, player.hp);
                 Thread.Sleep(1000);
             }
 
             if (player.hp <= 0 || IsDeadMonsters())
             {
                 DisplayBattleClear();
+                return false;
             }
 
             return true;
@@ -226,7 +243,7 @@ namespace TeamProject
 
         public bool IsDeadMonsters()
         {
-            foreach (Monster mon in monster)
+            foreach (Monster mon in monsters)
             {
                 if (mon.hp > 0)
                 {
@@ -244,20 +261,29 @@ namespace TeamProject
             Console.WriteLine();
             if (player.hp > 0)
             {
-                Console.WriteLine("던전에서 몬스터 {0}마리를 잡았습니다.", monster.Length);
+                Console.WriteLine("던전에서 몬스터 {0}마리를 잡았습니다.", monsters.Length);
+
+                int beforeExp = player.exp;
+                Console.WriteLine();
+                Console.WriteLine("레벨   | {0}", player.level);
+                Console.WriteLine("경험치 | {0} / {1} -> {2} / {1}", beforeExp, player.exp, player.level * 5);
+                Console.WriteLine("체력   | {0} / {1} -> {2} / {1}", beforeHp, player.maxHp, player.hp);
             }
             else
             {
                 Console.WriteLine("You Lose");
             }
-            Console.WriteLine();
-            Console.WriteLine("레벨   | {0}", player.level);
-            Console.WriteLine("경험치 | {0} -> {1}", player.exp, player.exp);
-            Console.WriteLine("체력   | {0} -> {1}", player.hp, player.hp);
+
             Console.WriteLine();
             Console.WriteLine("0. 다음");
 
             InputString(0, 0, false);
+
+            Console.WriteLine();
+            Console.WriteLine("=====================");
+            Console.WriteLine("  시작창으로 이동중");
+            Console.WriteLine("=====================");
+            Thread.Sleep(1000);
         }
 
         public void DisplayInventory()

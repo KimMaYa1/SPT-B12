@@ -138,7 +138,7 @@ namespace TeamProject
             else if (item.type == 1)
             {
                 eqItem[1].IsEquiped = false;
-                eqItem[1] = null
+                eqItem[1] = null;
             }
             else
             {
