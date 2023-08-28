@@ -54,7 +54,7 @@ namespace TeamProject
             Console.WriteLine("2. 전투 시작");
             Console.WriteLine();
 
-            int inputNum = InputString(1, 2, false) ;
+            int inputNum = InputString(1, 2, false);
 
             Console.WriteLine();
 
@@ -71,7 +71,7 @@ namespace TeamProject
                     isStat = DisplayStat();
                 }
             }
-            else if(inputNum == 2)
+            else if (inputNum == 2)
             {
                 Console.WriteLine("=====================");
                 Console.WriteLine("  전투창으로 이동중");
@@ -92,20 +92,20 @@ namespace TeamProject
             Console.WriteLine("상태 보기");
             Console.WriteLine("캐릭터의 정보가 표시됩니다.");
             Console.WriteLine();
-            Console.WriteLine("레벨   | {0}",player.level);
-            Console.WriteLine("경험치 | {0}",player.exp);
-            Console.WriteLine("직업   | {0} ",player.chrd);
-            Console.WriteLine("공격력 | {0}",player.atk);
+            Console.WriteLine("레벨   | {0}", player.level);
+            Console.WriteLine("경험치 | {0}", player.exp);
+            Console.WriteLine("직업   | {0} ", player.chrd);
+            Console.WriteLine("공격력 | {0}", player.atk);
             Console.WriteLine("방어력 | {0}", player.def);
-            Console.WriteLine("체력   | {0}",player.hp);
-            Console.WriteLine("돈     | {0} G",player.gold);
+            Console.WriteLine("체력   | {0}", player.hp);
+            Console.WriteLine("돈     | {0} G", player.gold);
             Console.WriteLine();
             Console.WriteLine("0. 나가기");
             Console.WriteLine();
 
-            int inputNum = InputString(0,0,false);
+            int inputNum = InputString(0, 0, false);
 
-            if(inputNum == 0)
+            if (inputNum == 0)
             {
                 Console.WriteLine("=====================");
                 Console.WriteLine("  시작창으로 이동중");
@@ -131,8 +131,15 @@ namespace TeamProject
                 foreach (Monster mon in monster)
                 {
                     Console.Write("레벨 | {0} \t이름 | {1}", mon.level, mon.name);
-                    Console.SetCursorPosition(34,j++);
-                    Console.WriteLine("체력 | {0}", mon.hp);
+                    Console.SetCursorPosition(34, j++);
+                    if (mon.hp <= 0)
+                    {
+                        Console.WriteLine("Dead");
+                    }
+                    else
+                    {
+                        Console.WriteLine("체력 | {0}", mon.hp);
+                    }
                 }
             }
             else
@@ -142,7 +149,14 @@ namespace TeamProject
                 {
                     Console.Write("{0} 레벨 | {1} \t이름 | {2}", i++, mon.level, mon.name);
                     Console.SetCursorPosition(36, j++);
-                    Console.WriteLine("체력 | {0}",mon.hp);
+                    if (mon.hp <= 0)
+                    {
+                        Console.WriteLine("Dead");
+                    }
+                    else
+                    {
+                        Console.WriteLine("체력 | {0}", mon.hp);
+                    }
                 }
             }
             Console.WriteLine();
@@ -191,11 +205,59 @@ namespace TeamProject
 
             if (inputNum == 0)
             {
-
                 return false;
+            }
+            else if (inputNum >= 1 && inputNum <= monster.Length)
+            {
+                //몬스터 데미지
+                Console.WriteLine("============================");
+                Console.WriteLine(" {0}의 데미지를 입혔습니다");
+                Console.WriteLine("============================");
+                Thread.Sleep(1000);
+            }
+
+            if (player.hp <= 0 || IsDeadMonsters())
+            {
+                DisplayBattleClear();
             }
 
             return true;
+        }
+
+        public bool IsDeadMonsters()
+        {
+            foreach (Monster mon in monster)
+            {
+                if (mon.hp > 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public void DisplayBattleClear()
+        {
+            Console.Clear();
+            Console.WriteLine();
+            Console.Write("Battle!! - Result");
+            Console.WriteLine();
+            if (player.hp > 0)
+            {
+                Console.WriteLine("던전에서 몬스터 {0}마리를 잡았습니다.", monster.Length);
+            }
+            else
+            {
+                Console.WriteLine("You Lose");
+            }
+            Console.WriteLine();
+            Console.WriteLine("레벨   | {0}", player.level);
+            Console.WriteLine("경험치 | {0} -> {1}", player.exp, player.exp);
+            Console.WriteLine("체력   | {0} -> {1}", player.hp, player.hp);
+            Console.WriteLine();
+            Console.WriteLine("0. 다음");
+
+            InputString(0, 0, false);
         }
 
         public void DisplayInventory()
@@ -203,19 +265,12 @@ namespace TeamProject
             ItemList();
         }
 
-        public void DisplayBattleClear()
-        {
-
-        }
-
         public void ItemList()
         {
-
-        }
-
-        public void RanMonster()
-        {
-            
+            foreach (Item item in player.inventory)
+            {
+                Console.WriteLine("이름 | {0}\t공격력 | {1}\t방어력 | {2}\t정보 | {3}", item.name, item.eqAtk, item.eaDef, item.info);
+            }
         }
     }
 }
