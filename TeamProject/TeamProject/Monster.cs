@@ -19,14 +19,16 @@ namespace TeamProject
         public string name { get; }
         public string chrd { get; }
         int critical;
+        public MonsterDict[] monsterDict = MonsterDict.GetMonsterDict();
         public Monster(string _name, string _chrd, int _level)
         {
             level = _level;
             name = _name;
             chrd = _chrd;
-            atk = level * 4;
-            def = level * 2;
-            hp = level * 20;
+            MonsterDict[] monsterInfo = monsterDict.Where(mon => mon.Name == _name).ToArray();
+            atk = (int)(level * monsterInfo[0].MonAtkCoeff);
+            def = (int)(level * monsterInfo[0].MonDefCoeff);
+            hp = level * monsterInfo[0].MonHPCoeff;
             critical = 20;
         }
         public int TakeDamage(int _atk)
@@ -50,5 +52,54 @@ namespace TeamProject
                 }
             }
         }
+    }
+
+    public class MonsterDict
+    {
+        public string Name { get; set; }
+        public string Chrd { get; set; }
+        public float MonAtkCoeff { get; set; }
+        public float MonDefCoeff { get; set; }
+        public int MonHPCoeff { get; set; }
+        public int Exp { get; set; }
+
+        public MonsterDict(string name, string chrd, float monAtkCoeff, float monDefCoeff, int monHPCoeff, int exp)
+        {
+            Name = name;
+            Chrd = chrd;
+            MonAtkCoeff = monAtkCoeff;
+            MonDefCoeff = monDefCoeff;
+            MonHPCoeff = monHPCoeff;
+            Exp = exp;
+        }
+
+        public static MonsterDict[] GetMonsterDict()
+        {
+            MonsterDict[] AllMonsters = new MonsterDict[] { };
+
+            string fullPath = Pathes.MonsterDataPath();
+            string[] monsterData = File.ReadAllLines(fullPath, Encoding.UTF8);
+            string[] propertyNames = monsterData[0].Split(',');           // Gen 에 포함할 몬스터 속성
+
+            for (int monIdx = 1; monIdx < monsterData.Length; monIdx++)
+            {
+                string[] monsterEach = monsterData[monIdx].Split(',');
+
+                string name = monsterEach[Array.IndexOf(propertyNames, "Name")];
+                string chrd = monsterEach[Array.IndexOf(propertyNames, "Chrd")];
+                float monatkcoeff = float.Parse(monsterEach[Array.IndexOf(propertyNames, "MonAtkCoeff")]); // 공격계수
+                float mondefcoeff = float.Parse(monsterEach[Array.IndexOf(propertyNames, "MonDefCoeff")]); // 방어계수
+                int monHPcoeff = int.Parse(monsterEach[Array.IndexOf(propertyNames, "MonHPCoeff")]); // HP 계수
+                int exp = int.Parse(monsterEach[Array.IndexOf(propertyNames, "Exp")]); // 경험치
+
+                MonsterDict monsterDict = new MonsterDict(name, chrd, monatkcoeff, mondefcoeff, monHPcoeff, exp);
+
+                Array.Resize(ref AllMonsters, AllMonsters.Length + 1);
+                AllMonsters[monIdx - 1] = monsterDict;
+            }
+
+            return AllMonsters;
+        }
+
     }
 }
