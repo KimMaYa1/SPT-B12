@@ -59,6 +59,7 @@ namespace TeamProject
             {
                 hp = maxHp;
             }
+            mp -= 20;
         }
         public override void LevelUp()
         {
@@ -77,7 +78,7 @@ namespace TeamProject
         public Archer(string _name, string _chrd) : base(_name, _chrd, 20, 3, 100, 50, 40) { }
         public override void SkillInfo()
         {
-            Console.WriteLine("천공의 바람 - MP 15");
+            Console.WriteLine("천공의 바람 - MP 25");
             Console.WriteLine("공격력의 4배 만큼 피해를 입힙니다");
             Console.WriteLine("악마에게는 공격력의 6배의 피해를 입힙니다");
         }
@@ -91,6 +92,7 @@ namespace TeamProject
             {
                 _mob.hp -= _atk * 4;
             }
+            mp -= 25;
         }
         public override void LevelUp()
         {

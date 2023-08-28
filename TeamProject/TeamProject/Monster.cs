@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Reflection.Metadata;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TeamProject
@@ -10,6 +12,7 @@ namespace TeamProject
     internal class Monster : Character
     {
         public int level { get; }
+        public int exp { get; }
         public int hp { get; set; }
         public int atk { get; }
         public int def { get; }
@@ -33,11 +36,18 @@ namespace TeamProject
             int damage = new Random().Next(_atk - er, _atk + er);
             if (rand <= critical)
             {
-                return damage * 2;
+                return (int)(damage * 1.5);
             }
             else
             {
-                return damage - (int)(damage * def / 50);
+                if (damage > def)
+                {
+                    return damage - def;
+                }
+                else
+                {
+                    return 1;
+                }
             }
         }
     }

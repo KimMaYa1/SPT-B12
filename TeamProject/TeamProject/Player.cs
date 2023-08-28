@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
@@ -21,8 +22,6 @@ namespace TeamProject
         public int exp;
         public int gold;
         protected int critical;
-        public int itemAtk;
-        public int itemDef;
         public Item[] inventory = new Item[0];
         public Item[] eqItem = new Item[2];
         public Player(string _name, string _chrd, int _atk, int _def, int _hp, int _mp, int _critical)
@@ -59,7 +58,14 @@ namespace TeamProject
             }
             else
             {
-                return damage - (int)(damage * def / 50);
+                if(damage > def)
+                {
+                    return damage - def;
+                }
+                else
+                {
+                    return 1;
+                }
             }
         }
         public virtual void LevelUp()
@@ -121,27 +127,31 @@ namespace TeamProject
         {
             eqItem[index] = item;
             item.IsEquiped = true;
-            itemAtk += item.eqAtk;
-            itemDef += item.eaDef;
+            atk += item.eqAtk;
+            def += item.eaDef;
         }
         public void ItemUnEq(Item item)
         {
             if (item.type == 0)
             {
-                eqItem[0].IsEquiped = false;
-                eqItem[0] = null;
+                WhatItemUnEq(0, item);
             }
             else if (item.type == 1)
             {
-                eqItem[1].IsEquiped = false;
-                eqItem[1] = null;
+                WhatItemUnEq(1, item);
             }
             else
             {
                 Console.WriteLine("잘못된 접근입니다");
             }
-            itemAtk -= item.eqAtk;
-            itemDef -= item.eaDef;
+            
+        }
+        void WhatItemUnEq(int index, Item item)
+        {
+            eqItem[index].IsEquiped = false;
+            eqItem[index] = null;
+            atk -= item.eqAtk;
+            def -= item.eaDef;
         }
     }
 }
