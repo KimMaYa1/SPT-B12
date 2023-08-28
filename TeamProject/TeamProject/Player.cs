@@ -40,30 +40,26 @@ namespace TeamProject
             maxHp = hp;
             maxMp = mp;
         }
+        public virtual void SkillInfo()
+        {
+
+        }
         public virtual void Skill(Monster _mob, int _atk)
         {
             
         }
-        public void GiveDamage(Monster _mob, int _atk)
+        public int TakeDamage(int _atk)
         {
+            int er = (int)(_atk * 0.1);
             int rand = new Random().Next(1, 101);
+            int damage = new Random().Next(_atk - er, _atk + er);
             if(rand <= critical)
             {
-                _mob.hp -= _atk;
+                return damage * 2;
             }
             else
             {
-                _mob.hp -= _atk - (int)(_atk * def / 15);
-            }
-            if(_mob.hp <= 0)
-            {
-                Console.WriteLine($"{_mob.name}을 처치 하였습니다.");
-                gold += _mob.level * 30;
-                exp += _mob.level * 5;
-                if(exp >= level * 100)
-                {
-                    LevelUp();
-                }
+                return damage - (int)(damage * def / 50);
             }
         }
         public virtual void LevelUp()
@@ -138,7 +134,7 @@ namespace TeamProject
             else if (item.type == 1)
             {
                 eqItem[1].IsEquiped = false;
-                eqItem[1] = null
+                eqItem[1] = null;
             }
             else
             {
