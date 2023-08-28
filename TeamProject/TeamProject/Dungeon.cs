@@ -9,5 +9,9 @@ namespace TeamProject
     internal class Dungeon
     {
         //private int stage { get;  }
+        public void MonsterGen()
+        {
+
+        }
     }
 }
