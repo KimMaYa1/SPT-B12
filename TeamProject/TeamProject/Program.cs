@@ -5,7 +5,10 @@
         static void Main(string[] args)
         {
             Scene scene = new Scene();
-            scene.DisplayStart();
+            while (true)
+            {
+                scene.DisplayStart();
+            }
         }
     }
 }
