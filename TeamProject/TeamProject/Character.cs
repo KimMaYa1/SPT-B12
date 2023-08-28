@@ -14,5 +14,7 @@ namespace TeamProject
         int def { get; }
         string name { get; }
         string chrd { get; }
+
+        int TakeDamage(int _atk);
     }
 }
