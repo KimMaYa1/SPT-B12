@@ -29,7 +29,14 @@ namespace TeamProject
             def = _def;
             hp = _hp;
         }
+        public virtual void Skill()
+        {
 
+        }
+        public void TakeDamage()
+        {
+
+        }
         public void ItemAdd(Item item)
         {
             Array.Resize(ref inventory, inventory.Length+1);    //inventory 한칸 늘려주고

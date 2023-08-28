@@ -14,6 +14,6 @@ namespace TeamProject
         public string name;         // 아이템 이름
         public string info;         // 아이템 정보
         public int type;            // 0 무기 1 방어구
-
+        public bool IsEquiped;
     }
 }
