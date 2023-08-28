@@ -18,6 +18,7 @@ namespace TeamProject
         public int exp;
         public int gold;
         public Item[] inventory = new Item[0];
+        public Item[] eqItem = new Item[2];
         public Player(string _name, string _chrd, int _atk, int _def, int _hp)
         {
             level = 1;
@@ -29,7 +30,14 @@ namespace TeamProject
             def = _def;
             hp = _hp;
         }
+        public virtual void Skill(int _atk)
+        {
 
+        }
+        public void TakeDamage(Monster _mob , int _atk)
+        {
+
+        }
         public void ItemAdd(Item item)
         {
             Array.Resize(ref inventory, inventory.Length+1);    //inventory 한칸 늘려주고

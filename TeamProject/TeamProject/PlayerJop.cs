@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace TeamProject
 {
-    internal class PlayerJop : Player
+    internal class Warrior : Player
     {
-        public PlayerJop(string _name, string _chrd, int _atk, int _def, int _hp) : base(_name, _chrd,_atk,_def,_hp) { }
+        public Warrior(string _name, string _chrd) : base(_name, _chrd,15,10,150) { }
     }
 }

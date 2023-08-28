@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\82104\\Desktop\\Sparta\\SPT-B12\\TeamProject\\TeamProject\\TeamProject.csproj": {}
+    "C:\\Users\\alsxo\\OneDrive\\Desktop\\SPT-B12\\TeamProject\\TeamProject\\TeamProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\82104\\Desktop\\Sparta\\SPT-B12\\TeamProject\\TeamProject\\TeamProject.csproj": {
+    "C:\\Users\\alsxo\\OneDrive\\Desktop\\SPT-B12\\TeamProject\\TeamProject\\TeamProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\82104\\Desktop\\Sparta\\SPT-B12\\TeamProject\\TeamProject\\TeamProject.csproj",
+        "projectUniqueName": "C:\\Users\\alsxo\\OneDrive\\Desktop\\SPT-B12\\TeamProject\\TeamProject\\TeamProject.csproj",
         "projectName": "TeamProject",
-        "projectPath": "C:\\Users\\82104\\Desktop\\Sparta\\SPT-B12\\TeamProject\\TeamProject\\TeamProject.csproj",
-        "packagesPath": "C:\\Users\\82104\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\82104\\Desktop\\Sparta\\SPT-B12\\TeamProject\\TeamProject\\obj\\",
+        "projectPath": "C:\\Users\\alsxo\\OneDrive\\Desktop\\SPT-B12\\TeamProject\\TeamProject\\TeamProject.csproj",
+        "packagesPath": "C:\\Users\\alsxo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\alsxo\\OneDrive\\Desktop\\SPT-B12\\TeamProject\\TeamProject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\82104\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\alsxo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
