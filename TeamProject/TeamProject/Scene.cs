@@ -30,7 +30,6 @@ namespace TeamProject
             Console.Write(">> ");
             string input = Console.ReadLine();
             int inputNum;
-
             while (!int.TryParse(input, out inputNum) || !(inputNum >= min && inputNum <= max))
             {
                 Console.WriteLine("=====================");
@@ -98,7 +97,7 @@ namespace TeamProject
             Console.WriteLine("직업   | {0} ", player.chrd);
             Console.WriteLine("공격력 | {0}", player.atk);
             Console.WriteLine("방어력 | {0}", player.def);
-            Console.WriteLine("체력   | {0}", player.hp);
+            Console.WriteLine("체력   | {0} / {1}", player.hp, player.maxHp);
             Console.WriteLine("돈     | {0} G", player.gold);
             Console.WriteLine();
             Console.WriteLine("0. 나가기");
@@ -214,22 +213,7 @@ namespace TeamProject
             }
             else if (inputNum >= 1 && inputNum <= monsters.Length)
             {
-                //몬스터 데미지
-                Console.WriteLine("====================================");
-                Console.WriteLine(" {0}에게 {1}의 데미지를 입혔습니다", monsters[inputNum].name, player.atk);
-                Console.WriteLine("====================================");
-                Console.WriteLine("{0}의 체력 {1} -> {2}", monsters[inputNum].name, monsters[inputNum].hp, monsters[inputNum].hp);
-                Thread.Sleep(1000);
-                
-                Console.WriteLine();
-                Console.WriteLine("====================================");
-                foreach(Monster monster in monsters)
-                {
-                    Console.WriteLine(" {0}에게 {1}의 데미지를 입었습니다", monster.name, monster.atk);
-                }
-                Console.WriteLine("====================================");
-                Console.WriteLine("{0}의 체력 {1} -> {2}", player.name, player.hp, player.hp);
-                Thread.Sleep(1000);
+                AttackInfo(inputNum - 1);
             }
 
             if (player.hp <= 0 || IsDeadMonsters())
@@ -239,6 +223,33 @@ namespace TeamProject
             }
 
             return true;
+        }
+
+        public void AttackInfo(int num)
+        {
+            int damage = monsters[num].TakeDamage(player.atk);
+            Console.WriteLine("====================================");
+            Console.WriteLine(" {0}에게 {1}의 데미지를 입혔습니다", monsters[num].name, damage);
+            Console.WriteLine("====================================");
+            Console.WriteLine("{0}의 체력 {1} -> {2}", monsters[num].name, monsters[num].hp, monsters[num].hp - damage);
+            monsters[num].hp -= damage;
+            Thread.Sleep(1000);
+
+            int beforeHp = player.hp;
+            Console.WriteLine();
+            Console.WriteLine("====================================");
+            foreach (Monster monster in monsters)
+            {
+                if (monster.hp > 0)
+                {
+                    damage = player.TakeDamage(monster.atk);
+                    Console.WriteLine(" {0}에게 {1}의 데미지를 입었습니다", monster.name, damage);
+                    player.hp -= damage;
+                }
+            }
+            Console.WriteLine("====================================");
+            Console.WriteLine("{0}의 체력 {1} -> {2}", player.name, beforeHp, player.hp);
+            Thread.Sleep(1000);
         }
 
         public bool IsDeadMonsters()
@@ -266,12 +277,14 @@ namespace TeamProject
                 int beforeExp = player.exp;
                 Console.WriteLine();
                 Console.WriteLine("레벨   | {0}", player.level);
-                Console.WriteLine("경험치 | {0} / {1} -> {2} / {1}", beforeExp, player.exp, player.level * 5);
+                Console.WriteLine("경험치 | {0} / {1} -> {2} / {1}", beforeExp, player.level * 5, player.exp);
                 Console.WriteLine("체력   | {0} / {1} -> {2} / {1}", beforeHp, player.maxHp, player.hp);
             }
             else
             {
                 Console.WriteLine("You Lose");
+                Console.WriteLine("처음부터 다시 시작합니다");
+                player = new Player("조범준", "전사", 10, 5, 100, 30, 0);
             }
 
             Console.WriteLine();
