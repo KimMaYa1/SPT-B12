@@ -17,7 +17,7 @@ namespace TeamProject
         public int Type;            // 0 무기 1 방어구
         public bool IsEquiped;   //착용유무
         public int Price;           //가격
-        Player Player;
+        public Player Player;// { get; set; }
 
 
 
@@ -35,7 +35,6 @@ namespace TeamProject
         }
         public virtual void Perfomence()
         {
-            //Player.LevelUp();
         }
 
 
@@ -43,7 +42,14 @@ namespace TeamProject
     internal class Weapon : Item
     {
         public Weapon(int _eqAtk, int _eqDef, int _type, int _price, string _name, string _info, Player _player) : base(_eqAtk, _eqDef, _type, _price, _name, _info, _player) { }
-
+        
+        public override void Perfomence() 
+        {
+            if (IsEquiped)
+            {
+                Player.itemAtk += EqAtk;
+            }
+        }
 
     }
     internal class Defense : Item
