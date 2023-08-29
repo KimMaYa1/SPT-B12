@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -316,8 +317,31 @@ namespace TeamProject
                 {
                     isStat = DisplayBattle(input);
                 }
-
             }
+        }
+
+        public void ReStart()
+        {
+            Console.WriteLine("0. 다시시작");
+            Console.WriteLine("1. 나가기");
+            Console.WriteLine();
+            int input = InputString(0, 1, 0, "다시 시작하시겟습니까?");
+            Console.WriteLine();
+            if (input == 0)
+            {
+                RestartApplication();
+            }
+            else if(input == 1)
+            {
+                Environment.Exit(0);
+            }
+        }
+
+        public void RestartApplication()
+        {
+            string fileName = Process.GetCurrentProcess().MainModule.FileName;
+            Process.Start(fileName);
+            Environment.Exit(0);
         }
 
         public int DisplaySelectRound()
@@ -400,9 +424,12 @@ namespace TeamProject
                 AttackInfo(_player, _monsters[inputNum - 1]);
                 foreach (Monster mon in _monsters)
                 {
-                    if (mon.Hp > 0)
+                    if(_player.Hp > 0)
                     {
-                        AttackInfo(mon, _player);
+                        if (mon.Hp > 0)
+                        {
+                            AttackInfo(mon, _player);
+                        }
                     }
                 }
             }
@@ -565,9 +592,13 @@ namespace TeamProject
             else
             {
                 Console.WriteLine("You Lose");
-                Console.WriteLine("처음부터 다시 시작합니다");
+                if (_player.Hp <= 0)
+                {
+                    ReStart();
+                }
                 _stage = 1;
                 _round = 1;
+                return;
             }
 
             Console.WriteLine();
