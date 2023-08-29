@@ -24,6 +24,7 @@ namespace TeamProject
         protected int _critical;
         public Item[] Inventory = new Item[0];
         public Item[] EqItem = new Item[2];
+        public Item[] Potions = new Item[0];
         public Player(string name, string chrd, int atk, int def, int hp, int mp, int critical)
         {
             Level = 1;
@@ -161,6 +162,18 @@ namespace TeamProject
             EqItem[index] = null;
             Atk -= item.EqAtk;
             Def -= item.EqDef;
+        }
+        public void UseItem()
+        {
+            foreach(Item i in Inventory)
+            {
+                if(i.Type == 2)
+                {
+                    Array.Resize(ref Potions, Potions.Length + 1);    //inventory 한칸 늘려주고
+                    Potions[Potions.Length - 1] = i;
+                }
+            }
+
         }
     }
 }
