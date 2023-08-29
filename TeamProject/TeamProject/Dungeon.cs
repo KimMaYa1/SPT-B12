@@ -46,15 +46,15 @@ namespace TeamProject
             genMax += random.Next(1, Round);
             int monsterNum = random.Next(genMin, genMax);
 
-            MonsterInfo[] stageMonsterDict = MonsterInfo.GetMonsterDict().Where(mon => mon.StageRank >= Stage).ToArray();    // 스테이지별 몬스터 목록 호출.
+            MonsterInfo[] stageMonsterColl = MonsterInfo.GetMonsterDict().Where(mon => mon.StageRank <= Stage && mon.StageRank > 0).ToArray();    // 스테이지별 몬스터 목록 호출.
 
             Monster[] getMonsterArray = new Monster[monsterNum];
 
             for (int randIdx = 0; randIdx < monsterNum; randIdx++)
             {
-                int getMonsterIdx = random.Next(1, monsterInfo.Length);
+                int getMonsterIdx = random.Next(1, stageMonsterColl.Length);
                 int monsterLevel = random.Next(Stage, Stage + 4);
-                Monster monster = new Monster(monsterInfo[getMonsterIdx].Name, monsterInfo[getMonsterIdx].Chrd, monsterLevel);
+                Monster monster = new Monster(stageMonsterColl[getMonsterIdx].Name, stageMonsterColl[getMonsterIdx].Chrd, monsterLevel);
                 getMonsterArray[randIdx] = monster;
             }
             return getMonsterArray;
