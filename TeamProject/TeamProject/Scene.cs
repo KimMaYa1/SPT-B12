@@ -10,12 +10,13 @@ namespace TeamProject
     internal class Scene
     {
         Player _player;
+        Dungeon _dungeon;
         Monster[] _monsters;
         int _beforeHp = 0;
         int _stage = 1;
         public Scene()
         {
-            _player = new Player("조범준", "전사", 10, 5, 100, 30, 0);
+            _player = new Player("조범준", "전사", 100, 5, 100, 30, 0);
         }
 
         public int InputString(int min, int max, bool isAttack, int num)
@@ -33,7 +34,7 @@ namespace TeamProject
             int inputNum;
             if (num != 0)
             {
-                while (!int.TryParse(input, out inputNum) || !(inputNum >= min && inputNum <= max) || _monsters[inputNum - 1].Hp >= 0)
+                while (!int.TryParse(input, out inputNum) || !(inputNum >= min && inputNum <= max) || _monsters[inputNum - 1].Hp <= 0)
                 {
                     Console.WriteLine("=====================");
                     Console.WriteLine("  잘못된 대상입니다");
@@ -111,7 +112,7 @@ namespace TeamProject
             Console.WriteLine();
             Console.WriteLine("이름   | {0}", _player.Name);
             Console.WriteLine("레벨   | {0}", _player.Level);
-            Console.WriteLine("경험치 | {0}", _player.Exp);
+            Console.WriteLine("경험치 | {0} / {1}", _player.Exp, _player.Level * 5);
             Console.WriteLine("직업   | {0} ", _player.Chrd);
             Console.WriteLine("공격력 | {0}", _player.Atk);
             Console.WriteLine("방어력 | {0}", _player.Def);
@@ -125,6 +126,7 @@ namespace TeamProject
 
             if (inputNum == 0)
             {
+                Console.WriteLine();
                 Console.WriteLine("=====================");
                 Console.WriteLine("  시작창으로 이동중");
                 Console.WriteLine("=====================");
@@ -165,8 +167,8 @@ namespace TeamProject
                 int i = 1;
                 foreach (Monster mon in _monsters)
                 {
-                    Console.Write("{0} 레벨 | {1} \t이름 | {2}", i++, mon.Level, mon.Name);
-                    Console.SetCursorPosition(36, j++);
+                    Console.Write("{0}| 레벨 | {1} \t이름 | {2}", i++, mon.Level, mon.Name);
+                    Console.SetCursorPosition(37, j++);
                     if (mon.Hp <= 0)
                     {
                         Console.WriteLine("Dead");
@@ -187,8 +189,8 @@ namespace TeamProject
         public bool DisplayBattle()
         {
             _beforeHp = _player.Hp;
-            Dungeon dungeon = new Dungeon(_stage);
-            _monsters = dungeon.MonsterGen();
+            _dungeon = new Dungeon(_stage);
+            _monsters = _dungeon.MonsterGen();
 
             BattleInfo(false);
 
@@ -255,9 +257,10 @@ namespace TeamProject
         public void AttackInfo(Character aCharacter, Character tCharacter)
         {
             int damage = tCharacter.TakeDamage(aCharacter.Atk);
-            Console.WriteLine("====================================");
+            Console.WriteLine();
+            Console.WriteLine("==============================================");
             Console.WriteLine(" {0}이(가) {1}에게 {2}의 데미지를 입혔습니다", aCharacter.Name, tCharacter.Name, damage);
-            Console.WriteLine("====================================");
+            Console.WriteLine("==============================================");
             if (tCharacter.Hp < damage)
             {
                 Console.WriteLine("{0}의 체력 {1} -> 0", tCharacter.Name, tCharacter.Hp);
@@ -295,9 +298,28 @@ namespace TeamProject
                 Console.WriteLine("던전에서 몬스터 {0}마리를 잡았습니다.", _monsters.Length);
 
                 int beforeExp = _player.Exp;
+                int exp = _dungeon.GetExp(_monsters);
+                _player.Exp += exp;
+                int beforeMaxExp = _player.Level * 5;
+
+
+                if (_player.Exp >= beforeMaxExp)
+                {
+                    _player.Exp -= _player.Level * 5;
+                    _player.Level += 1;
+                    _player.Atk += 1;
+                    _player.Def += 1;
+                    Console.WriteLine();
+                    Console.WriteLine("========================");
+                    Console.WriteLine("  ☆★☆ 레벨업 ★☆★");
+                    Console.WriteLine("========================");
+                }
+
                 Console.WriteLine();
                 Console.WriteLine("레벨   | {0}", _player.Level);
-                Console.WriteLine("경험치 | {0} / {1} -> {2} / {1}", beforeExp, _player.Level * 5, _player.Exp);
+                Console.WriteLine();
+                Console.WriteLine("경험치 | {0} / {1} -> {2} / {3}\t(+{4})", beforeExp, beforeMaxExp, _player.Exp, _player.Level * 5,exp);
+                Console.WriteLine();
                 Console.WriteLine("체력   | {0} / {1} -> {2} / {1}", _beforeHp, _player.MaxHp, _player.Hp);
             }
             else
