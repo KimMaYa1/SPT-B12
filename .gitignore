@@ -417,3 +417,5 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,visualstudio
 TeamProject/.vs/TeamProject/v17/.suo
+TeamProject/.vs/TeamProject/DesignTimeBuild/.dtbcache.v2
+TeamProject/.vs/TeamProject/v17/.suo
