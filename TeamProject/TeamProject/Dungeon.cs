@@ -59,9 +59,9 @@ namespace TeamProject
             {
                 foreach (Monster monster in getMonsterArray)
                 {
-                    if (monster.name == monsterInfo.Name)
+                    if (monster.Name == monsterInfo.Name)
                     {
-                        resultExp += ((int)(monster.level * monsterInfo.Exp * 0.33) < 1) ? 1 : (int)(monster.level * monsterInfo.Exp * 0.33);
+                        resultExp += ((int)(monster.Level * monsterInfo.Exp * 0.33) < 1) ? 1 : (int)(monster.Level * monsterInfo.Exp * 0.33);
                     }
                 }
             }
