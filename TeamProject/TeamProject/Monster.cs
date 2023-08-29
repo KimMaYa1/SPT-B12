@@ -29,6 +29,7 @@ namespace TeamProject
             atk = (int)(level * monsterInfo[0].MonAtkCoeff);
             def = (int)(level * monsterInfo[0].MonDefCoeff);
             hp = level * monsterInfo[0].MonHPCoeff;
+            exp = level * monsterInfo[0].Exp;
             critical = 20;
         }
         public int TakeDamage(int _atk)
