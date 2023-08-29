@@ -20,11 +20,11 @@ namespace TeamProject
         public bool IsEquiped;   //착용유무
         public int Price;           //가격
 
-        public Item[] ItemInfo = GetItemInfo();
+        public static Item[] ItemInfo = GetItemInfo();
 
         public Item(string name)
         {
-            Item item = (Item)ItemInfo.Where(it => it.Name == name);
+            Item item = ItemInfo.Where(it => it.Name == name).ToArray()[0];
             EqAtk = item.EqAtk;
             EqDef = item.EqDef;
             EqHP = item.EqHP;
