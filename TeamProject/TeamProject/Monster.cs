@@ -46,15 +46,16 @@ namespace TeamProject
             int er = (int)(_atk * 0.1);
             int rand = new Random().Next(1, 101);
             int damage = new Random().Next(_atk - er, _atk + er);
+            int realDef = (Def / 100) * damage;
             if (rand <= _critical)
             {
-                return (int)(damage * 1.5);
+                return (int)(damage*(1.5)) - realDef;
             }
             else
             {
-                if (damage > Def)
+                if (damage > realDef)
                 {
-                    return damage - Def;
+                    return damage - realDef;
                 }
                 else
                 {
