@@ -22,9 +22,19 @@ namespace TeamProject
             Console.Write(">> ");
             string input = Console.ReadLine();
             int inputNum;
-            if (num != 0)
+            if (num != 0 )
             {
-                while (!int.TryParse(input, out inputNum) || !(inputNum >= min && inputNum <= max) || _monsters[inputNum - 1].Hp <= 0)
+                bool isSelect = int.TryParse(input, out inputNum);
+                
+                bool ismon = false;
+                int monnum = inputNum - 1;
+                if(monnum >= 0)
+                {
+                    if (_monsters[monnum].Hp <= 0)
+                        ismon = true;
+                }
+
+                while (!isSelect || !(inputNum >= min && inputNum <= max) || ismon)
                 {
                     Console.WriteLine("=====================");
                     Console.WriteLine("  잘못된 대상입니다");
@@ -33,6 +43,14 @@ namespace TeamProject
                     Console.WriteLine("다시 입력해주세요.");
                     Console.Write(">> ");
                     input = Console.ReadLine();
+                    isSelect = int.TryParse(input, out inputNum);
+                    monnum = inputNum - 1;
+                    ismon = false;
+                    if (monnum >= 0)
+                    {
+                        if (_monsters[monnum].Hp <= 0)
+                            ismon = true;
+                    }
                 }
             }
             else
@@ -285,7 +303,14 @@ namespace TeamProject
                 Thread.Sleep(1000);
 
                 _dungeon = new Dungeon(_stage, input);
-                _monsters = _dungeon.MonsterGen();
+                if (input < 4)
+                {
+                    _monsters = _dungeon.MonsterGen();
+                }
+                else
+                {
+                    _monsters = _dungeon.BossMonsterGen();
+                }
 
                 while (isStat)
                 {
