@@ -9,13 +9,13 @@ namespace TeamProject
 {
     internal class Scene
     {
-        Player player;
-        Monster[] monsters;
-        int beforeHp = 0;
-        int stage = 1;
+        Player _player;
+        Monster[] _monsters;
+        int _beforeHp = 0;
+        int _stage = 1;
         public Scene()
         {
-            player = new Player("조범준", "전사", 10, 5, 100, 30, 0);
+            _player = new Player("조범준", "전사", 10, 5, 100, 30, 0);
         }
 
         public int InputString(int min, int max, bool isAttack, int num)
@@ -109,14 +109,14 @@ namespace TeamProject
             Console.WriteLine("상태 보기");
             Console.WriteLine("캐릭터의 정보가 표시됩니다.");
             Console.WriteLine();
-            Console.WriteLine("이름   | {0}", player.name);
-            Console.WriteLine("레벨   | {0}", player.level);
-            Console.WriteLine("경험치 | {0}", player.exp);
-            Console.WriteLine("직업   | {0} ", player.chrd);
-            Console.WriteLine("공격력 | {0}", player.atk);
-            Console.WriteLine("방어력 | {0}", player.def);
-            Console.WriteLine("체력   | {0} / {1}", player.hp, player.maxHp);
-            Console.WriteLine("돈     | {0} G", player.gold);
+            Console.WriteLine("이름   | {0}", _player.name);
+            Console.WriteLine("레벨   | {0}", _player.level);
+            Console.WriteLine("경험치 | {0}", _player.exp);
+            Console.WriteLine("직업   | {0} ", _player.chrd);
+            Console.WriteLine("공격력 | {0}", _player.atk);
+            Console.WriteLine("방어력 | {0}", _player.def);
+            Console.WriteLine("체력   | {0} / {1}", _player.hp, _player.maxHp);
+            Console.WriteLine("돈     | {0} G", _player.gold);
             Console.WriteLine();
             Console.WriteLine("0. 나가기");
             Console.WriteLine();
@@ -140,13 +140,13 @@ namespace TeamProject
         {
             Console.Clear();
             Console.WriteLine();
-            Console.WriteLine("Battle!! - stage {0}", stage);
+            Console.WriteLine("Battle!! - stage {0}", _stage);
             Console.WriteLine();
             Console.WriteLine("[몬스터 정보]");
             int j = 4;
             if (!isBattle)
             {
-                foreach (Monster mon in monsters)
+                foreach (Monster mon in _monsters)
                 {
                     Console.Write("레벨 | {0} \t이름 | {1}", mon.level, mon.name);
                     Console.SetCursorPosition(34, j++);
@@ -163,7 +163,7 @@ namespace TeamProject
             else
             {
                 int i = 1;
-                foreach (Monster mon in monsters)
+                foreach (Monster mon in _monsters)
                 {
                     Console.Write("{0} 레벨 | {1} \t이름 | {2}", i++, mon.level, mon.name);
                     Console.SetCursorPosition(36, j++);
@@ -179,16 +179,16 @@ namespace TeamProject
             }
             Console.WriteLine();
             Console.WriteLine("[내 정보]");
-            Console.WriteLine("레벨 | {0}\tChrd | {1}", player.level, player.chrd);
-            Console.WriteLine("체력 | {0}/100", player.hp);
+            Console.WriteLine("레벨 | {0}\tChrd | {1}", _player.level, _player.chrd);
+            Console.WriteLine("체력 | {0}/100", _player.hp);
             Console.WriteLine();
         }
 
         public bool DisplayBattle()
         {
-            beforeHp = player.hp;
-            Dungeon dungeon = new Dungeon(stage);
-            monsters = dungeon.MonsterGen();
+            _beforeHp = _player.hp;
+            Dungeon dungeon = new Dungeon(_stage);
+            _monsters = dungeon.MonsterGen();
 
             BattleInfo(false);
 
@@ -204,7 +204,7 @@ namespace TeamProject
                 {
                     isAttack = DisplayAttackSelect();
                 }
-                stage++;
+                _stage++;
                 return false;
             }
             return true;
@@ -218,32 +218,32 @@ namespace TeamProject
             Console.WriteLine();
 
             int isDeadMon = 0;
-            foreach (Monster mon in monsters)
+            foreach (Monster mon in _monsters)
             {
                 if (mon.hp <= 0)
                 {
                     isDeadMon = 1;
                 }
             }
-            int inputNum = InputString(0, monsters.Length, true, isDeadMon);
+            int inputNum = InputString(0, _monsters.Length, true, isDeadMon);
 
             if (inputNum == 0)
             {
                 return false;
             }
-            else if (inputNum >= 1 && inputNum <= monsters.Length)
+            else if (inputNum >= 1 && inputNum <= _monsters.Length)
             {
-                AttackInfo(player, monsters[inputNum - 1]);
-                foreach (Monster mon in monsters)
+                AttackInfo(_player, _monsters[inputNum - 1]);
+                foreach (Monster mon in _monsters)
                 {
                     if (mon.hp > 0)
                     {
-                        AttackInfo(mon, player);
+                        AttackInfo(mon, _player);
                     }
                 }
             }
 
-            if (player.hp <= 0 || IsDeadMonsters())
+            if (_player.hp <= 0 || IsDeadMonsters())
             {
                 DisplayBattleClear();
                 return false;
@@ -274,7 +274,7 @@ namespace TeamProject
 
         public bool IsDeadMonsters()
         {
-            foreach (Monster mon in monsters)
+            foreach (Monster mon in _monsters)
             {
                 if (mon.hp > 0)
                 {
@@ -290,21 +290,21 @@ namespace TeamProject
             Console.WriteLine();
             Console.Write("Battle!! - Result");
             Console.WriteLine();
-            if (player.hp > 0)
+            if (_player.hp > 0)
             {
-                Console.WriteLine("던전에서 몬스터 {0}마리를 잡았습니다.", monsters.Length);
+                Console.WriteLine("던전에서 몬스터 {0}마리를 잡았습니다.", _monsters.Length);
 
-                int beforeExp = player.exp;
+                int beforeExp = _player.exp;
                 Console.WriteLine();
-                Console.WriteLine("레벨   | {0}", player.level);
-                Console.WriteLine("경험치 | {0} / {1} -> {2} / {1}", beforeExp, player.level * 5, player.exp);
-                Console.WriteLine("체력   | {0} / {1} -> {2} / {1}", beforeHp, player.maxHp, player.hp);
+                Console.WriteLine("레벨   | {0}", _player.level);
+                Console.WriteLine("경험치 | {0} / {1} -> {2} / {1}", beforeExp, _player.level * 5, _player.exp);
+                Console.WriteLine("체력   | {0} / {1} -> {2} / {1}", _beforeHp, _player.maxHp, _player.hp);
             }
             else
             {
                 Console.WriteLine("You Lose");
                 Console.WriteLine("처음부터 다시 시작합니다");
-                player = new Player("조범준", "전사", 10, 5, 100, 30, 0);
+                _player = new Player("조범준", "전사", 10, 5, 100, 30, 0);
             }
 
             Console.WriteLine();
