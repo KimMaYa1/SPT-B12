@@ -22,6 +22,20 @@ namespace TeamProject
 
         public Item[] ItemInfo = GetItemInfo();
 
+        public Item(string name)
+        {
+            Item item = (Item)ItemInfo.Where(it => it.Name == name);
+            EqAtk = item.EqAtk;
+            EqDef = item.EqDef;
+            EqHP = item.EqHP;
+            EqMP = item.EqMP;
+            Type = item.Type;
+            Price = item.Price;
+            Name = item.Name;
+            Info = item.Info;
+            IsEquiped = false;
+        }
+
         public Item(int eqAtk, int eqDef, int eqHp, int eqMp, int type, int price, string name, string info)
         {
             //Item item = (Item)ItemInfo.Where(it => it.Name == name);
@@ -47,7 +61,7 @@ namespace TeamProject
             string[] itemData = File.ReadAllLines(itemPath, Encoding.UTF8);
             string[] propertyNames = itemData[0].Split(',');
 
-            for (int itemIdx = 1; itemIdx < itemData.Length; itemIdx++) 
+            for (int itemIdx = 1; itemIdx < itemData.Length; itemIdx++)
             {
                 string[] itemEach = itemData[itemIdx].Split(",");
 
@@ -67,23 +81,24 @@ namespace TeamProject
             }
 
             return allItems;
+        }
     }
     internal class Weapon : Item
     {
-        public Weapon(int eqAtk, int eqDef, int type, int price, string name, string info, Player player) : base(eqAtk, eqDef, type, price, name, info, player) { }
+        public Weapon(int eqAtk, int eqDef, int eqHp, int eqMp, int type, int price, string name, string info) : base(eqAtk, eqDef, eqHp, eqMp, type, price, name, info) { }
         
 
     }
     internal class Defense : Item
     {
-        public Defense(int eqAtk, int eqDef, int type, int price, string name, string info, Player player) : base(eqAtk, eqDef, type, price, name, info, player) { }
+        public Defense(int eqAtk, int eqDef, int eqHp, int eqMp, int type, int price, string name, string info) : base(eqAtk, eqDef, eqHp, eqMp, type, price, name, info) { }
 
 
     }
 
     internal class Potion : Item
     {
-        public Potion(int eqAtk, int eqDef, int type, int price, string name, string info, Player player) : base(eqAtk, eqDef, type, price, name, info, player) { }
+        public Potion(int eqAtk, int eqDef, int eqHp, int eqMp, int type, int price, string name, string info) : base(eqAtk, eqDef, eqHp, eqMp, type, price, name, info) { }
 
     }
 }
