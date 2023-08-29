@@ -19,18 +19,18 @@ namespace TeamProject
         public string name { get; }
         public string chrd { get; }
         int critical;
-        public MonsterDict[] monsterDict = MonsterDict.GetMonsterDict();
+        public MonsterInfo[] MonsterInfo = TeamProject.MonsterInfo.GetMonsterDict();
         public Monster(string _name, string _chrd, int _level)
         {
             level = _level;
             name = _name;
             chrd = _chrd;
-            MonsterDict[] monsterInfo = monsterDict.Where(mon => mon.Name == _name).ToArray();
+            MonsterInfo[] monsterInfo = MonsterInfo.Where(mon => mon.Name == _name).ToArray(); // 데이터마다 고유 키값을 가지고 처리함... private key를 사용하여,,,, 보통은 인덱스를 사용한다. 키 : private key 값 : 이름 이런식으로....
             atk = (int)(level * monsterInfo[0].MonAtkCoeff);
             def = (int)(level * monsterInfo[0].MonDefCoeff);
             hp = level * monsterInfo[0].MonHPCoeff;
             critical = 20;
-        }
+        } 
         public int TakeDamage(int _atk)
         {
             int er = (int)(_atk * 0.1);
@@ -54,7 +54,7 @@ namespace TeamProject
         }
     }
 
-    public class MonsterDict
+    public class MonsterInfo
     {
         public string Name { get; set; }
         public string Chrd { get; set; }
@@ -63,7 +63,7 @@ namespace TeamProject
         public int MonHPCoeff { get; set; }
         public int Exp { get; set; }
 
-        public MonsterDict(string name, string chrd, float monAtkCoeff, float monDefCoeff, int monHPCoeff, int exp)
+        public MonsterInfo(string name, string chrd, float monAtkCoeff, float monDefCoeff, int monHPCoeff, int exp)
         {
             Name = name;
             Chrd = chrd;
@@ -73,9 +73,9 @@ namespace TeamProject
             Exp = exp;
         }
 
-        public static MonsterDict[] GetMonsterDict()
+        public static MonsterInfo[] GetMonsterDict()
         {
-            MonsterDict[] AllMonsters = new MonsterDict[] { };
+            MonsterInfo[] AllMonsters = new MonsterInfo[] { };
 
             string fullPath = Pathes.MonsterDataPath();
             string[] monsterData = File.ReadAllLines(fullPath, Encoding.UTF8);
@@ -92,7 +92,7 @@ namespace TeamProject
                 int monHPcoeff = int.Parse(monsterEach[Array.IndexOf(propertyNames, "MonHPCoeff")]); // HP 계수
                 int exp = int.Parse(monsterEach[Array.IndexOf(propertyNames, "Exp")]); // 경험치
 
-                MonsterDict monsterDict = new MonsterDict(name, chrd, monatkcoeff, mondefcoeff, monHPcoeff, exp);
+                MonsterInfo monsterDict = new MonsterInfo(name, chrd, monatkcoeff, mondefcoeff, monHPcoeff, exp);
 
                 Array.Resize(ref AllMonsters, AllMonsters.Length + 1);
                 AllMonsters[monIdx - 1] = monsterDict;
