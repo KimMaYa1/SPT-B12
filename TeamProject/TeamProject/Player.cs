@@ -95,11 +95,11 @@ namespace TeamProject
         }
         public void ItemEq(Item item)
         {
-            if(item.type== 0)
+            if(item.Type == 0)
             {
                 WhereItemEq(0, item);
             }
-            else if(item.type== 1)
+            else if(item.Type == 1)
             {
                 WhereItemEq(1, item);
             }
@@ -132,11 +132,11 @@ namespace TeamProject
         }
         public void ItemUnEq(Item item)
         {
-            if (item.type == 0)
+            if (item.Type == 0)
             {
                 WhatItemUnEq(0, item);
             }
-            else if (item.type == 1)
+            else if (item.Type == 1)
             {
                 WhatItemUnEq(1, item);
             }
@@ -151,7 +151,7 @@ namespace TeamProject
             EqItem[index].IsEquiped = false;
             EqItem[index] = null;
             Atk -= item.EqAtk;
-            Def -= item.EaDef;
+            Def -= item.EqDef;
         }
     }
 }
