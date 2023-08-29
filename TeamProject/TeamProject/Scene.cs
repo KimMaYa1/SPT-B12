@@ -14,21 +14,10 @@ namespace TeamProject
         Monster[] _monsters;
         int _beforeHp = 0;
         int _stage = 1;
-        public Scene()
-        {
-            _player = new Player("조범준", "전사", 100, 5, 100, 30, 0);
-        }
 
-        public int InputString(int min, int max, bool isAttack, int num)
+        public int InputString(int min, int max, int num, string str)
         {
-            if (!isAttack)
-            {
-                Console.WriteLine("원하시는 행동을 입력해주세요.");
-            }
-            else
-            {
-                Console.WriteLine("대상을 선택해주세요.");
-            }
+            Console.WriteLine("{0}", str);
             Console.Write(">> ");
             string input = Console.ReadLine();
             int inputNum;
@@ -61,6 +50,139 @@ namespace TeamProject
             return inputNum;
         }
 
+        public bool DisplaySelectName()
+        {
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
+            Console.WriteLine("원하시는 이름을 설정해주세요.(최대 5글자)");
+            Console.Write(">> ");
+            string name = Console.ReadLine();
+
+            Console.WriteLine();
+            if (name.Length > 6)
+            {
+                Console.WriteLine("=======================");
+                Console.WriteLine("  이름이 너무 깁니다.");
+                Console.WriteLine("  다시 설정해 주세요.");
+                Console.WriteLine("=======================");
+            }
+            else if (name == "")
+            {
+                Console.WriteLine("=======================");
+                Console.WriteLine("   잘못된 입력입니다.");
+                Console.WriteLine("   다시 입력해주세요.");
+                Console.WriteLine("=======================");
+            }
+            else
+            {
+                Console.WriteLine("=============================");
+                Console.WriteLine("      이름 : {0}", name);
+                Console.WriteLine("  확정 하시겠습니까 ?(Y/N)");
+                Console.Write("        >> ");
+                string str = Console.ReadLine();
+                if (str == "Y")
+                {
+                    Console.WriteLine("      확정 하셨습니다.");
+                    Console.WriteLine(" 직업선택 창으로 이동합니다.");
+                    Console.WriteLine("=============================");
+                    Thread.Sleep(1000);
+                    bool isNext = true;
+                    while (isNext)
+                    {
+                        isNext = DisplaySelectChrd(name);
+                    }
+                    return false;
+                }
+                else if (str == "N")
+                {
+                    Console.WriteLine("      취소 하셨습니다.");
+                    Console.WriteLine("     다시 입력해주세요.");
+                    Console.WriteLine("=============================");
+                }
+                else
+                {
+                    Console.WriteLine("     잘못된 입력입니다.");
+                    Console.WriteLine("   초기 단계로 돌아갑니다.");
+                    Console.WriteLine("=============================");
+                }
+            }
+            Thread.Sleep(1000);
+            return true;
+        }
+
+        public bool DisplaySelectChrd(string name)
+        {
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine("직업 선택");
+            Console.WriteLine();
+            Console.WriteLine("============");
+            Console.WriteLine("  1. 전사");
+            Console.WriteLine(" 2. 성직자");
+            Console.WriteLine("  3. 궁수");
+            Console.WriteLine("============");
+            Console.WriteLine();
+            int input = InputString(1, 3, 0, "원하는 직업을 선택해주세요.");
+            Console.WriteLine();
+
+            string chrd = "";
+            if (input == 1)
+            {
+                chrd = "전사";
+            }
+            else if (input == 2)
+            {
+                chrd = "성직자";
+            }
+            else if (input == 3)
+            {
+                chrd = "궁수";
+            }
+
+            Console.WriteLine("=============================");
+            Console.WriteLine("      직업 : {0}", chrd);
+            Console.WriteLine("  확정 하시겠습니까 ?(Y/N)");
+            Console.Write("        >> ");
+            string str = Console.ReadLine();
+
+            if (str == "Y")
+            {
+                Console.WriteLine("      확정 하셨습니다.");
+                Console.WriteLine("    마을로 이동하겠습니다.");
+                Console.WriteLine("=============================");
+                if (input == 1)
+                {
+                    _player = new Warrior(name, chrd);
+                }
+                else if (input == 2)
+                {
+                    _player = new Prist(name, chrd);
+                }
+                else if (input == 3)
+                {
+                    _player = new Archer(name, chrd);
+                }
+
+                Thread.Sleep(1000);
+                return false;
+            }
+            else if (str == "N")
+            {
+                Console.WriteLine("      취소 하셨습니다.");
+                Console.WriteLine("     다시 입력해주세요.");
+                Console.WriteLine("=============================");
+            }
+            else
+            {
+                Console.WriteLine("     잘못된 입력입니다.");
+                Console.WriteLine("   초기 단계로 돌아갑니다.");
+                Console.WriteLine("=============================");
+            }
+            Thread.Sleep(1000);
+            return true;
+        }
+
         public void DisplayStart()
         {
             Console.Clear();
@@ -69,10 +191,10 @@ namespace TeamProject
             Console.WriteLine("이제 전투를 시작할 수 있습니다.");
             Console.WriteLine();
             Console.WriteLine("1. 상태 보기");
-            Console.WriteLine("2. 전투 시작");
+            Console.WriteLine("2. 전투 시작 - 현재 스테이지 {0}", _stage);
             Console.WriteLine();
 
-            int inputNum = InputString(1, 2, false, 0);
+            int inputNum = InputString(1, 2, 0, "원하시는 행동을 입력해주세요.");
 
             Console.WriteLine();
 
@@ -122,7 +244,7 @@ namespace TeamProject
             Console.WriteLine("0. 나가기");
             Console.WriteLine();
 
-            int inputNum = InputString(0, 0, false, 0);
+            int inputNum = InputString(0, 0, 0, "원하시는 행동을 입력해주세요.");
 
             if (inputNum == 0)
             {
@@ -132,6 +254,74 @@ namespace TeamProject
                 Console.WriteLine("=====================");
                 Thread.Sleep(1000);
 
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool DisplayBattle()
+        {
+            _beforeHp = _player.Hp;
+            _dungeon = new Dungeon(_stage);
+            _monsters = _dungeon.MonsterGen();
+
+            BattleInfo(false);
+
+            Console.WriteLine("1. 공격");
+            Console.WriteLine();
+
+            int inputNum = InputString(1, 1, 0, "원하시는 행동을 입력해주세요.");
+
+            bool isAttack = true;
+            if (inputNum == 1)
+            {
+                while (isAttack)
+                {
+                    isAttack = DisplayAttackSelect();
+                }
+                _stage++;
+                return false;
+            }
+            return true;
+        }
+
+        public bool DisplayAttackSelect()
+        {
+            BattleInfo(true);
+
+            Console.WriteLine("0. 취소");
+            Console.WriteLine();
+
+            int isDeadMon = 0;
+            foreach (Monster mon in _monsters)
+            {
+                if (mon.Hp <= 0)
+                {
+                    isDeadMon = 1;
+                }
+            }
+            int inputNum = InputString(0, _monsters.Length, isDeadMon, "대상을 입력해주세요.");
+
+            if (inputNum == 0)
+            {
+                return false;
+            }
+            else if (inputNum >= 1 && inputNum <= _monsters.Length)
+            {
+                AttackInfo(_player, _monsters[inputNum - 1]);
+                foreach (Monster mon in _monsters)
+                {
+                    if (mon.Hp > 0)
+                    {
+                        AttackInfo(mon, _player);
+                    }
+                }
+            }
+
+            if (_player.Hp <= 0 || IsDeadMonsters())
+            {
+                DisplayBattleClear();
                 return false;
             }
 
@@ -151,7 +341,7 @@ namespace TeamProject
                 foreach (Monster mon in _monsters)
                 {
                     Console.Write("레벨 | {0} \t이름 | {1}", mon.Level, mon.Name);
-                    Console.SetCursorPosition(34, j++);
+                    Console.SetCursorPosition(37, j++);
                     if (mon.Hp <= 0)
                     {
                         Console.WriteLine("Dead");
@@ -186,90 +376,31 @@ namespace TeamProject
             Console.WriteLine();
         }
 
-        public bool DisplayBattle()
-        {
-            _beforeHp = _player.Hp;
-            _dungeon = new Dungeon(_stage);
-            _monsters = _dungeon.MonsterGen();
-
-            BattleInfo(false);
-
-            Console.WriteLine("1. 공격");
-            Console.WriteLine();
-
-            int inputNum = InputString(1, 1, false, 0);
-
-            bool isAttack = true;
-            if (inputNum == 1)
-            {
-                while (isAttack)
-                {
-                    isAttack = DisplayAttackSelect();
-                }
-                _stage++;
-                return false;
-            }
-            return true;
-        }
-
-        public bool DisplayAttackSelect()
-        {
-            BattleInfo(true);
-
-            Console.WriteLine("0. 취소");
-            Console.WriteLine();
-
-            int isDeadMon = 0;
-            foreach (Monster mon in _monsters)
-            {
-                if (mon.Hp <= 0)
-                {
-                    isDeadMon = 1;
-                }
-            }
-            int inputNum = InputString(0, _monsters.Length, true, isDeadMon);
-
-            if (inputNum == 0)
-            {
-                return false;
-            }
-            else if (inputNum >= 1 && inputNum <= _monsters.Length)
-            {
-                AttackInfo(_player, _monsters[inputNum - 1]);
-                foreach (Monster mon in _monsters)
-                {
-                    if (mon.Hp > 0)
-                    {
-                        AttackInfo(mon, _player);
-                    }
-                }
-            }
-
-            if (_player.Hp <= 0 || IsDeadMonsters())
-            {
-                DisplayBattleClear();
-                return false;
-            }
-
-            return true;
-        }
-
         public void AttackInfo(Character aCharacter, Character tCharacter)
         {
-            int damage = tCharacter.TakeDamage(aCharacter.Atk);
-            Console.WriteLine();
-            Console.WriteLine("==============================================");
-            Console.WriteLine(" {0}이(가) {1}에게 {2}의 데미지를 입혔습니다", aCharacter.Name, tCharacter.Name, damage);
-            Console.WriteLine("==============================================");
-            if (tCharacter.Hp < damage)
+            if (tCharacter.Evasion())
             {
-                Console.WriteLine("{0}의 체력 {1} -> 0", tCharacter.Name, tCharacter.Hp);
-                tCharacter.Hp = 0;
+                Console.WriteLine("========================================");
+                Console.WriteLine(" {0}이(가) {1}의 공격을 회피하였습니다.", tCharacter.Name, aCharacter.Name);
+                Console.WriteLine("========================================");
             }
             else
             {
-                Console.WriteLine("{0}의 체력 {1} -> {2}", tCharacter.Name, tCharacter.Hp, tCharacter.Hp - damage);
-                tCharacter.Hp -= damage;
+                int damage = tCharacter.TakeDamage(aCharacter.Atk);
+                Console.WriteLine();
+                Console.WriteLine("==============================================");
+                Console.WriteLine(" {0}이(가) {1}에게 {2}의 데미지를 입혔습니다", aCharacter.Name, tCharacter.Name, damage);
+                Console.WriteLine("==============================================");
+                if (tCharacter.Hp < damage)
+                {
+                    Console.WriteLine("{0}의 체력 {1} -> 0", tCharacter.Name, tCharacter.Hp);
+                    tCharacter.Hp = 0;
+                }
+                else
+                {
+                    Console.WriteLine("{0}의 체력 {1} -> {2}", tCharacter.Name, tCharacter.Hp, tCharacter.Hp - damage);
+                    tCharacter.Hp -= damage;
+                }
             }
             Console.WriteLine();
             Thread.Sleep(1000);
@@ -318,7 +449,7 @@ namespace TeamProject
                 Console.WriteLine();
                 Console.WriteLine("레벨   | {0}", _player.Level);
                 Console.WriteLine();
-                Console.WriteLine("경험치 | {0} / {1} -> {2} / {3}\t(+{4})", beforeExp, beforeMaxExp, _player.Exp, _player.Level * 5,exp);
+                Console.WriteLine("경험치 | {0} / {1} -> {2} / {3}\t(+{4})", beforeExp, beforeMaxExp, _player.Exp, _player.Level * 5, exp);
                 Console.WriteLine();
                 Console.WriteLine("체력   | {0} / {1} -> {2} / {1}", _beforeHp, _player.MaxHp, _player.Hp);
             }
@@ -332,7 +463,7 @@ namespace TeamProject
             Console.WriteLine();
             Console.WriteLine("0. 다음");
 
-            InputString(0, 0, false, 0);
+            InputString(0, 0, 0, "원하시는 행동을 입력해주세요.");
 
             Console.WriteLine();
             Console.WriteLine("=====================");
