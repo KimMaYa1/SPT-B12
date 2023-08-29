@@ -11,41 +11,41 @@ namespace TeamProject
 {
     internal class Monster : Character
     {
-        public int level { get; }
-        public int exp { get; }
-        public int hp { get; set; }
-        public int atk { get; }
-        public int def { get; }
-        public string name { get; }
-        public string chrd { get; }
-        int critical;
+        public int Level { get; }
+        public int Exp { get; }
+        public int Hp { get; set; }
+        public int Atk { get; }
+        public int Def { get; }
+        public string Name { get; }
+        public string Chrd { get; }
+        int _critical;
         public MonsterInfo[] MonsterInfo = TeamProject.MonsterInfo.GetMonsterDict();
-        public Monster(string _name, string _chrd, int _level)
+        public Monster(string name, string chrd, int level)
         {
-            level = _level;
-            name = _name;
-            chrd = _chrd;
-            MonsterInfo[] monsterInfo = MonsterInfo.Where(mon => mon.Name == _name).ToArray(); // 데이터마다 고유 키값을 가지고 처리함... private key를 사용하여,,,, 보통은 인덱스를 사용한다. 키 : private key 값 : 이름 이런식으로....
-            atk = (int)(level * monsterInfo[0].MonAtkCoeff);
-            def = (int)(level * monsterInfo[0].MonDefCoeff);
-            hp = level * monsterInfo[0].MonHPCoeff;
-            exp = level * monsterInfo[0].Exp;
-            critical = 20;
+            Level = level;
+            Name = name;
+            Chrd = chrd;
+            MonsterInfo[] monsterInfo = MonsterInfo.Where(mon => mon.Name == name).ToArray(); // 데이터마다 고유 키값을 가지고 처리함... private key를 사용하여,,,, 보통은 인덱스를 사용한다. 키 : private key 값 : 이름 이런식으로....
+            Atk = (int)(Level * monsterInfo[0].MonAtkCoeff);
+            Def = (int)(Level * monsterInfo[0].MonDefCoeff);
+            Hp = Level * monsterInfo[0].MonHPCoeff;
+            Exp = Level * monsterInfo[0].Exp;
+            _critical = 20;
         } 
         public int TakeDamage(int _atk)
         {
             int er = (int)(_atk * 0.1);
             int rand = new Random().Next(1, 101);
             int damage = new Random().Next(_atk - er, _atk + er);
-            if (rand <= critical)
+            if (rand <= _critical)
             {
                 return (int)(damage * 1.5);
             }
             else
             {
-                if (damage > def)
+                if (damage > Def)
                 {
-                    return damage - def;
+                    return damage - Def;
                 }
                 else
                 {

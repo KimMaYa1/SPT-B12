@@ -8,12 +8,12 @@ namespace TeamProject
 {
     internal interface Character
     {
-        int level { get; }
-        int hp { get; set; }
-        int atk { get; }
-        int def { get; }
-        string name { get; }
-        string chrd { get; }
+        int Level { get; }
+        int Hp { get; set; }
+        int Atk { get; }
+        int Def { get; }
+        string Name { get; }
+        string Chrd { get; }
 
         int TakeDamage(int _atk);
     }

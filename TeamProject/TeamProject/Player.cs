@@ -10,34 +10,34 @@ namespace TeamProject
 {
     internal class Player : Character
     {
-        public int level { get; set; }
-        public int hp { get; set; }
-        public int maxHp { get; set; }
-        public int mp { get; set; }
-        public int maxMp { get; set; }
-        public int atk { get; set; }
-        public int def { get; set; }
-        public string name { get; }
-        public string chrd { get; }
-        public int exp;
-        public int gold;
-        protected int critical;
-        public Item[] inventory = new Item[0];
-        public Item[] eqItem = new Item[2];
-        public Player(string _name, string _chrd, int _atk, int _def, int _hp, int _mp, int _critical)
+        public int Level { get; set; }
+        public int Hp { get; set; }
+        public int MaxHp { get; set; }
+        public int Mp { get; set; }
+        public int MaxMp { get; set; }
+        public int Atk { get; set; }
+        public int Def { get; set; }
+        public string Name { get; }
+        public string Chrd { get; }
+        public int Exp;
+        public int Gold;
+        protected int _critical;
+        public Item[] Inventory = new Item[0];
+        public Item[] EqItem = new Item[2];
+        public Player(string name, string chrd, int atk, int def, int hp, int mp, int critical)
         {
-            level = 1;
-            name = _name;
-            chrd = _chrd;
-            exp = 0;
-            gold = 1000;
-            atk = _atk;
-            def = _def;
-            hp = _hp;
-            mp = _mp;
-            critical = _critical;
-            maxHp = hp;
-            maxMp = mp;
+            Level = 1;
+            Name = name;
+            Chrd = chrd;
+            Exp = 0;
+            Gold = 1000;
+            Atk = atk;
+            Def = def;
+            Hp = hp;
+            Mp = mp;
+            _critical = critical;
+            MaxHp = Hp;
+            MaxMp = Mp;
         }
         public virtual void SkillInfo()
         {
@@ -52,15 +52,15 @@ namespace TeamProject
             int er = (int)(_atk * 0.1);
             int rand = new Random().Next(1, 101);
             int damage = new Random().Next(_atk - er, _atk + er);
-            if(rand <= critical)
+            if(rand <= _critical)
             {
                 return damage * 2;
             }
             else
             {
-                if(damage > def)
+                if(damage > Def)
                 {
-                    return damage - def;
+                    return damage - Def;
                 }
                 else
                 {
@@ -74,12 +74,12 @@ namespace TeamProject
         }
         public void ItemAdd(Item item)
         {
-            Array.Resize(ref inventory, inventory.Length+1);    //inventory 한칸 늘려주고
-            inventory[inventory.Length-1] = item;
+            Array.Resize(ref Inventory, Inventory.Length+1);    //inventory 한칸 늘려주고
+            Inventory[Inventory.Length-1] = item;
         }
         public Item ItemDelete(Item item)
         {
-            foreach(Item i in inventory)
+            foreach(Item i in Inventory)
             {
                 if(i == item)
                 {
@@ -87,7 +87,7 @@ namespace TeamProject
                     {
                         ItemUnEq(i);
                     }
-                    inventory = inventory.Where(num => num != i).ToArray();
+                    Inventory = Inventory.Where(num => num != i).ToArray();
                     return i;
                 }
             }
@@ -110,14 +110,14 @@ namespace TeamProject
         }
         void WhereItemEq(int index, Item item)
         {
-            if (eqItem[index] == null)
+            if (EqItem[index] == null)
             {
                 WhatItemEq(index, item);
             }
             else
             {
-                eqItem[index].IsEquiped = false;
-                eqItem[index] = null;
+                EqItem[index].IsEquiped = false;
+                EqItem[index] = null;
                 WhatItemEq(index, item);
 
             }
@@ -125,10 +125,10 @@ namespace TeamProject
         }
         void WhatItemEq(int index, Item item)
         {
-            eqItem[index] = item;
+            EqItem[index] = item;
             item.IsEquiped = true;
-            atk += item.eqAtk;
-            def += item.eaDef;
+            Atk += item.EqAtk;
+            Def += item.EqDef;
         }
         public void ItemUnEq(Item item)
         {
@@ -148,10 +148,10 @@ namespace TeamProject
         }
         void WhatItemUnEq(int index, Item item)
         {
-            eqItem[index].IsEquiped = false;
-            eqItem[index] = null;
-            atk -= item.eqAtk;
-            def -= item.eaDef;
+            EqItem[index].IsEquiped = false;
+            EqItem[index] = null;
+            Atk -= item.EqAtk;
+            Def -= item.EaDef;
         }
     }
 }
