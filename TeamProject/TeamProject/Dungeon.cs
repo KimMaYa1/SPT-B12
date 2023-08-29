@@ -17,7 +17,7 @@ namespace TeamProject
             get { return stage; }
             set { stage = value; }
         }
-        public MonsterDict[] monsterDict = MonsterDict.GetMonsterDict();
+        public MonsterInfo[] monsterInfo = MonsterInfo.GetMonsterDict();
         public Dungeon()
         {
             Stage = 1;                          // 시작 시에는 1 스테이지 부터.
@@ -41,9 +41,9 @@ namespace TeamProject
 
             for (int randIdx = 0; randIdx < monsterNum; randIdx++)
             {
-                int getMonsterIdx = random.Next(1, monsterDict.Length);
+                int getMonsterIdx = random.Next(1, monsterInfo.Length);
                 int monsterLevel = random.Next(stage, stage + 4);
-                Monster monster = new Monster(monsterDict[getMonsterIdx].Name, monsterDict[getMonsterIdx].Chrd, monsterLevel);
+                Monster monster = new Monster(monsterInfo[getMonsterIdx].Name, monsterInfo[getMonsterIdx].Chrd, monsterLevel);
                 getMonsterArray[randIdx] = monster;
             }
 
@@ -55,7 +55,7 @@ namespace TeamProject
         {
             int resultExp = 0;
             //MonsterDict[] monsterDict = MonsterDict.GetMonsterDict();
-            foreach (MonsterDict monsterInfo in  monsterDict) 
+            foreach (MonsterInfo monsterInfo in  monsterInfo) 
             {
                 foreach (Monster monster in getMonsterArray)
                 {
