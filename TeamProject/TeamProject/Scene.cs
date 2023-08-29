@@ -28,7 +28,7 @@ namespace TeamProject
                 
                 bool ismon = false;
                 int monnum = inputNum - 1;
-                if(monnum >= 0)
+                if(monnum >= 0 && monnum < _monsters.Length)
                 {
                     if (_monsters[monnum].Hp <= 0)
                         ismon = true;
@@ -46,7 +46,7 @@ namespace TeamProject
                     isSelect = int.TryParse(input, out inputNum);
                     monnum = inputNum - 1;
                     ismon = false;
-                    if (monnum >= 0)
+                    if (monnum >= 0 && monnum < _monsters.Length)
                     {
                         if (_monsters[monnum].Hp <= 0)
                             ismon = true;
@@ -365,7 +365,7 @@ namespace TeamProject
                 {
                     isAttack = DisplayAttackSelect(round);
                 }
-                if (_player.Hp >= 0 && !IsDeadMonsters())
+                if (_player.Hp > 0 && !IsDeadMonsters())
                 {
                     return true;
                 }
@@ -566,7 +566,8 @@ namespace TeamProject
             {
                 Console.WriteLine("You Lose");
                 Console.WriteLine("처음부터 다시 시작합니다");
-                _player = new Player("조범준", "전사", 10, 5, 100, 30, 0);
+                _stage = 1;
+                _round = 1;
             }
 
             Console.WriteLine();
