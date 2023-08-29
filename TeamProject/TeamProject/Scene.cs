@@ -33,7 +33,7 @@ namespace TeamProject
             int inputNum;
             if (num != 0)
             {
-                while (!int.TryParse(input, out inputNum) || !(inputNum >= min && inputNum <= max) || monsters[inputNum - 1].Hp >= 0)
+                while (!int.TryParse(input, out inputNum) || !(inputNum >= min && inputNum <= max) || _monsters[inputNum - 1].Hp >= 0)
                 {
                     Console.WriteLine("=====================");
                     Console.WriteLine("  잘못된 대상입니다");
