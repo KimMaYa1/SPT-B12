@@ -72,7 +72,7 @@ namespace TeamProject
 
     public static class Pathes
     {
-        public static string localPath = Directory.GetParent(Path.GetFullPath(@"..\Data\MonsterData.csv")).Parent.Parent.Parent.ToString();
+        public static string localPath = Directory.GetParent(Path.GetFullPath(@"..\Data\MonsterData.csv")).Parent.Parent.Parent.Parent.ToString();
         public static string MonsterDataPath()
         {
             var dataPath = @"Data";
