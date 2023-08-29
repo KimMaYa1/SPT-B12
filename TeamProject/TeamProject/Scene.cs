@@ -12,6 +12,7 @@ namespace TeamProject
         Player player;
         Monster[] monsters;
         int beforeHp = 0;
+        int stage = 1;
         public Scene()
         {
             player = new Player("조범준", "전사", 10, 5, 100, 30, 0);
@@ -139,7 +140,7 @@ namespace TeamProject
         {
             Console.Clear();
             Console.WriteLine();
-            Console.WriteLine("Battle!!");
+            Console.WriteLine("Battle!! - stage {0}", stage);
             Console.WriteLine();
             Console.WriteLine("[몬스터 정보]");
             int j = 4;
@@ -186,14 +187,8 @@ namespace TeamProject
         public bool DisplayBattle()
         {
             beforeHp = player.hp;
-            Dungeon dungeon = new Dungeon();
-            Monster mon1 = new Monster("공허충", "몬스터", 1);
-            Monster mon2 = new Monster("미니언즈", "몬스터", 2);
-            monsters = new Monster[2];
-            monsters[0] = mon1;
-            monsters[1] = mon2;
-
-            //monsters = dungeon.MonsterGen();
+            Dungeon dungeon = new Dungeon(stage);
+            monsters = dungeon.MonsterGen();
 
             BattleInfo(false);
 
@@ -209,6 +204,7 @@ namespace TeamProject
                 {
                     isAttack = DisplayAttackSelect();
                 }
+                stage++;
                 return false;
             }
             return true;
@@ -325,15 +321,12 @@ namespace TeamProject
 
         public void DisplayInventory()
         {
-            ItemList();
+
         }
 
         public void ItemList()
         {
-            foreach (Item item in player.inventory)
-            {
-                Console.WriteLine("이름 | {0}\t공격력 | {1}\t방어력 | {2}\t정보 | {3}", item.name, item.eqAtk, item.eaDef, item.info);
-            }
+            
         }
     }
 }

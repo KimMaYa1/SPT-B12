@@ -83,7 +83,7 @@ namespace TeamProject
             {
                 if(i == item)
                 {
-                    if (i.IsEquiped)
+                    if (i.isEquiped)
                     {
                         ItemUnEq(i);
                     }
@@ -116,7 +116,7 @@ namespace TeamProject
             }
             else
             {
-                eqItem[index].IsEquiped = false;
+                eqItem[index].isEquiped = false;
                 eqItem[index] = null;
                 WhatItemEq(index, item);
 
@@ -126,9 +126,9 @@ namespace TeamProject
         void WhatItemEq(int index, Item item)
         {
             eqItem[index] = item;
-            item.IsEquiped = true;
+            item.isEquiped = true;
             atk += item.eqAtk;
-            def += item.eaDef;
+            def += item.eqDef;
         }
         public void ItemUnEq(Item item)
         {
@@ -148,10 +148,10 @@ namespace TeamProject
         }
         void WhatItemUnEq(int index, Item item)
         {
-            eqItem[index].IsEquiped = false;
+            eqItem[index].isEquiped = false;
             eqItem[index] = null;
             atk -= item.eqAtk;
-            def -= item.eaDef;
+            def -= item.eqDef;
         }
     }
 }
