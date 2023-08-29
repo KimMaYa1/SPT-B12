@@ -154,15 +154,15 @@ namespace TeamProject
                 Console.WriteLine("=============================");
                 if (input == 1)
                 {
-                    _player = new Warrior(name, chrd);
+                    _player = new Warrior(name);
                 }
                 else if (input == 2)
                 {
-                    _player = new Prist(name, chrd);
+                    _player = new Prist(name);
                 }
                 else if (input == 3)
                 {
-                    _player = new Archer(name, chrd);
+                    _player = new Archer(name);
                 }
 
                 Thread.Sleep(1000);
@@ -395,7 +395,15 @@ namespace TeamProject
         {
             Console.Clear();
             Console.WriteLine();
-            Console.WriteLine("Battle!! - 현재 스테이지 {0}-{1}", _stage, round);
+            Console.Write("Battle!! - 현재 스테이지 {0}-", _stage);
+            if(round == 4)
+            {
+                Console.WriteLine("보스");
+            }
+            else
+            {
+                Console.WriteLine("{0}", round);
+            }
             Console.WriteLine();
             Console.WriteLine("[몬스터 정보]");
             int j = 4;
