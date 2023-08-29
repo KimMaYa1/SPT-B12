@@ -10,27 +10,27 @@ namespace TeamProject
     internal class Item
     {
 
-        public int eqAtk;           // 장착 무기
-        public int eqDef;           // 장착 방어력
-        public string name;         // 아이템 이름
-        public string info;         // 아이템 정보
-        public int type;            // 0 무기 1 방어구
-        public bool isEquiped;   //착용유무
-        public int price;           //가격
-        public Player player;// { get; set; }
+        public int EqAtk;           // 장착 무기
+        public int EqDef;           // 장착 방어력
+        public string Name;         // 아이템 이름
+        public string Info;         // 아이템 정보
+        public int Type;            // 0 무기 1 방어구
+        public bool IsEquiped;   //착용유무
+        public int Price;           //가격
+        public Player Player;// { get; set; }
 
 
 
-        public Item(int _eqAtk, int _eqDef, int _type, int _price, string _name, string _info, Player _player)
+        public Item(int eqAtk, int eqDef, int type, int price, string name, string info, Player player)
         {
-            eqAtk = _eqAtk;
-            eqDef = _eqDef;
-            type = _type;
-            price = _price;
-            name = _name;
-            info = _info;
-            isEquiped = false;
-            player = _player;
+            EqAtk = eqAtk;
+            EqDef = eqDef;
+            Type = type;
+            Price = price;
+            Name = name;
+            Info = info;
+            IsEquiped = false;
+            Player = player;
 
         }
         public virtual void Perfomence()
@@ -41,20 +41,20 @@ namespace TeamProject
     }
     internal class Weapon : Item
     {
-        public Weapon(int _eqAtk, int _eqDef, int _type, int _price, string _name, string _info, Player _player) : base(_eqAtk, _eqDef, _type, _price, _name, _info, _player) { }
+        public Weapon(int eqAtk, int eqDef, int type, int price, string name, string info, Player player) : base(eqAtk, eqDef, type, price, name, info, player) { }
         
 
     }
     internal class Defense : Item
     {
-        public Defense(int _eqAtk, int _eqDef, int _type, int _price, string _name, string _info, Player _player) : base(_eqAtk, _eqDef, _type, _price, _name, _info, _player) { }
+        public Defense(int eqAtk, int eqDef, int type, int price, string name, string info, Player player) : base(eqAtk, eqDef, type, price, name, info, player) { }
 
 
     }
 
     internal class Potion : Item
     {
-        public Potion(int _eqAtk, int _eqDef, int _type, int _price, string _name, string _info, Player _player) : base(_eqAtk, _eqDef, _type, _price, _name, _info, _player) { }
+        public Potion(int eqAtk, int eqDef, int type, int price, string name, string info, Player player) : base(eqAtk, eqDef, type, price, name, info, player) { }
 
 
     }
