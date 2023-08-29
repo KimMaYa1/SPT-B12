@@ -17,15 +17,23 @@ namespace TeamProject
             get { return _stage; }
             set { _stage = value; }
         }
+        private int _round;
+        public int Round
+        {
+            get { return _round; }
+            set { _round = value; }
+        }
         public MonsterInfo[] monsterInfo = MonsterInfo.GetMonsterDict();
         public Dungeon()
         {
             Stage = 1;                          // 시작 시에는 1 스테이지 부터.
+            Round = 1;
         }
 
-        public Dungeon(int stage)
+        public Dungeon(int stage, int round)
         {
             Stage = stage;
+            Round = round;
         }
 
         public Monster[] MonsterGen()
@@ -70,7 +78,7 @@ namespace TeamProject
         }
 
     }
-
+    /*
     public static class Pathes
     {
         public static string localPath = Directory.GetParent(Path.GetFullPath(@"..\Data\MonsterData.csv")).Parent.Parent.Parent.Parent.ToString();
@@ -82,4 +90,5 @@ namespace TeamProject
             return fullPath;
         }
     }
+    */
 }
