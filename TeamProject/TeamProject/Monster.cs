@@ -31,7 +31,16 @@ namespace TeamProject
             Hp = Level * monsterInfo[0].MonHPCoeff;
             Exp = Level * monsterInfo[0].Exp;
             _critical = 20;
-        } 
+        }
+        public bool Evasion()
+        {
+            int rand = new Random().Next(1, 11);
+            if (rand == 10)
+            {
+                return true;
+            }
+            return false;
+        }
         public int TakeDamage(int _atk)
         {
             int er = (int)(_atk * 0.1);

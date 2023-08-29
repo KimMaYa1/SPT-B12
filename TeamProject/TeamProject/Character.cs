@@ -16,5 +16,6 @@ namespace TeamProject
         string Chrd { get; }
 
         int TakeDamage(int _atk);
+        bool Evasion();
     }
 }
