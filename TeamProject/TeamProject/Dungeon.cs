@@ -67,8 +67,8 @@ namespace TeamProject
         {
             Random random = new Random();
             int bossMonsterLevel = random.Next(Stage, Stage + 4);
-            MonsterInfo[] bossMonsterInfo = MonsterInfo.GetMonsterDict().Where(mon => mon.StageRank < 0 && mon.StageRank > -Stage - 1).ToArray();
-            int bossIdx = random.Next(0, bossMonsterInfo.Length-1);
+            MonsterInfo[] bossMonsterInfo = (Stage < 4) ? MonsterInfo.GetMonsterDict().Where(mon => mon.StageRank < 0 && mon.StageRank > -Stage - 1).ToArray() : MonsterInfo.GetMonsterDict().Where(mon => mon.StageRank == -Stage).ToArray();
+            int bossIdx = random.Next(0, bossMonsterInfo.Length);
             Monster bossMonster = new Monster(bossMonsterInfo[bossIdx].Name, bossMonsterInfo[bossIdx].Chrd, bossMonsterLevel);
             Monster[] getMonsterArray = new Monster[1];
             //Array.Resize(ref getMonsterArray, getMonsterArray.Length +1);         보스 몬스터가 한마리일 경우엔 필요 없으나, 여러마리일 땐 필요함.
