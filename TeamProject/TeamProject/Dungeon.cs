@@ -55,11 +55,11 @@ namespace TeamProject
 
             for (int randIdx = 0; randIdx < monsterNum; randIdx++)
             {
-                int getMonsterIdx = random.Next(1, stageMonsterColl.Length);
+                int getMonsterIdx = random.Next(0, stageMonsterColl.Length);
                 int monsterLevel = random.Next(Stage, Stage + 4);
                 Monster monster = new Monster(stageMonsterColl[getMonsterIdx].Name, stageMonsterColl[getMonsterIdx].Chrd, monsterLevel);
                 getMonsterArray[randIdx] = monster;
-            }
+             }
             return getMonsterArray;
         }
 
