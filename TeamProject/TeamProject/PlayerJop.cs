@@ -8,7 +8,7 @@ namespace TeamProject
 {
     internal class Warrior : Player
     {
-        public Warrior(string name, string chrd) : base(name, chrd, 15, 10, 150, 40, 15) { }
+        public Warrior(string name, string chrd) : base(name, "전사", 25, 10, 150, 40, 15) { }
         public override void SkillInfo()
         {
             Console.WriteLine("소드 스트라이크 - MP 15");
@@ -33,7 +33,7 @@ namespace TeamProject
             Hp = MaxHp;
             MaxMp += Level * 10;
             Mp = MaxMp;
-            Atk += Level * 3;
+            Atk += Level * 5;
             Def += Level * 3;
             Exp -= Level * 5;
             Level++;
@@ -41,7 +41,7 @@ namespace TeamProject
     }
     internal class Prist : Player
     {
-        public Prist(string name, string chrd) : base(name, chrd, 10, 5, 100, 80, 20) { }
+        public Prist(string name, string chrd) : base(name, "사제", 20, 5, 100, 80, 20) { }
         public override void SkillInfo()
         {
             Console.WriteLine("홀리 엔젤 - MP 20");
@@ -75,7 +75,7 @@ namespace TeamProject
     }
     internal class Archer : Player
     {
-        public Archer(string name, string chrd) : base(name, chrd, 20, 3, 100, 50, 40) { }
+        public Archer(string name, string chrd) : base(name, "궁수", 30, 3, 100, 50, 40) { }
         public override void SkillInfo()
         {
             Console.WriteLine("천공의 바람 - MP 25");

@@ -47,6 +47,15 @@ namespace TeamProject
         {
             
         }
+        public bool Evasion()
+        {
+            int rand = new Random().Next(1, 11);
+            if (rand == 10) 
+            {
+                return true;
+            }
+            return false;
+        }
         public int TakeDamage(int _atk)
         {
             int er = (int)(_atk * 0.1);
@@ -117,11 +126,10 @@ namespace TeamProject
             else
             {
                 EqItem[index].IsEquiped = false;
+                ItemUnEq(EqItem[index]);
                 EqItem[index] = null;
                 WhatItemEq(index, item);
-
             }
-
         }
         void WhatItemEq(int index, Item item)
         {
