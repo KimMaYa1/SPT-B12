@@ -6,6 +6,7 @@
         {
             Scene scene = new Scene();
             bool isSelectNameChrd = true;
+
             while (isSelectNameChrd)
             {
                 isSelectNameChrd = scene.DisplaySelectName();
@@ -14,6 +15,7 @@
             while (true)
             {
                 scene.DisplayStart();
+                
             }
         }
     }
