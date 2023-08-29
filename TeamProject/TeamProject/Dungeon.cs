@@ -32,7 +32,8 @@ namespace TeamProject
         {
             Random random = new Random();
             int genMin = ((int)(Stage * 0.5 / 1) > 0) ? (int)(Stage * 0.5 / 1) : 1;
-            int genMax = ((int)(Stage * 1) < 6) ? (int)(Stage * 1) : 5;
+            genMin = (genMin > 3) ? 3 : genMin;                                     // 아무리 높은 스테이지여도 최소값 3으로 보정.
+            int genMax = ((int)(Stage * 1) + 1 < 6) ? (int)(Stage * 1) + 1 : 5;
             int monsterNum = random.Next(genMin, genMax);
 
             //MonsterDict[] monsterDict = MonsterDict.GetMonsterDict();    // 전체 몬스터 목록 호출.
