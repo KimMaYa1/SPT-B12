@@ -73,8 +73,8 @@ namespace TeamProject
         public float MonDefCoeff { get; set; }
         public int MonHPCoeff { get; set; }
         public int Exp { get; set; }
-
-        public MonsterInfo(string name, string chrd, float monAtkCoeff, float monDefCoeff, int monHPCoeff, int exp)
+        public int StageRank { get; set; }
+        public MonsterInfo(string name, string chrd, float monAtkCoeff, float monDefCoeff, int monHPCoeff, int exp, int stageRank)
         {
             Name = name;
             Chrd = chrd;
@@ -82,6 +82,8 @@ namespace TeamProject
             MonDefCoeff = monDefCoeff;
             MonHPCoeff = monHPCoeff;
             Exp = exp;
+            StageRank = stageRank;
+            
         }
 
         public static MonsterInfo[] GetMonsterDict()
@@ -102,8 +104,9 @@ namespace TeamProject
                 float mondefcoeff = float.Parse(monsterEach[Array.IndexOf(propertyNames, "MonDefCoeff")]); // 방어계수
                 int monHPcoeff = int.Parse(monsterEach[Array.IndexOf(propertyNames, "MonHPCoeff")]); // HP 계수
                 int exp = int.Parse(monsterEach[Array.IndexOf(propertyNames, "Exp")]); // 경험치
+                int stageRank = int.Parse(monsterEach[Array.IndexOf(propertyNames, "StageRank")]); // 몬스터 스테이지 조정
 
-                MonsterInfo monsterDict = new MonsterInfo(name, chrd, monatkcoeff, mondefcoeff, monHPcoeff, exp);
+                MonsterInfo monsterDict = new MonsterInfo(name, chrd, monatkcoeff, mondefcoeff, monHPcoeff, exp, stageRank);
 
                 Array.Resize(ref AllMonsters, AllMonsters.Length + 1);
                 AllMonsters[monIdx - 1] = monsterDict;
