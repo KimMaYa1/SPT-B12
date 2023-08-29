@@ -163,17 +163,51 @@ namespace TeamProject
             Atk -= item.EqAtk;
             Def -= item.EqDef;
         }
-        public void UseItem()
+        public void UseItem(Player player)
         {
-            foreach(Item i in Inventory)
+            Scene scene = new Scene();
+            Item item1 = new Item("도란의 검");
+            Item item2 = new Item("도란의 방패");
+            Item item3 = new Item("달을 품은 방패");
+            Item item4 = new Item("하급 HP 포션");
+            Item item5 = new Item("하급 MP 포션");
+            Item item6 = new Item("하급 HP 포션");
+            Item item7 = new Item("하급 HP 포션");
+            Item item8 = new Item("하급 MP 포션");
+            player.ItemAdd(item1);
+            player.ItemAdd(item2);
+            player.ItemAdd(item3);
+            player.ItemAdd(item4);
+            player.ItemAdd(item5);
+            player.ItemAdd(item6);
+            player.ItemAdd(item7);
+            player.ItemAdd(item8);
+            foreach (Item i in player.Inventory)
             {
-                if(i.Type == 2)
+                if (i.Type == 2)
                 {
-                    Array.Resize(ref Potions, Potions.Length + 1);    //inventory 한칸 늘려주고
-                    Potions[Potions.Length - 1] = i;
+                    Array.Resize(ref player.Potions, player.Potions.Length + 1);    //inventory 한칸 늘려주고
+                    player.Potions[player.Potions.Length - 1] = i;
                 }
             }
-
+            Console.WriteLine("포션 사용 머할거임?");
+            for (int i = 0; i < player.Potions.Length; i++)
+            {
+                Console.WriteLine(player.Potions[i].Name);
+            }
+            int key = scene.InputString(0, Potions.Length, 0, "머임");
+            Console.WriteLine(Potions[key].EqHP + "만큼 회복했습니다");
+            Console.WriteLine(Potions[key].EqMP + "만큼 회복했습니다");
+            player.Hp += Potions[key].EqHP;
+            if (player.Hp >= player.MaxHp)
+            {
+                player.Hp = player.MaxHp;
+            }
+            player.Mp += Potions[key].EqMP;
+            if (player.Mp >= player.MaxMp)
+            {
+                player.Mp = player.MaxMp;
+            }
         }
     }
 }
