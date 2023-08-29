@@ -11,11 +11,11 @@ namespace TeamProject
     internal class Dungeon
     {
         //private int stage { get;  }
-        private int stage;
+        private int _stage;
         public int Stage
         {
-            get { return stage; }
-            set { stage = value; }
+            get { return _stage; }
+            set { _stage = value; }
         }
         public MonsterInfo[] monsterInfo = MonsterInfo.GetMonsterDict();
         public Dungeon()
@@ -31,8 +31,8 @@ namespace TeamProject
         public Monster[] MonsterGen()
         {
             Random random = new Random();
-            int genMin = ((int)(stage * 0.5 / 1) > 0) ? (int)(stage * 0.5 / 1) : 1;
-            int genMax = ((int)(stage * 1) < 6) ? (int)(stage * 1) : 5;
+            int genMin = ((int)(Stage * 0.5 / 1) > 0) ? (int)(Stage * 0.5 / 1) : 1;
+            int genMax = ((int)(Stage * 1) < 6) ? (int)(Stage * 1) : 5;
             int monsterNum = random.Next(genMin, genMax);
 
             //MonsterDict[] monsterDict = MonsterDict.GetMonsterDict();    // 전체 몬스터 목록 호출.
@@ -42,7 +42,7 @@ namespace TeamProject
             for (int randIdx = 0; randIdx < monsterNum; randIdx++)
             {
                 int getMonsterIdx = random.Next(1, monsterInfo.Length);
-                int monsterLevel = random.Next(stage, stage + 4);
+                int monsterLevel = random.Next(Stage, Stage + 4);
                 Monster monster = new Monster(monsterInfo[getMonsterIdx].Name, monsterInfo[getMonsterIdx].Chrd, monsterLevel);
                 getMonsterArray[randIdx] = monster;
             }
