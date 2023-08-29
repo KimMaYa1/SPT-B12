@@ -12,32 +12,61 @@ namespace TeamProject
 
         public int EqAtk;           // 장착 무기
         public int EqDef;           // 장착 방어력
+        public int EqHP;            // Hp (임시)
+        public int EqMP;            // MP (임시)
         public string Name;         // 아이템 이름
         public string Info;         // 아이템 정보
-        public int Type;            // 0 무기 1 방어구
+        public int Type;            // 0 무기 1 방어구 2 포션
         public bool IsEquiped;   //착용유무
         public int Price;           //가격
-        public Player Player;// { get; set; }
 
+        public Item[] ItemInfo = GetItemInfo();
 
-
-        public Item(int eqAtk, int eqDef, int type, int price, string name, string info, Player player)
+        public Item(int eqAtk, int eqDef, int eqHp, int eqMp, int type, int price, string name, string info)
         {
+            //Item item = (Item)ItemInfo.Where(it => it.Name == name);
             EqAtk = eqAtk;
             EqDef = eqDef;
+            EqHP = eqHp;
+            EqMP = eqMp;
             Type = type;
             Price = price;
             Name = name;
             Info = info;
             IsEquiped = false;
-            Player = player;
-
         }
         public virtual void Perfomence()
         {
         }
 
+        public static Item[] GetItemInfo()
+        {
+            Item[] allItems = new Item[] { };
 
+            string itemPath = Pathes.ItemDataPath();
+            string[] itemData = File.ReadAllLines(itemPath, Encoding.UTF8);
+            string[] propertyNames = itemData[0].Split(',');
+
+            for (int itemIdx = 1; itemIdx < itemData.Length; itemIdx++) 
+            {
+                string[] itemEach = itemData[itemIdx].Split(",");
+
+                string name = itemEach[Array.IndexOf(propertyNames, "Name")];
+                string info = itemEach[Array.IndexOf(propertyNames, "Info")];
+                int type = int.Parse(itemEach[Array.IndexOf(propertyNames, "Type")]);
+                int eqAtk = int.Parse(itemEach[Array.IndexOf(propertyNames, "EqAtk")]);
+                int eqDef = int.Parse(itemEach[Array.IndexOf(propertyNames, "EqDef")]);
+                int eqHP = int.Parse(itemEach[Array.IndexOf(propertyNames, "EqHp")]);
+                int eqMP = int.Parse(itemEach[Array.IndexOf(propertyNames, "EqMp")]);
+                int price = int.Parse(itemEach[Array.IndexOf(propertyNames, "Price")]);
+
+                Item item = new Item(eqAtk, eqDef, eqHP, eqMP, type, price, name, info);
+
+                Array.Resize(ref allItems, allItems.Length + 1);
+                allItems[itemIdx - 1] = item;
+            }
+
+            return allItems;
     }
     internal class Weapon : Item
     {
@@ -55,7 +84,6 @@ namespace TeamProject
     internal class Potion : Item
     {
         public Potion(int eqAtk, int eqDef, int type, int price, string name, string info, Player player) : base(eqAtk, eqDef, type, price, name, info, player) { }
-
 
     }
 }
