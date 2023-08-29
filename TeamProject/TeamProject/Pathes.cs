@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace TeamProject
 {
-    public static class Pathes
+    public class Pathes
     {
-        public static string localPath = Directory.GetParent(Path.GetFullPath(@"..\Data\MonsterData.csv")).Parent.Parent.Parent.Parent.ToString();
+        public static DirectoryInfo currentPath = new DirectoryInfo(Directory.GetCurrentDirectory());
+        public static string localPath = currentPath.Parent.Parent.Parent.Parent.ToString();
+        //public static string localPath = Directory.GetParent(Path.GetFullPath(@"..\Data\MonsterData.csv")).Parent.Parent.Parent.Parent.ToString();
         public static string MonsterDataPath()
         {
             var dataPath = @"Data";
@@ -24,5 +26,6 @@ namespace TeamProject
             var fullPath = Path.Combine(localPath, dataPath, fileName);
             return fullPath;
         }
+
     }
 }
