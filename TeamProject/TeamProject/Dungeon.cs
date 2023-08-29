@@ -46,7 +46,7 @@ namespace TeamProject
             genMax += random.Next(1, Round);
 
             genMin = (genMin > 3) ? 3 : genMin;                                     // 아무리 높은 스테이지여도 최소값 3으로 보정.
-            genMax = (genMax > 5) ? 5 : genMax;
+            genMax = (genMax > 5) ? 5 : genMax;                                     // 아무리 높은 스테이지여도 최대값 5로 보정.
             int monsterNum = (genMin > genMax) ? random.Next(genMax, genMin) : random.Next(genMin, genMax);
 
             MonsterInfo[] stageMonsterColl = MonsterInfo.GetMonsterDict().Where(mon => mon.StageRank <= Stage && mon.StageRank > 0).ToArray();    // 스테이지별 몬스터 목록 호출.
@@ -67,10 +67,11 @@ namespace TeamProject
         {
             Random random = new Random();
             int bossMonsterLevel = random.Next(Stage, Stage + 4);
-            MonsterInfo bossMonsterInfo = MonsterInfo.GetMonsterDict().Where(mon => mon.StageRank < 0 && mon.StageRank > -Stage - 1).ToArray()[0];
-            Monster bossMonster = new Monster(bossMonsterInfo.Name, bossMonsterInfo.Chrd, bossMonsterLevel);
-            Monster[] getMonsterArray = new Monster[] { };
-            Array.Resize(ref getMonsterArray, getMonsterArray.Length +1);
+            MonsterInfo[] bossMonsterInfo = MonsterInfo.GetMonsterDict().Where(mon => mon.StageRank < 0 && mon.StageRank > -Stage - 1).ToArray();
+            int bossIdx = random.Next(0, bossMonsterInfo.Length-1);
+            Monster bossMonster = new Monster(bossMonsterInfo[bossIdx].Name, bossMonsterInfo[bossIdx].Chrd, bossMonsterLevel);
+            Monster[] getMonsterArray = new Monster[1];
+            //Array.Resize(ref getMonsterArray, getMonsterArray.Length +1);         보스 몬스터가 한마리일 경우엔 필요 없으나, 여러마리일 땐 필요함.
             getMonsterArray[0] = bossMonster;
 
             return getMonsterArray;
@@ -93,17 +94,4 @@ namespace TeamProject
         }
 
     }
-    /*
-    public static class Pathes
-    {
-        public static string localPath = Directory.GetParent(Path.GetFullPath(@"..\Data\MonsterData.csv")).Parent.Parent.Parent.Parent.ToString();
-        public static string MonsterDataPath()
-        {
-            var dataPath = @"Data";
-            var fileName = @"MonsterData.csv";
-            var fullPath = Path.Combine(localPath, dataPath, fileName);
-            return fullPath;
-        }
-    }
-    */
 }
