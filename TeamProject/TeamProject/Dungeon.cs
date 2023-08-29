@@ -42,9 +42,11 @@ namespace TeamProject
             int genMin = ((int)(Stage * 0.5 / 1) > 0) ? (int)(Stage * 0.5 / 1) : 1;
             genMin = (genMin > 3) ? 3 : genMin;                                     // 아무리 높은 스테이지여도 최소값 3으로 보정.
             int genMax = ((int)(Stage * 1) + 1 < 6) ? (int)(Stage * 1) + 1 : 5;
+            genMin += random.Next(1, Round+1);
+            genMax += random.Next(1, Round);
             int monsterNum = random.Next(genMin, genMax);
 
-            //MonsterDict[] monsterDict = MonsterDict.GetMonsterDict();    // 전체 몬스터 목록 호출.
+            MonsterInfo[] stageMonsterDict = MonsterInfo.GetMonsterDict().Where(mon => mon.StageRank >= Stage).ToArray();    // 스테이지별 몬스터 목록 호출.
 
             Monster[] getMonsterArray = new Monster[monsterNum];
 
@@ -55,11 +57,21 @@ namespace TeamProject
                 Monster monster = new Monster(monsterInfo[getMonsterIdx].Name, monsterInfo[getMonsterIdx].Chrd, monsterLevel);
                 getMonsterArray[randIdx] = monster;
             }
-
-
             return getMonsterArray;
         }
 
+        public Monster[] BossMonsterGen()
+        {
+            Random random = new Random();
+            int bossMonsterLevel = random.Next(Stage, Stage + 4);
+            MonsterInfo bossMonsterInfo = MonsterInfo.GetMonsterDict().Where(mon => mon.StageRank < 0 && mon.StageRank > -Stage - 1).ToArray()[0];
+            Monster bossMonster = new Monster(bossMonsterInfo.Name, bossMonsterInfo.Chrd, bossMonsterLevel);
+            Monster[] getMonsterArray = new Monster[] { };
+            Array.Resize(ref getMonsterArray, getMonsterArray.Length +1);
+            getMonsterArray[0] = bossMonster;
+
+            return getMonsterArray;
+        }
         public int GetExp(Monster[] getMonsterArray)
         {
             int resultExp = 0;
