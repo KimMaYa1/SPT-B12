@@ -155,18 +155,19 @@ namespace TeamProject
             Atk -= item.EqAtk;
             Def -= item.EqDef;
         }
-        public void UseItem(Player player, Item item)
+        public void UseItem(Item item)
         {
-            player.Hp += item.EqHP;
-            if (player.Hp >= player.MaxHp)
+            if (item.Name.Contains("HP"))
             {
-                player.Hp = player.MaxHp;
+                Hp += item.EqHP;
+                if (Hp >= MaxHp) Hp = MaxHp;
             }
-            player.Mp += item.EqMP;
-            if (player.Mp >= player.MaxMp)
+            else if (item.Name.Contains("MP"))
             {
-                player.Mp = player.MaxMp;
+                Mp += item.EqMP;
+                if (Mp >= MaxMp) Mp = MaxMp;
             }
+            else Console.WriteLine("사용할 수 없는 아이템 입니다");
         }
         public void ItemUpGrade(Player player, Item item)
         {
