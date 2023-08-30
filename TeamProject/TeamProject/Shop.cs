@@ -32,7 +32,6 @@ namespace TeamProject
             Console.WriteLine("\n\n\n");
 
             SettingMenu(scene);
-            
              //SetCursorString(int lineX, int lineY, string str, bool isNextLine)
             int num = CheckValidInput(0, 2, lineY);
             if( num == 0 )
