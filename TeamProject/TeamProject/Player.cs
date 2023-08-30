@@ -194,17 +194,5 @@ namespace TeamProject
                 }
             }
         }
-        public void DisplaySkill(Monster mob)
-        {
-            SkillInfo();
-            Thread.Sleep(1000);
-            Console.WriteLine();
-            if (Chrd == "사제")
-            {
-                Console.WriteLine($"{Name}이 HP를 {Skill(mob, Atk)} 만큼 회복했습니다");
-            }
-            Console.WriteLine($"{Name}이 적에게 {Skill(mob, Atk)} 만큼 피해를 입혔습니다");
-            Thread.Sleep(1000);
-        }
     }
 }
