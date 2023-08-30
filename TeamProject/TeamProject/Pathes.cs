@@ -42,5 +42,13 @@ namespace TeamProject
             var fullPath = Path.Combine(localPath, dataPath, fileName);
             return fullPath;
         }
+
+        public static string ItemCombPath()
+        {
+            var dataPath = @"Data";
+            var fileName = @"ItemCombTable.csv";
+            var fullPath = Path.Combine(localPath, dataPath, fileName);
+            return fullPath;
+        }
     }
 }
