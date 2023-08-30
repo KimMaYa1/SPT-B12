@@ -24,37 +24,41 @@ namespace TeamProject
         }
 
 
-        public void UpGradeItem(Player player, Item item)
+        public bool UpGradeItem(Player player, Item item)
         {
-            if(item.Type == 0)
-            {
+            Random random = new Random();
 
+            if( player.Gold >= 500)              //강화 비용 확인
+            {
+                player.Gold -= 500;             //강화비용 차감
             }
+            else
+            {
+                return false;           //비용 부족으로 강화 실패
+            }
+                                   
+
+            int success = random.Next(10);
+
+            if(success == 0) 
+            {
+                return false;    // 10% 확률로 강화실패
+            }
+            else
+            {
+                if (item.Type == 0)
+                {
+                    item.EqAtk += random.Next(1, 6);    //램덤값으로 강화
+
+                }
+                else if (item.Type == 1)
+                {
+                    item.EqDef += random.Next(1, 6);
+                }
+                return true;    //강화 성공
+            }
+           
         }
-        /*public void ItemUpGrade(Player player, Item item)
-        {
-            if (item.Type == 0)
-            {
-                if (item.Price > 1500)
-                {
-                    item.EqAtk += 5;
-                }
-                else
-                {
-                    item.EqAtk += 2;
-                }
-            }
-            if (item.Type == 1)
-            {
-                if (item.Price > 1500)
-                {
-                    item.EqDef += 4;
-                }
-                else
-                {
-                    item.EqDef += 1;
-                }
-            }
-        }*/
+        
     }
 }
