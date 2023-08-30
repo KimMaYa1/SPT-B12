@@ -28,11 +28,18 @@ namespace TeamProject
         public struct DropTable
         {
             public Item Dropitem { get; }
-            public MonsterInfo DropMonterInfo { get; }
+            public MonsterInfo DropMonsterInfo { get; }
             public int DropProb { get; }
+
+            public DropTable(Item dropItem, MonsterInfo dropMonsterInfo, int dropProb)
+            {
+                Dropitem = dropItem;
+                DropMonsterInfo = dropMonsterInfo;
+                DropProb = dropProb;
+            }
         }
 
-        public static DropTable[] DropMonsterInfo;
+        public static DropTable[] DropMonsterInfoArray = SetDropTable();
 
         public Dungeon()
         {
@@ -119,11 +126,26 @@ namespace TeamProject
 
         public Item[] GetItem(Monster[] getMonsterArray)
         {
+            Random random = new Random();
             var itemArray = new Item[] { };
+            foreach (Monster monster in getMonsterArray)
+            {
+                DropTable[] tempDropArray = DropMonsterInfoArray.Where(mon=> mon.DropMonsterInfo.Name == monster.Name).ToArray();
+                foreach(DropTable dropElement in  tempDropArray)
+                {
+                    int dropProb = dropElement.DropProb;
+                    int randNum = random.Next(1, 101);
+                    if (randNum < dropProb)
+                    {
+                        Array.Resize(ref itemArray, itemArray.Length + 1);
+                        itemArray[itemArray.Length - 1] = dropElement.Dropitem;
+                    }
+                }    
+            }
             return itemArray;
         }
 
-        public static DropTable SetDropTable()
+        public static DropTable[] SetDropTable()
         {
             DropTable[] getDropTable = new DropTable[] { };
 
@@ -149,9 +171,11 @@ namespace TeamProject
 
                 Item dropItem = new Item(eqAtk, eqDef, eqHP, eqMP, type, price, name, info);
                 MonsterInfo dropMonsterInfo = monsterInfo.Where(mon => mon.Name == monsterName).FirstOrDefault();
-                getDropTable.
-
+                Array.Resize(ref getDropTable, getDropTable.Length + 1);
+                DropTable temp = new DropTable(dropItem, dropMonsterInfo, dropProb);
+                getDropTable[itemIdx - 1] = temp;
             }
+            return getDropTable;
         }
     }
 }
