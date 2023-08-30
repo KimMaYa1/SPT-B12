@@ -10,10 +10,18 @@ namespace TeamProject
     internal class Shop
     {
         static Item[] items = Item.GetItemInfo();
-        public static void BuyItem(int num , Player player)
+        public static bool BuyItem(int num , Player player)
         {
-            player.Gold -= items[num-1].Price;
-            player.ItemAdd(items[num-1]);
+            if( player.Gold < items[num - 1].Price)         //가지고 있는돈이 가격보다 적다면 구매 실패
+            {
+                return false;
+            }
+            else
+            {
+                player.Gold -= items[num - 1].Price;
+                player.ItemAdd(items[num - 1]);
+                return true;
+            }
         }
 
         public static void SellItem(int num, Player player)
