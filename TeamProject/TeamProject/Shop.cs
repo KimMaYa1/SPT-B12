@@ -60,7 +60,8 @@ namespace TeamProject
            
         }
 
-        /* public int UpGradeItem(Player player, Item item)
+        /*  아이템 파괴기능 추가시 
+         public int UpGradeItem(Player player, Item item)
         {
             Random random = new Random();
 
