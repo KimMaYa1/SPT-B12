@@ -341,6 +341,7 @@ namespace TeamProject
                 SetCursorString(lineX, lineY++, $"  2. 전투 시작 - ( 현재 스테이지 {_stage}-{_round} )", false);
             }
             SetCursorString(lineX, lineY++, "           3. 인벤토리", false);
+            SetCursorString(lineX, lineY++, "             4. 상점", false);
             lineY++;
             lineX = 15;
             int inputNum = InputString(1, 3, 0, "원하시는 행동을 입력해주세요.", lineX-3, lineY);
@@ -407,7 +408,7 @@ namespace TeamProject
             }
             else if (inputNum == 4)
             {
-
+                Shop.DisplayShop(_player, this);
             }
         }
 
