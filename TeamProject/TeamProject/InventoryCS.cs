@@ -16,24 +16,37 @@ namespace TeamProject
         {
             int page = 0;
             int temp = 0;
-            bool isEq = true;
-            foreach (Item i in player.Inventory)
+            bool isEq = false;
+            if(player.Inventory.Length > 0)
             {
-                if (i.Type != 2)
+                foreach (Item i in player.Inventory)
                 {
-                    Weapons.Add(i);
-                }
-                else
-                {
-                    if (i.Name.Contains("HP"))
+                    if (i.Type != 2)
                     {
-                        HPotions.Add(i);
+                        Weapons.Add(i);
                     }
-                    else if (i.Name.Contains("MP"))
+                    else
                     {
-                        MPotions.Add(i);
+                        if (i.Name.Contains("HP"))
+                        {
+                            HPotions.Add(i);
+                        }
+                        else if (i.Name.Contains("MP"))
+                        {
+                            MPotions.Add(i);
+                        }
                     }
                 }
+                isEq = true;
+            }
+            else
+            {
+                Console.Clear();
+                scene.DrawStar(97, 32);
+                scene.SetCursorString(4, 1, "인벤토리", false);
+                scene.SetCursorString(4, 3, "이름\t\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
+                scene.SetCursorString(4, 5, "아무것도 없습니다", false);
+                Thread.Sleep(1000);
             }
             if(player.Inventory.Length > 0)
             {
