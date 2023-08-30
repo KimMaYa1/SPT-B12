@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace TeamProject
 {
@@ -13,21 +14,16 @@ namespace TeamProject
         static List<Item> MPotions = new List<Item>();
         static public bool DisplayInventory(Player player, Scene scene)
         {
+            int page = 0;
             bool isEq = true;
-            while (isEq)
+            foreach (Item i in player.Inventory)
             {
-                int y = 4;
-                Console.Clear();
-                scene.DrawStar(90, 25);
-                scene.SetCursorString(2, 1, "인벤토리", false);
-                scene.SetCursorString(2, 3, "이름\t\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
-                foreach(Item i in player.Inventory)
+                if (i.Type != 2)
                 {
-                    if(i.Type != 2)
-                    {
-                        scene.SetCursorString(2, ++y, $"{i.Name}\t| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| 1\t| {i.Info}\n", false);
-                        Weapons.Add(i);
-                    }
+                    Weapons.Add(i);
+                }
+                else
+                {
                     if (i.Name.Contains("HP"))
                     {
                         HPotions.Add(i);
@@ -37,18 +33,46 @@ namespace TeamProject
                         MPotions.Add(i);
                     }
                 }
-                if(HPotions.Count > 0)
+            }
+            int temp = player.Inventory.Max(name => name.Name.Length);
+            while (isEq)
+            {
+                int y = 4;
+                Console.Clear();
+                scene.DrawStar(97, 32);
+                scene.SetCursorString(4, 1, "인벤토리", false);
+                scene.SetCursorString(4, 3, "이름\t\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
+                if(Weapons.Count > page * 10 + 10)
                 {
-                    scene.SetCursorString(2, ++y, $"{HPotions[0].Name}\t| {HPotions[0].EqAtk}\t| {HPotions[0].EqDef}\t| {HPotions[0].EqHP}\t| {HPotions[0].EqMP}\t| {HPotions.Count}\t| {HPotions[0].Info}\n", false);
+                    for (int i = page * 10; i < page * 10 + 10; i++)
+                    {
+                        scene.SetCursorString(4, ++y, $"{Weapons[i].Name.PadRight(temp)}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                    }
                 }
-                if (MPotions.Count > 0)
+                else
                 {
-                    scene.SetCursorString(2, ++y, $"{MPotions[0].Name}\t| {MPotions[0].EqAtk}\t| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}\n", false);
+                    for (int i = page * 10; i < Weapons.Count - ((page - 1) * 10); i++)
+                    {
+                        scene.SetCursorString(4, ++y, $"{Weapons[i].Name.PadRight(temp)}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef} \t|  {Weapons[i].EqHP} \t|  {Weapons[i].EqMP} \t| 1\t| {Weapons[i].Info}\n", false);   
+                    }
+                    if (HPotions.Count > 0)
+                    {
+                        scene.SetCursorString(4, ++y, $"{HPotions[0].Name.PadRight(temp)}\t| {HPotions[0].EqAtk}\t| {HPotions[0].EqDef}\t| {HPotions[0].EqHP}\t| {HPotions[0].EqMP}\t| {HPotions.Count}\t| {HPotions[0].Info}\n", false);
+                    }
+                    if (MPotions.Count > 0)
+                    {
+                        scene.SetCursorString(4, ++y, $"{MPotions[0].Name.PadRight(temp)}\t| {MPotions[0].EqAtk}\t| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}\n", false);
+                    }
                 }
-                scene.SetCursorString(2, ++y + 2, "0. 나가기", false);
-                scene.SetCursorString(2, ++y + 2, "1. 장착 관리", false);
-                scene.SetCursorString(2, ++y + 2, "2. 소비 아이템 관리", false);
-                int key = scene.InputString(0, 1, 0, "행동 선택\n", 2, 20);
+                y++;
+                int length = (Weapons.Count / 10) + 1;
+                scene.SetCursorString(40, ++y + 2, $"{(page + 1)} / {length}", false);
+                scene.SetCursorString(4, ++y + 2, "0. 나가기", false);
+                scene.SetCursorString(4, ++y + 2, "1. 장착 관리", false);
+                scene.SetCursorString(4, ++y + 2, "2. 소비 아이템 관리", false);
+                scene.SetCursorString(4, ++y + 2, "3. 다음 페이지", false);
+                scene.SetCursorString(4, ++y + 2, "4. 이전 페이지", false);
+                int key = scene.InputString(0, 5, 0, "행동 선택\n", 40, ++y + 3);
                 if (key == 0)
                 {
                     isEq = false;
@@ -62,60 +86,92 @@ namespace TeamProject
                 {
                     DisplayPotion(scene);
                 }
+                else if(key == 3)
+                {
+                    if(Weapons.Count - (page + 1) * 10 > 0)
+                    {
+                        page++;
+                    }
+                    else
+                    {
+                        scene.SetCursorString(4, ++y + 2, "마지막 페이지 입니다", false);
+                        Thread.Sleep(1000);
+                    }
+                }
+                else if(key == 4)
+                {
+                    if(page != 0)
+                    {
+                        page--;
+                    }
+                    else
+                    {
+                        scene.SetCursorString(4, ++y + 2, "처음 페이지 입니다", false);
+                        Thread.Sleep(1000);
+                    }
+                }
+                else if(key == 5)
+                {
+                    page = 0;
+                }
             }
+            Weapons.Clear();
+            HPotions.Clear();
+            MPotions.Clear();
             return isEq;
         }
         static void DisplayEq(Player player, Scene scene)
         {
-            Console.Clear();
-            scene.DrawStar(95, 25);
-            scene.SetCursorString(2, 2, "인벤토리 - 장착 관리", false);
-            int count = 0;
-            int y = 4;
-            Dictionary<int, Item> items= new Dictionary<int, Item>();
-            foreach(Item i in player.Inventory)
-            {
-                if (i.Type != 2)
-                {
-                    count++;
-                    scene.SetCursorString(2, ++y, $"{count}.\t{i.Name}\t| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| 1\t| {i.Info}\n", false);
-                    items.Add(count, i);
-                }
-            }
+            int page = 0;
             bool inf = true;
-            scene.SetCursorString(2, ++y, "0. 나가기", false);
-            while(inf)
+            while (inf)
             {
-                int key = scene.InputString(0, items.Count, 0, "장착할 아이템을 선택해 주세요", 2, 22);
+                Console.Clear();
+                scene.DrawStar(95, 35);
+                scene.SetCursorString(2, 2, "인벤토리 - 장착 관리", false);
+                int count = 0;
+                int y = 4;
+                int temp = Weapons.Max(name => name.Name.Length);
+                Info(page, scene, temp, y, "[E]");
+                y = 11;
+                int length = (Weapons.Count / 10) + 1;
+                scene.SetCursorString(40, ++y + 5, $"{(page + 1)} / {length}", false);
+                scene.SetCursorString(2, ++y + 5, "0. 나가기", false);
+                scene.SetCursorString(2, ++y + 5, "1. 다음 페이지", false);
+                scene.SetCursorString(2, ++y + 5, "2. 이전 페이지", false);
+                int key = scene.InputString(0, Weapons.Count, 0, "장착할 아이템을 선택해 주세요", 2, 22);
                 if (key == 0)
                 {
                     inf = false;
                     Console.Clear();
                 }
+                else if (key == 1)
+                {
+                    if (Weapons.Count - (page + 1) * 10 > 0)
+                    {
+                        page++;
+                    }
+                    else
+                    {
+                        scene.SetCursorString(40, ++y + 5, "마지막 페이지 입니다", false);
+                        Thread.Sleep(1000);
+                    }
+                }
+                else if (key == 2)
+                {
+                    if (page != 0)
+                    {
+                        page--;
+                    }
+                    else
+                    {
+                        scene.SetCursorString(40, ++y + 5, "처음 페이지 입니다", false);
+                        Thread.Sleep(1000);
+                    }
+                }
                 else
                 {
-                    player.ItemEq(items[key]);
-                    Console.Clear();
-                    scene.DrawStar(95, 20);
-                    scene.SetCursorString(2, 2, "인벤토리 - 장착 관리", false);
-                    count = 0;
-                    y = 4;
-                    foreach (Item i in items.Values)
-                    {
-                        if (i.Type != 2)
-                        {
-                            count++;
-                            if (i.IsEquiped)
-                            {
-                                scene.SetCursorString(2, ++y, $"{count}.[E]\t{i.Name}\t| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| 1\t| {i.Info}\n", false);
-                            }
-                            else
-                            {
-                                scene.SetCursorString(2, ++y, $"{count}.\t{i.Name}\t| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| 1\t| {i.Info}\n", false);
-                            }
-                        }
-                    }
-                    scene.SetCursorString(2, ++y + 2, "0. 나가기", false);
+                    player.ItemEq(Weapons[key - 3]);
                 }
             }
         }
@@ -144,7 +200,37 @@ namespace TeamProject
                     //HPotions[]
                 }
             }
-            
+        }
+        static void Info(int page, Scene scene, int temp, int y, string eq)
+        {
+            if (Weapons.Count > page * 10 + 10)
+            {
+                for (int i = page * 10; i < page * 10 + 10; i++)
+                {
+                    if (Weapons[i].IsEquiped)
+                    {
+                        scene.SetCursorString(4, ++y, $"{i + 3}. {eq}{Weapons[i].Name.PadRight(temp)}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                    }
+                    else
+                    {
+                        scene.SetCursorString(4, ++y, $"{i + 3}. {Weapons[i].Name.PadRight(temp)}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = page * 10; i < Weapons.Count - ((page - 1) * 10); i++)
+                {
+                    if (Weapons[i].IsEquiped)
+                    {
+                        scene.SetCursorString(4, ++y, $"{i + 3}. {eq}{Weapons[i].Name.PadRight(temp)}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                    }
+                    else
+                    {
+                        scene.SetCursorString(4, ++y, $"{i + 3}. {Weapons[i].Name.PadRight(temp)}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                    }
+                }
+            }
         }
     }
 }

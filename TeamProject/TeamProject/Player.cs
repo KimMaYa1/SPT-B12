@@ -169,30 +169,5 @@ namespace TeamProject
             }
             else Console.WriteLine("사용할 수 없는 아이템 입니다");
         }
-        public void ItemUpGrade(Player player, Item item)
-        {
-            if(item.Type == 0)
-            {
-                if(item.Price > 1500)
-                {
-                    item.EqAtk += 5;
-                }
-                else
-                {
-                    item.EqAtk += 2;
-                }
-            }
-            if (item.Type == 1)
-            {
-                if (item.Price > 1500)
-                {
-                    item.EqDef += 4;
-                }
-                else
-                {
-                    item.EqDef += 1;
-                }
-            }
-        }
     }
 }
