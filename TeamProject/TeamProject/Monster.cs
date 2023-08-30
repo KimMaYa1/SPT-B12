@@ -23,7 +23,7 @@ namespace TeamProject
         public MonsterInfo[] MonsterInfo = TeamProject.MonsterInfo.GetMonsterDict();
         public static Dictionary<string, List<SkillInfoStruct>> bossMonsterInfo = GetBossMonsterInfo();
 
-        public float[][] skills = new float[2][];
+        public string[][] skills = new string[4][];
         public Monster(string name, string chrd, int level)
         {
             Level = level;
@@ -119,19 +119,19 @@ namespace TeamProject
             }
             return bossMonsterInfo;
         }
-        public float[][] SkillInfo()
+        public string[][] SkillInfo()
         {
             var skillList = bossMonsterInfo[Name];
             var skillNamesList = new List<string>();
             var skillInfoList = new List<string>();
-            var skillCoeffList = new List<float>();
-            var skillMpList = new List<float>();
+            var skillCoeffList = new List<string>();
+            var skillMpList = new List<string>();
             foreach (var singleStruct in skillList)
             {
                 skillNamesList.Add(singleStruct.SkillName);
                 skillInfoList.Add(singleStruct.SkillInfo);
-                skillCoeffList.Add(singleStruct.SkillCoeff * Atk);
-                skillMpList.Add(singleStruct.MP);
+                skillCoeffList.Add((singleStruct.SkillCoeff * Atk).ToString());
+                skillMpList.Add((singleStruct.MP).ToString());
             }
 
             string[] skillIntroduce = skillNamesList.Zip(skillMpList, (skillName, mp) => $"{skillName} - MP {mp}").ToArray();
@@ -142,9 +142,11 @@ namespace TeamProject
                 Console.WriteLine(skillSpecific[Array.IndexOf(skillIntroduce, skill)]);
             }
 
-
+ 
             skills[0] = skillCoeffList.ToArray();
             skills[1] = skillMpList.ToArray();
+            skills[2] = skillIntroduce.ToArray();
+            skills[3] = skillSpecific.ToArray();
 
             return skills;
         }
