@@ -23,7 +23,17 @@ namespace TeamProject
             get { return _round; }
             set { _round = value; }
         }
-        public MonsterInfo[] monsterInfo = MonsterInfo.GetMonsterDict();
+        public static MonsterInfo[] monsterInfo = MonsterInfo.GetMonsterDict();
+
+        public struct DropTable
+        {
+            public Item Dropitem { get; }
+            public MonsterInfo DropMonterInfo { get; }
+            public int DropProb { get; }
+        }
+
+        public static DropTable[] DropMonsterInfo;
+
         public Dungeon()
         {
             Stage = 1;                          // 시작 시에는 1 스테이지 부터.
@@ -107,5 +117,41 @@ namespace TeamProject
             return resultGold;
         }
 
+        public Item[] GetItem(Monster[] getMonsterArray)
+        {
+            var itemArray = new Item[] { };
+            return itemArray;
+        }
+
+        public static DropTable SetDropTable()
+        {
+            DropTable[] getDropTable = new DropTable[] { };
+
+            string fullPath = Pathes.DropItemDataPath();
+            string[] dropItemData = File.ReadAllLines(fullPath, Encoding.UTF8);
+            string[] propertyNames = dropItemData[0].Split(',');
+            string[] dropItems = dropItemData.Skip(1).ToArray();
+
+            for (int itemIdx = 1;  itemIdx < dropItems.Length; itemIdx++)
+            {
+                string[] dropItemInfo = dropItems[itemIdx].Split(",");
+
+                string name = dropItemInfo[Array.IndexOf(propertyNames, "Name")];
+                string info = dropItemInfo[Array.IndexOf(propertyNames, "Info")];
+                string monsterName = dropItemInfo[Array.IndexOf(propertyNames, "MonsterName")];
+                int eqAtk = int.Parse(dropItemInfo[Array.IndexOf(propertyNames, "EqAtk")]);
+                int eqDef = int.Parse(dropItemInfo[Array.IndexOf(propertyNames, "EqDef")]);
+                int eqHP = int.Parse(dropItemInfo[Array.IndexOf(propertyNames, "EqHp")]);
+                int eqMP = int.Parse(dropItemInfo[Array.IndexOf(propertyNames, "EqMp")]);
+                int type = int.Parse(dropItemInfo[Array.IndexOf(propertyNames, "Type")]);
+                int price = int.Parse(dropItemInfo[Array.IndexOf(propertyNames, "Price")]);
+                int dropProb = int.Parse(dropItemInfo[Array.IndexOf(propertyNames, "DropProb")]);
+
+                Item dropItem = new Item(eqAtk, eqDef, eqHP, eqMP, type, price, name, info);
+                MonsterInfo dropMonsterInfo = monsterInfo.Where(mon => mon.Name == monsterName).FirstOrDefault();
+                getDropTable.
+
+            }
+        }
     }
 }
