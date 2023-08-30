@@ -54,7 +54,7 @@ namespace TeamProject
             }
         }
 
-        public int InputString1(int min, int max, int num, string str,int lineX, int lineY)
+        public int InputString(int min, int max, int num, string str,int lineX, int lineY)
         {
             SetCursorString(lineX, lineY++,str,false);
             SetCursorString(lineX, lineY++, "      >> ",true);
@@ -96,60 +96,6 @@ namespace TeamProject
             return inputNum;
         }
 
-        public int InputString(int min, int max, int num, string str, int line)
-        {
-            Console.SetCursorPosition(8, line++);
-            Console.WriteLine("{0}", str);
-            Console.SetCursorPosition(8, line++);
-            Console.Write(">> ");
-            string input = Console.ReadLine();
-            int inputNum;
-            if (num != 0 )
-            {
-                bool isSelect = int.TryParse(input, out inputNum);
-                
-                bool ismon = false;
-                int monnum = inputNum - 1;
-                if(monnum >= 0 && monnum < _monsters.Length)
-                {
-                    if (_monsters[monnum].Hp <= 0)
-                        ismon = true;
-                }
-
-                while (!isSelect || !(inputNum >= min && inputNum <= max) || ismon)
-                {
-                    Console.WriteLine("=====================");
-                    Console.WriteLine("  잘못된 대상입니다");
-                    Console.WriteLine("=====================");
-                    Console.WriteLine();
-                    Console.WriteLine("다시 입력해주세요.");
-                    Console.Write(">> ");
-                    input = Console.ReadLine();
-                    isSelect = int.TryParse(input, out inputNum);
-                    monnum = inputNum - 1;
-                    ismon = false;
-                    if (monnum >= 0 && monnum < _monsters.Length)
-                    {
-                        if (_monsters[monnum].Hp <= 0)
-                            ismon = true;
-                    }
-                }
-            }
-            else
-            {
-                while (!int.TryParse(input, out inputNum) || !(inputNum >= min && inputNum <= max))
-                {
-                    Console.WriteLine("=====================");
-                    Console.WriteLine("  잘못된 입력입니다");
-                    Console.WriteLine("=====================");
-                    Console.WriteLine();
-                    Console.WriteLine("다시 입력해주세요.");
-                    Console.Write(">> ");
-                    input = Console.ReadLine();
-                }
-            }
-            return inputNum;
-        }
         
         public bool DisplaySelectName()
         {
@@ -235,7 +181,7 @@ namespace TeamProject
             SetCursorString(lineX, lineY++, "     3. 궁수", false);
             SetCursorString(lineX, lineY++, "   ============",false);
             lineY++;
-            int input = InputString1(1, 3, 0, "원하는 직업을 선택해주세요.", lineX-3, lineY);
+            int input = InputString(1, 3, 0, "원하는 직업을 선택해주세요.", lineX-3, lineY);
             if(input == -1)
             {
                 return true;
@@ -323,7 +269,7 @@ namespace TeamProject
             SetCursorString(lineX, lineY++, "0. 나가기", true);
             lineY++;
 
-            int inputNum = InputString1(0, 0, 0, "원하시는 행동을 입력해주세요.", lineX-3,lineY);
+            int inputNum = InputString(0, 0, 0, "원하시는 행동을 입력해주세요.", lineX-3,lineY);
 
             lineY = 20;
             if (inputNum == 0)
@@ -364,7 +310,7 @@ namespace TeamProject
             }
             lineY++;
             lineX = 15;
-            int inputNum = InputString1(1, 2, 0, "원하시는 행동을 입력해주세요.", lineX-3, lineY);
+            int inputNum = InputString(1, 2, 0, "원하시는 행동을 입력해주세요.", lineX-3, lineY);
 
             lineY = 11;
             bool isStat = true;
@@ -424,12 +370,16 @@ namespace TeamProject
             }
         }
 
-        public void ReStart()
+        public bool ReStart(int lineX, int lineY)
         {
-            Console.WriteLine("0. 다시시작");
-            Console.WriteLine("1. 나가기");
-            Console.WriteLine();
-            int input = InputString(0, 1, 0, "다시 시작하시겟습니까?",5);
+            SetCursorString(lineX, 10, "                     ", false);
+            SetCursorString(lineX, 11, "                     ", false);
+            SetCursorString(lineX, 12, "                     ", false);
+            SetCursorString(lineX, lineY++, "0. 다시시작", false);
+            SetCursorString(lineX, lineY++, "1. 나가기", false);
+            lineY++;
+            int input = InputString(0, 1, 0, "다시 시작하시겟습니까?", lineX, lineY) ;
+
             Console.WriteLine();
             if (input == 0)
             {
@@ -439,6 +389,7 @@ namespace TeamProject
             {
                 Environment.Exit(0);
             }
+            return true;
         }
 
         public void RestartApplication()
@@ -466,7 +417,7 @@ namespace TeamProject
             SetCursorString(lineX, lineY, "0. 나가기", false);
             lineY++;
 
-            int input = InputString1(0, 4, 0, "원하시는 던전을 입력해주세요.",lineX ,lineY);
+            int input = InputString(0, 4, 0, "원하시는 던전을 입력해주세요.",lineX ,lineY);
 
             if (input == 0)
             {
@@ -489,7 +440,7 @@ namespace TeamProject
             SetCursorString(lineX, lineY++, "2. 스킬", false);
             lineY++;
 
-            int inputNum = InputString1(1, 2, 0, "원하시는 행동을 입력해주세요.", lineX, lineY);
+            int inputNum = InputString(1, 2, 0, "원하시는 행동을 입력해주세요.", lineX, lineY);
 
             bool isAttack = true;
             if (inputNum == 1)
@@ -530,7 +481,7 @@ namespace TeamProject
             SetCursorString(lineX, lineY++, "0. 취소", false);
             lineY++;
 
-            int input = InputString1(0, 2, 0, "원하시는 스킬을 입력해주세요.", lineX, lineY) ;
+            int input = InputString(0, 2, 0, "원하시는 스킬을 입력해주세요.", lineX, lineY) ;
 
             if(input == 1)
             {
@@ -621,7 +572,7 @@ namespace TeamProject
                     isDeadMon = 1;
                 }
             }
-            int inputNum = InputString1(0, _monsters.Length, isDeadMon, "대상을 입력해주세요.",lineX,lineY);
+            int inputNum = InputString(0, _monsters.Length, isDeadMon, "대상을 입력해주세요.",lineX,lineY);
 
             if (inputNum >= 1 && inputNum <= _monsters.Length)
             {
@@ -824,7 +775,11 @@ namespace TeamProject
                 SetCursorString(lineX, lineY++, "You Lose", false);
                 if (_player.Hp <= 0)
                 {
-                    ReStart();
+                    bool isSelectEnd = true;
+                    while (isSelectEnd)
+                    {
+                        isSelectEnd = ReStart(lineX, lineY);
+                    }
                 }
                 _stage = 1;
                 _round = 1;
