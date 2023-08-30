@@ -20,7 +20,7 @@ namespace TeamProject
         public string Name { get; }
         public string Chrd { get; }
         int _critical;
-        public MonsterInfo[] MonsterInfo = TeamProject.MonsterInfo.GetMonsterDict();
+        public MonsterInfo[] MonsterInfoArray = MonsterInfo.GetMonsterInfo();
         public static Dictionary<string, List<SkillInfoStruct>> bossMonsterInfo = GetBossMonsterInfo();
 
         public string[][] skills = new string[2][];
@@ -29,7 +29,7 @@ namespace TeamProject
             Level = level;
             Name = name;
             Chrd = chrd;
-            MonsterInfo[] monsterInfo = MonsterInfo.Where(mon => mon.Name == name).ToArray(); // 데이터마다 고유 키값을 가지고 처리함... private key를 사용하여,,,, 보통은 인덱스를 사용한다. 키 : private key 값 : 이름 이런식으로....
+            MonsterInfo[] monsterInfo = MonsterInfoArray.Where(mon => mon.Name == name).ToArray(); // 데이터마다 고유 키값을 가지고 처리함... private key를 사용하여,,,, 보통은 인덱스를 사용한다. 키 : private key 값 : 이름 이런식으로....
             Atk = (int)(Level * monsterInfo[0].MonAtkCoeff);
             Def = (int)(Level * monsterInfo[0].MonDefCoeff);
             Hp = Level * monsterInfo[0].MonHPCoeff;
@@ -149,6 +149,7 @@ namespace TeamProject
         public int Exp { get; set; }
         public int StageRank { get; set; }
         public int DropGold { get; set; }
+
         public MonsterInfo(string name, string chrd, float monAtkCoeff, float monDefCoeff, int monHPCoeff, int exp, int dropGold, int stageRank)
         {
             Name = name;
@@ -162,26 +163,26 @@ namespace TeamProject
 
         }
 
-        public static MonsterInfo[] GetMonsterDict()
+        public static MonsterInfo[] GetMonsterInfo()
         {
             MonsterInfo[] AllMonsters = new MonsterInfo[] { };
 
             string fullPath = Pathes.MonsterDataPath();
             string[] monsterData = File.ReadAllLines(fullPath, Encoding.UTF8);
-            string[] propertyNames = monsterData[0].Split(',');           // Gen 에 포함할 몬스터 속성
+            string[] fieldNames = monsterData[0].Split(',');           // 컬럼 부분(첫줄)은 MonsterInfo의 필드 이름을 지니고 있음.
 
             for (int monIdx = 1; monIdx < monsterData.Length; monIdx++)
             {
                 string[] monsterEach = monsterData[monIdx].Split(',');
 
-                string name = monsterEach[Array.IndexOf(propertyNames, "Name")];
-                string chrd = monsterEach[Array.IndexOf(propertyNames, "Chrd")];
-                float monatkcoeff = float.Parse(monsterEach[Array.IndexOf(propertyNames, "MonAtkCoeff")]); // 공격계수
-                float mondefcoeff = float.Parse(monsterEach[Array.IndexOf(propertyNames, "MonDefCoeff")]); // 방어계수
-                int monHPcoeff = int.Parse(monsterEach[Array.IndexOf(propertyNames, "MonHPCoeff")]); // HP 계수
-                int exp = int.Parse(monsterEach[Array.IndexOf(propertyNames, "Exp")]); // 경험치
-                int dropGold = int.Parse(monsterEach[Array.IndexOf(propertyNames, "DropGold")]); // 골드 계수
-                int stageRank = int.Parse(monsterEach[Array.IndexOf(propertyNames, "StageRank")]); // 몬스터 스테이지 조정
+                string name = monsterEach[Array.IndexOf(fieldNames, "Name")];
+                string chrd = monsterEach[Array.IndexOf(fieldNames, "Chrd")];
+                float monatkcoeff = float.Parse(monsterEach[Array.IndexOf(fieldNames, "MonAtkCoeff")]); // 공격계수
+                float mondefcoeff = float.Parse(monsterEach[Array.IndexOf(fieldNames, "MonDefCoeff")]); // 방어계수
+                int monHPcoeff = int.Parse(monsterEach[Array.IndexOf(fieldNames, "MonHPCoeff")]); // HP 계수
+                int exp = int.Parse(monsterEach[Array.IndexOf(fieldNames, "Exp")]); // 경험치
+                int dropGold = int.Parse(monsterEach[Array.IndexOf(fieldNames, "DropGold")]); // 골드 계수
+                int stageRank = int.Parse(monsterEach[Array.IndexOf(fieldNames, "StageRank")]); // 몬스터 스테이지 조정
 
                 MonsterInfo monsterDict = new MonsterInfo(name, chrd, monatkcoeff, mondefcoeff, monHPcoeff, exp, dropGold, stageRank);
 
