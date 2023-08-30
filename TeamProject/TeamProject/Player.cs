@@ -40,7 +40,7 @@ namespace TeamProject
             MaxHp = Hp;
             MaxMp = Mp;
         }
-        public virtual float[][] SkillInfo()
+        public virtual float[][] SkillInfo(Scene scene, int lineX, int lineY)
         {
             return skills;
         }
