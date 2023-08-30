@@ -15,6 +15,7 @@ namespace TeamProject
         static public bool DisplayInventory(Player player, Scene scene)
         {
             int page = 0;
+            int temp = 0;
             bool isEq = true;
             foreach (Item i in player.Inventory)
             {
@@ -34,7 +35,10 @@ namespace TeamProject
                     }
                 }
             }
-            int temp = player.Inventory.Max(name => name.Name.Length);
+            if(player.Inventory.Length > 0)
+            {
+                temp = player.Inventory.Max(name => name.Name.Length);
+            }
             while (isEq)
             {
                 int y = 4;
@@ -130,8 +134,12 @@ namespace TeamProject
                 scene.DrawStar(95, 35);
                 scene.SetCursorString(2, 2, "인벤토리 - 장착 관리", false);
                 int count = 0;
+                int temp = 0;
                 int y = 4;
-                int temp = Weapons.Max(name => name.Name.Length);
+                if(Weapons.Count > 0)
+                {
+                    temp = Weapons.Max(name => name.Name.Length);
+                }
                 Info(page, scene, temp, y, "[E]");
                 y = 11;
                 int length = (Weapons.Count / 10) + 1;
