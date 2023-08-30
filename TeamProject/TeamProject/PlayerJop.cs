@@ -8,7 +8,7 @@ namespace TeamProject
 {
     internal class Warrior : Player
     {
-        public Warrior(string name) : base(name, "전사", 25, 10, 150, 40, 15) { }
+        public Warrior(string name) : base(name, "전사", 25, 10, 1, 40, 15) { }
         public override void SkillInfo()
         {
             Console.WriteLine("소드 스트라이크 - MP 15");
