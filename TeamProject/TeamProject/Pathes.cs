@@ -35,5 +35,12 @@ namespace TeamProject
             return fullPath;
         }
 
+        public static string DropItemDataPath()
+        {
+            var dataPath = @"Data";
+            var fileName = @"DropItemData.csv";
+            var fullPath = Path.Combine(localPath, dataPath, fileName);
+            return fullPath;
+        }
     }
 }
