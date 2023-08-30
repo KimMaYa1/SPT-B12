@@ -344,7 +344,7 @@ namespace TeamProject
             SetCursorString(lineX, lineY++, "             4. 상점", false);
             lineY++;
             lineX = 15;
-            int inputNum = InputString(1, 3, 0, "원하시는 행동을 입력해주세요.", lineX-3, lineY);
+            int inputNum = InputString(1, 4, 0, "원하시는 행동을 입력해주세요.", lineX-3, lineY);
 
             lineY = 11;
             bool isStat = true;
