@@ -93,5 +93,19 @@ namespace TeamProject
             return resultExp;
         }
 
+        public int GetGold(Monster[] getMonsterArray) 
+        {
+            int resultGold = 0;
+            Random random = new Random();
+            foreach (Monster monster in getMonsterArray)
+            {
+                int randGold = random.Next(8, 12);                                      // 골드 배율 적용 0.8 ~ 1.2
+                float randGoldToFloat = (float)randGold / 10;
+                resultGold += (int)(monster.Gold * randGoldToFloat);
+            }
+
+            return resultGold;
+        }
+
     }
 }
