@@ -13,44 +13,46 @@ namespace TeamProject
         static List<Item> MPotions = new List<Item>();
         static public bool DisplayInventory(Player player, Scene scene)
         {
-            Console.Clear();
-            //scene.DrawStar(100, 30);
-            Console.WriteLine("인벤토리\n");
-            Console.WriteLine("이름\t\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n");
-            foreach(Item i in player.Inventory)
-            {
-                if(i.Type != 2)
-                {
-                    Console.WriteLine($"{i.Name}\t| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| 1\t| {i.Info}\n");
-                    Weapons.Add(i);
-                }
-                if (i.Name.Contains("HP"))
-                {
-                    HPotions.Add(i);
-                }
-                else if (i.Name.Contains("MP"))
-                {
-                    MPotions.Add(i);
-                }
-            }
-            if(HPotions.Count > 0)
-            {
-                Console.WriteLine($"{HPotions[0].Name}\t| {HPotions[0].EqAtk}\t| {HPotions[0].EqDef}\t| {HPotions[0].EqHP}\t| {HPotions[0].EqMP}\t| {HPotions.Count}\t| {HPotions[0].Info}\n");
-            }
-            if (MPotions.Count > 0)
-            {
-                Console.WriteLine($"{MPotions[0].Name}\t| {MPotions[0].EqAtk}\t| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}\n");
-            }
             bool isEq = true;
             while (isEq)
             {
-                Console.WriteLine("\n0. 나가기");
-                Console.WriteLine("1. 장착 관리");
-                Console.WriteLine("2. 소비 아이템 관리");
-                int key = scene.InputString(0, 1, 0, "행동 선택\n", 0, 25);
+                int y = 4;
+                Console.Clear();
+                scene.DrawStar(90, 25);
+                scene.SetCursorString(2, 1, "인벤토리", false);
+                scene.SetCursorString(2, 3, "이름\t\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
+                foreach(Item i in player.Inventory)
+                {
+                    if(i.Type != 2)
+                    {
+                        scene.SetCursorString(2, ++y, $"{i.Name}\t| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| 1\t| {i.Info}\n", false);
+                        Weapons.Add(i);
+                    }
+                    if (i.Name.Contains("HP"))
+                    {
+                        HPotions.Add(i);
+                    }
+                    else if (i.Name.Contains("MP"))
+                    {
+                        MPotions.Add(i);
+                    }
+                }
+                if(HPotions.Count > 0)
+                {
+                    scene.SetCursorString(2, ++y, $"{HPotions[0].Name}\t| {HPotions[0].EqAtk}\t| {HPotions[0].EqDef}\t| {HPotions[0].EqHP}\t| {HPotions[0].EqMP}\t| {HPotions.Count}\t| {HPotions[0].Info}\n", false);
+                }
+                if (MPotions.Count > 0)
+                {
+                    scene.SetCursorString(2, ++y, $"{MPotions[0].Name}\t| {MPotions[0].EqAtk}\t| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}\n", false);
+                }
+                scene.SetCursorString(2, ++y + 2, "0. 나가기", false);
+                scene.SetCursorString(2, ++y + 2, "1. 장착 관리", false);
+                scene.SetCursorString(2, ++y + 2, "2. 소비 아이템 관리", false);
+                int key = scene.InputString(0, 1, 0, "행동 선택\n", 2, 20);
                 if (key == 0)
                 {
                     isEq = false;
+                    Console.Clear();
                 }
                 else if (key == 1)
                 {
@@ -66,23 +68,25 @@ namespace TeamProject
         static void DisplayEq(Player player, Scene scene)
         {
             Console.Clear();
-            Console.WriteLine("인벤토리 - 장착 관리\n");
+            scene.DrawStar(95, 25);
+            scene.SetCursorString(2, 2, "인벤토리 - 장착 관리", false);
             int count = 0;
+            int y = 4;
             Dictionary<int, Item> items= new Dictionary<int, Item>();
             foreach(Item i in player.Inventory)
             {
                 if (i.Type != 2)
                 {
                     count++;
-                    Console.WriteLine($"{count}.\t{i.Name}\t| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| 1\t| {i.Info}\n");
+                    scene.SetCursorString(2, ++y, $"{count}.\t{i.Name}\t| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| 1\t| {i.Info}\n", false);
                     items.Add(count, i);
                 }
             }
             bool inf = true;
-            Console.WriteLine("0. 나가기");
+            scene.SetCursorString(2, ++y, "0. 나가기", false);
             while(inf)
             {
-                int key = scene.InputString(0, items.Count, 0, "장착할 아이템을 선택해 주세요", 0, 20);
+                int key = scene.InputString(0, items.Count, 0, "장착할 아이템을 선택해 주세요", 2, 22);
                 if (key == 0)
                 {
                     inf = false;
@@ -92,8 +96,10 @@ namespace TeamProject
                 {
                     player.ItemEq(items[key]);
                     Console.Clear();
-                    Console.WriteLine("인벤토리 - 장착 관리\n");
+                    scene.DrawStar(95, 20);
+                    scene.SetCursorString(2, 2, "인벤토리 - 장착 관리", false);
                     count = 0;
+                    y = 4;
                     foreach (Item i in items.Values)
                     {
                         if (i.Type != 2)
@@ -101,29 +107,29 @@ namespace TeamProject
                             count++;
                             if (i.IsEquiped)
                             {
-                                Console.WriteLine($"{count}.[E]\t{i.Name}\t| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| 1\t| {i.Info}\n");
+                                scene.SetCursorString(2, ++y, $"{count}.[E]\t{i.Name}\t| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| 1\t| {i.Info}\n", false);
                             }
                             else
                             {
-                                Console.WriteLine($"{count}.\t{i.Name}\t| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| 1\t| {i.Info}\n");
+                                scene.SetCursorString(2, ++y, $"{count}.\t{i.Name}\t| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| 1\t| {i.Info}\n", false);
                             }
                         }
                     }
-                    Console.WriteLine("0. 나가기");
+                    scene.SetCursorString(2, ++y + 2, "0. 나가기", false);
                 }
             }
         }
         static void DisplayPotion(Scene scene)
         {
             Console.Clear();
-            Console.WriteLine("인벤토리 - 소비 아이템 관리\n");
+            scene.SetCursorString(2, 2, "인벤토리 - 소비 아이템 관리", false);
             if (HPotions.Count > 0)
             {
-                Console.WriteLine($"{HPotions[0].Name}\t| {HPotions[0].EqAtk}\t| {HPotions[0].EqDef}\t| {HPotions[0].EqHP}\t| {HPotions[0].EqMP}\t| {HPotions.Count}\t| {HPotions[0].Info}\n");
+                scene.SetCursorString(2, 4, $"{HPotions[0].Name}\t| {HPotions[0].EqAtk}\t| {HPotions[0].EqDef}\t| {HPotions[0].EqHP}\t| {HPotions[0].EqMP}\t| {HPotions.Count}\t| {HPotions[0].Info}\n", false);
             }
             if (MPotions.Count > 0)
             {
-                Console.WriteLine($"{MPotions[0].Name}\t| {MPotions[0].EqAtk}\t| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}\n");
+                scene.SetCursorString(2, 6, $"{MPotions[0].Name}\t| {MPotions[0].EqAtk}\t| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}\n", false);
             }
             bool inf = true;
             while(inf)
