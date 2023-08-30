@@ -59,6 +59,44 @@ namespace TeamProject
             }
            
         }
-        
+
+        /* public int UpGradeItem(Player player, Item item)
+        {
+            Random random = new Random();
+
+            if (player.Gold >= 500)              //강화 비용 확인
+            {
+                player.Gold -= 500;             //강화비용 차감
+            }
+            else
+            {
+                return false;           //비용 부족으로 강화 실패
+            }
+
+
+            int success = random.Next(0, 100);
+            if(success == 0){          // 1% 확률로 아이템 파괴
+                player.ItemDelete(item);
+                return 1;
+            }
+            else if (1 <= success <= 10 )
+            {
+                return 2;    // 10% 확률로 강화실패
+            }
+            else
+            {
+                if (item.Type == 0)
+                {
+                    item.EqAtk += random.Next(1, 6);    //램덤값으로 강화
+
+                }
+                else if (item.Type == 1)
+                {
+                    item.EqDef += random.Next(1, 6);
+                }
+                return 3;    //강화 성공
+            }
+
+        } */
     }
 }
