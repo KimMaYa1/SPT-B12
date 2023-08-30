@@ -14,7 +14,7 @@ namespace TeamProject
             Console.WriteLine("1. 알파 스트라이크 - MP 15");
             Console.WriteLine("   공격력 * 2의 피해를 입힙니다");
             Console.WriteLine("2. 더블 스트라이크 - MP 20");
-            Console.WriteLine("   공격력 * 1.5의 피해를 랜덤한 적 2명에게 입힙니다");
+            Console.WriteLine("   2명의 적에게 공격력 * 1.5의 피해를 입힙니다");
 
             skills[0] = new float[] { Atk * 2f, Atk * 1.5f};
             skills[1] = new float[] { 15f, 20f };
@@ -45,11 +45,11 @@ namespace TeamProject
         {
             Console.WriteLine("1. 천공의 바람 - MP 25");
             Console.WriteLine("   공격력 * 4 만큼 피해를 입힙니다");
-            Console.WriteLine("2. 천공의 바람 - MP 40");
-            Console.WriteLine("   공격력 * 7 만큼 피해를 입힙니다");
+            Console.WriteLine("2. 천공의 바람 - MP 30");
+            Console.WriteLine("   2명의 적에게 공격력 * 3 만큼 피해를 입힙니다");
 
-            skills[0] = new float[] { Atk * 4f, Atk * 7f };
-            skills[1] = new float[] { 25f, 40f };
+            skills[0] = new float[] { Atk * 4f, Atk * 3f };
+            skills[1] = new float[] { 25f, 30f };
 
             return skills;
         }
