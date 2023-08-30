@@ -23,7 +23,7 @@ namespace TeamProject
         public MonsterInfo[] MonsterInfo = TeamProject.MonsterInfo.GetMonsterDict();
         public static Dictionary<string, List<SkillInfoStruct>> bossMonsterInfo = GetBossMonsterInfo();
 
-        public string[][] skills = new string[4][];
+        public string[][] skills = new string[2][];
         public Monster(string name, string chrd, int level)
         {
             Level = level;
@@ -106,7 +106,6 @@ namespace TeamProject
 
 
                 var skillStruct = new SkillInfoStruct(skillName, skillInfo, mp, skillCoeff);
-                //var skillTuple = new Tuple<string,string,int,int>(skillName, skillInfo, mp, skillCoeff);
 
                 if (bossMonsterInfo.ContainsKey(name))
                 {
@@ -125,22 +124,16 @@ namespace TeamProject
             var skillNamesList = new List<string>();
             var skillInfoList = new List<string>();
             var skillCoeffList = new List<string>();
-            var skillMpList = new List<string>();
             foreach (var singleStruct in skillList)
             {
-                skillNamesList.Add(singleStruct.SkillName);
                 skillInfoList.Add(singleStruct.SkillInfo);
-                skillCoeffList.Add((singleStruct.SkillCoeff * Atk).ToString());
-                skillMpList.Add((singleStruct.MP).ToString());
+                skillCoeffList.Add((singleStruct.SkillCoeff).ToString());
             }
 
-            string[] skillIntroduce = skillNamesList.Zip(skillMpList, (skillName, mp) => $"{skillName}").ToArray();
-            string[] skillSpecific = skillInfoList.Zip(skillCoeffList, (skillInfo, coeff) => $"{skillInfo} 적에게 공격력 * {coeff}만큼의 피해를 입힙니다.").ToArray();
+            string[] skillSpecific = skillInfoList.Zip(skillCoeffList, (skillInfo, coeff) => $"{Name}이(가) {skillInfo} {coeff}배만큼의 피해를 입힙니다.").ToArray();
  
             skills[0] = skillCoeffList.ToArray();
-            skills[1] = skillMpList.ToArray();
-            skills[2] = skillNamesList.ToArray();
-            skills[3] = skillSpecific.ToArray();
+            skills[1] = skillSpecific.ToArray();
 
             return skills;
         }
