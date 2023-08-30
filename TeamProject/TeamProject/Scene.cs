@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -217,6 +218,7 @@ namespace TeamProject
             Console.WriteLine("공격력 | {0}", _player.Atk);
             Console.WriteLine("방어력 | {0}", _player.Def);
             Console.WriteLine("체력   | {0} / {1}", _player.Hp, _player.MaxHp);
+            Console.WriteLine("마나   | {0} / {1}", _player.Mp, _player.MaxMp);
             Console.WriteLine("돈     | {0} G", _player.Gold);
             Console.WriteLine();
             Console.WriteLine("0. 나가기");
@@ -378,16 +380,26 @@ namespace TeamProject
             BattleInfo(false, round);
 
             Console.WriteLine("1. 공격");
+            Console.WriteLine("2. 스킬");
             Console.WriteLine();
 
-            int inputNum = InputString(1, 1, 0, "원하시는 행동을 입력해주세요.");
+            int inputNum = InputString(1, 2, 0, "원하시는 행동을 입력해주세요.");
 
             bool isAttack = true;
             if (inputNum == 1)
             {
+                DisplayAttackSelect(round, 1);
+                if (_player.Hp > 0 && !IsDeadMonsters())
+                {
+                    return true;
+                }
+                return false;
+            }
+            if (inputNum == 2)
+            {
                 while (isAttack)
                 {
-                    isAttack = DisplayAttackSelect(round);
+                    isAttack = DisplaySkillSelect(round);
                 }
                 if (_player.Hp > 0 && !IsDeadMonsters())
                 {
@@ -398,7 +410,78 @@ namespace TeamProject
             return true;
         }
 
-        public bool DisplayAttackSelect(int round)
+        public bool DisplaySkillSelect(int round)
+        {
+            BattleInfo(false, round);
+            
+            Console.WriteLine("1. 알파 스트라이크 - 마나 10");
+            Console.WriteLine("   공격력 * 2 로 하나의 적을 공격합니다.");
+            Console.WriteLine("2. 더블 스트라이크 - 마나 15");
+            Console.WriteLine("   공격력 * 1.5 로 2명의 적을 랜덤으로 공격합니다.");
+            Console.WriteLine("0. 취소");
+            
+            int input = InputString(0, 2, 0, "원하시는 스킬을 입력해주세요.");
+
+            if(input == 1)
+            {
+                DisplayAttackSelect(round, 2);
+            }
+            else
+            {
+                Random ran = new Random();
+
+                bool isSkill = true;
+                while (isSkill)
+                {
+                    int num1 = ran.Next(0, _monsters.Length);
+                    int num2 = ran.Next(0, _monsters.Length);
+                    int i = 0;
+                    foreach (Monster mon in _monsters)
+                    {
+                        if (mon.Hp > 0)
+                        {
+                            i++;
+                        }
+                    }
+
+                    if (i < 2)
+                    {
+                        Console.WriteLine("살아있는적이 2마리 이하입니다.");
+                        Thread.Sleep(1000);
+                        return true;
+                    }
+
+                    if (num1 != num2)
+                    {
+                        if (_monsters[num1].Hp > 0 && _monsters[num2].Hp > 0)
+                        {
+                            AttackInfo(_player, _monsters[num1], 1.5f);
+                            AttackInfo(_player, _monsters[num2], 1.5f);
+                            isSkill = false;
+                        }
+                    }
+                }
+
+                foreach (Monster mon in _monsters)
+                {
+                    if (_player.Hp > 0)
+                    {
+                        if (mon.Hp > 0)
+                        {
+                            AttackInfo(mon, _player, 1);
+                        }
+                    }
+                }
+
+                if (_player.Hp <= 0 || IsDeadMonsters())
+                {
+                    DisplayBattleClear(round);
+                }
+            }
+            return false;
+        }
+
+        public void DisplayAttackSelect(int round, int skillDamage)
         {
             BattleInfo(true, round);
 
@@ -415,20 +498,16 @@ namespace TeamProject
             }
             int inputNum = InputString(0, _monsters.Length, isDeadMon, "대상을 입력해주세요.");
 
-            if (inputNum == 0)
+            if (inputNum >= 1 && inputNum <= _monsters.Length)
             {
-                return false;
-            }
-            else if (inputNum >= 1 && inputNum <= _monsters.Length)
-            {
-                AttackInfo(_player, _monsters[inputNum - 1]);
+                AttackInfo(_player, _monsters[inputNum - 1], skillDamage);
                 foreach (Monster mon in _monsters)
                 {
                     if(_player.Hp > 0)
                     {
                         if (mon.Hp > 0)
                         {
-                            AttackInfo(mon, _player);
+                            AttackInfo(mon, _player, 1);
                         }
                     }
                 }
@@ -437,10 +516,7 @@ namespace TeamProject
             if (_player.Hp <= 0 || IsDeadMonsters())
             {
                 DisplayBattleClear(round);
-                return false;
             }
-
-            return true;
         }
 
         public void BattleInfo(bool isBattle, int round)
@@ -494,12 +570,15 @@ namespace TeamProject
             }
             Console.WriteLine();
             Console.WriteLine("[내 정보]");
-            Console.WriteLine("레벨 | {0}\tChrd | {1}", _player.Level, _player.Chrd);
-            Console.WriteLine("체력 | {0}/{1}", _player.Hp, _player.MaxHp);
+            Console.WriteLine("레벨   | {0}\tChrd | {1}", _player.Level, _player.Chrd);
+            Console.WriteLine("체력   | {0}/{1}", _player.Hp, _player.MaxHp);
+            Console.WriteLine("마나   | {0}/{1}", _player.Mp, _player.MaxMp);
+            Console.WriteLine("공격력 | {0}", _player.Atk);
+            Console.WriteLine("방어력 | {0}", _player.Def);
             Console.WriteLine();
         }
 
-        public void AttackInfo(Character aCharacter, Character tCharacter)
+        public void AttackInfo(Character aCharacter, Character tCharacter, float skillDamage)
         {
             Console.WriteLine();
             if (tCharacter.Evasion())
@@ -510,9 +589,9 @@ namespace TeamProject
             }
             else
             {
-                int damage = tCharacter.TakeDamage(aCharacter.Atk);
+                float damage = tCharacter.TakeDamage(aCharacter.Atk) * skillDamage;
                 Console.WriteLine("==============================================");
-                Console.WriteLine(" {0}이(가) {1}에게 {2}의 데미지를 입혔습니다", aCharacter.Name, tCharacter.Name, damage);
+                Console.WriteLine(" {0}이(가) {1}에게 {2}의 데미지를 입혔습니다", aCharacter.Name, tCharacter.Name, (int)damage);
                 Console.WriteLine("==============================================");
                 Console.WriteLine();
                 if (tCharacter.Hp < damage)
@@ -522,8 +601,8 @@ namespace TeamProject
                 }
                 else
                 {
-                    Console.WriteLine("{0}의 체력 {1} -> {2}", tCharacter.Name, tCharacter.Hp, tCharacter.Hp - damage);
-                    tCharacter.Hp -= damage;
+                    Console.WriteLine("{0}의 체력 {1} -> {2}", tCharacter.Name, tCharacter.Hp, tCharacter.Hp - (int)damage);
+                    tCharacter.Hp -= (int)damage;
                 }
             }
             Console.WriteLine();
