@@ -134,18 +134,12 @@ namespace TeamProject
                 skillMpList.Add((singleStruct.MP).ToString());
             }
 
-            string[] skillIntroduce = skillNamesList.Zip(skillMpList, (skillName, mp) => $"{skillName} - MP {mp}").ToArray();
+            string[] skillIntroduce = skillNamesList.Zip(skillMpList, (skillName, mp) => $"{skillName}").ToArray();
             string[] skillSpecific = skillInfoList.Zip(skillCoeffList, (skillInfo, coeff) => $"{skillInfo} 적에게 공격력 * {coeff}만큼의 피해를 입힙니다.").ToArray();
-            foreach (var skill in skillIntroduce)
-            {
-                Console.WriteLine(skill);
-                Console.WriteLine(skillSpecific[Array.IndexOf(skillIntroduce, skill)]);
-            }
-
  
             skills[0] = skillCoeffList.ToArray();
             skills[1] = skillMpList.ToArray();
-            skills[2] = skillIntroduce.ToArray();
+            skills[2] = skillNamesList.ToArray();
             skills[3] = skillSpecific.ToArray();
 
             return skills;
