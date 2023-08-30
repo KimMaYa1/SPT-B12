@@ -10,7 +10,6 @@ namespace TeamProject
 {
     internal class Dungeon
     {
-        //private int stage { get;  }
         private int _stage;
         public int Stage
         {
@@ -23,7 +22,7 @@ namespace TeamProject
             get { return _round; }
             set { _round = value; }
         }
-        public static MonsterInfo[] monsterInfo = MonsterInfo.GetMonsterDict();
+        public static MonsterInfo[] monsterInfoArray = MonsterInfo.GetMonsterInfo();
 
         public struct DropTable
         {
@@ -66,7 +65,7 @@ namespace TeamProject
             genMax = (genMax > 5) ? 5 : genMax;                                     // 아무리 높은 스테이지여도 최대값 5로 보정.
             int monsterNum = (genMin > genMax) ? random.Next(genMax, genMin) : random.Next(genMin, genMax);
 
-            MonsterInfo[] stageMonsterColl = MonsterInfo.GetMonsterDict().Where(mon => mon.StageRank <= Stage && mon.StageRank > 0).ToArray();    // 스테이지별 몬스터 목록 호출.
+            MonsterInfo[] stageMonsterColl = MonsterInfo.GetMonsterInfo().Where(mon => mon.StageRank <= Stage && mon.StageRank > 0).ToArray();    // 스테이지별 몬스터 목록 호출.
 
             Monster[] getMonsterArray = new Monster[monsterNum];
 
@@ -84,7 +83,7 @@ namespace TeamProject
         {
             Random random = new Random();
             int bossMonsterLevel = random.Next(Stage, Stage + 4);
-            MonsterInfo[] bossMonsterInfo = (Stage < 4) ? MonsterInfo.GetMonsterDict().Where(mon => mon.StageRank < 0 && mon.StageRank > -Stage - 1).ToArray() : MonsterInfo.GetMonsterDict().Where(mon => mon.StageRank == -Stage).ToArray();
+            MonsterInfo[] bossMonsterInfo = (Stage < 4) ? MonsterInfo.GetMonsterInfo().Where(mon => mon.StageRank < 0 && mon.StageRank > -Stage - 1).ToArray() : MonsterInfo.GetMonsterInfo().Where(mon => mon.StageRank == -Stage).ToArray();
             int bossIdx = random.Next(0, bossMonsterInfo.Length);
             Monster bossMonster = new Monster(bossMonsterInfo[bossIdx].Name, bossMonsterInfo[bossIdx].Chrd, bossMonsterLevel);
             Monster[] getMonsterArray = new Monster[1];
@@ -97,7 +96,7 @@ namespace TeamProject
         {
             int resultExp = 0;
             //MonsterDict[] monsterDict = MonsterDict.GetMonsterDict();
-            foreach (MonsterInfo monsterInfo in  monsterInfo) 
+            foreach (MonsterInfo monsterInfo in  monsterInfoArray) 
             {
                 foreach (Monster monster in getMonsterArray)
                 {
@@ -170,7 +169,7 @@ namespace TeamProject
                 int dropProb = int.Parse(dropItemInfo[Array.IndexOf(propertyNames, "DropProb")]);
 
                 Item dropItem = new Item(eqAtk, eqDef, eqHP, eqMP, type, price, name, info);
-                MonsterInfo dropMonsterInfo = monsterInfo.Where(mon => mon.Name == monsterName).FirstOrDefault();
+                MonsterInfo dropMonsterInfo = monsterInfoArray.Where(mon => mon.Name == monsterName).FirstOrDefault();
                 Array.Resize(ref getDropTable, getDropTable.Length + 1);
                 DropTable temp = new DropTable(dropItem, dropMonsterInfo, dropProb);
                 getDropTable[itemIdx - 1] = temp;
