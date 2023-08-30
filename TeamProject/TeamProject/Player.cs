@@ -24,7 +24,6 @@ namespace TeamProject
         protected int _critical;
         public Item[] Inventory = new Item[0];
         public Item[] EqItem = new Item[2];
-        public Item[] Potions = new Item[0];
         public float[][] skills = new float[2][];
         public Player(string name, string chrd, int atk, int def, int hp, int mp, int critical)
         {
