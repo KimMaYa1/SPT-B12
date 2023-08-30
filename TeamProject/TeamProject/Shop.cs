@@ -14,15 +14,15 @@ namespace TeamProject
     internal class Shop
     {
         static Item[] items = Item.GetItemInfo();
-        static int lineY = 1;
 
         public static void DisplayShop(Player player, Scene scene)
         {
-
+            int lineX = 2;
+            int lineY = 3;
             Console.Clear();
-            Console.WriteLine("\n\n");
-            Console.WriteLine("=============== 상점 ===============");
-            Console.WriteLine($"   \t 이름    \t| 공격력 | 방어력 | +HP \t| +MP \t| 가격\t| 설명\n");
+            scene.DrawStar(100, 30);
+            scene.SetCursorString(lineX + 20, lineY++, "상점", false);
+            scene.SetCursorString(lineX, lineY++, "   \t 이름    \t| 공격력 | 방어력 | +HP \t| +MP \t| 가격\t| 설명\n", false);
 
             int count = 1;
             foreach (Item i in items)
@@ -32,7 +32,7 @@ namespace TeamProject
             }
             Console.WriteLine("\n\n\n");
 
-            SettingMenu(scene);
+            SettingMenu(scene, lineY);
              //SetCursorString(int lineX, int lineY, string str, bool isNextLine)
             int num = CheckValidInput(0, 2);
             if( num == 0 )
@@ -49,7 +49,7 @@ namespace TeamProject
                 {
                     Console.WriteLine("구매에 성공하였습니다.");
                     Thread.Sleep(2000);
-                    SettingMenu(scene);
+                    SettingMenu(scene, lineY);
 
                 }
                 else
@@ -65,14 +65,13 @@ namespace TeamProject
                 SellItem(num, player);
                 Console.WriteLine("판매에 성공하였습니다.");
                 Thread.Sleep(2000);
-                SettingMenu(scene);
+                SettingMenu(scene, lineY);
 
             }
 
         }
-        public static void SettingMenu(Scene scene)
+        public static void SettingMenu(Scene scene, int lineY)
         {
-            lineY = 27;
             scene.SetCursorString(0, lineY++, "0.나가기", false);
             scene.SetCursorString(0, lineY++, "1.아이템 구매하기", false);
             scene.SetCursorString(0, lineY++, "2.아이템 판매하기", false);
