@@ -420,3 +420,11 @@ TeamProject/.vs/TeamProject/v17/.suo
 TeamProject/.vs/TeamProject/DesignTimeBuild/.dtbcache.v2
 TeamProject/.vs/TeamProject/v17/.suo
 TeamProject/.vs/TeamProject/v17/.suo
+*.v2
+TeamProject/.vs/TeamProject/v17/.suo
+*.exe
+*.cache
+*.editorconfig
+*.json
+*.cache
+*.props
