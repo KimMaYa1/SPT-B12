@@ -428,3 +428,5 @@ TeamProject/.vs/TeamProject/v17/.suo
 *.json
 *.cache
 *.props
+*.cache
+*.editorconfig
