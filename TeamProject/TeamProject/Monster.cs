@@ -16,6 +16,7 @@ namespace TeamProject
         public int Hp { get; set; }
         public int Atk { get; }
         public int Def { get; }
+        public int Gold { get; }
         public string Name { get; }
         public string Chrd { get; }
         int _critical;
@@ -30,6 +31,7 @@ namespace TeamProject
             Def = (int)(Level * monsterInfo[0].MonDefCoeff);
             Hp = Level * monsterInfo[0].MonHPCoeff;
             Exp = Level * monsterInfo[0].Exp;
+            Gold = Level * monsterInfo[0].DropGold;
             _critical = 20;
         }
         public bool Evasion()
@@ -74,7 +76,8 @@ namespace TeamProject
         public int MonHPCoeff { get; set; }
         public int Exp { get; set; }
         public int StageRank { get; set; }
-        public MonsterInfo(string name, string chrd, float monAtkCoeff, float monDefCoeff, int monHPCoeff, int exp, int stageRank)
+        public int DropGold { get; set; }
+        public MonsterInfo(string name, string chrd, float monAtkCoeff, float monDefCoeff, int monHPCoeff, int exp, int dropGold, int stageRank)
         {
             Name = name;
             Chrd = chrd;
@@ -82,6 +85,7 @@ namespace TeamProject
             MonDefCoeff = monDefCoeff;
             MonHPCoeff = monHPCoeff;
             Exp = exp;
+            DropGold = dropGold;
             StageRank = stageRank;
             
         }
@@ -104,9 +108,10 @@ namespace TeamProject
                 float mondefcoeff = float.Parse(monsterEach[Array.IndexOf(propertyNames, "MonDefCoeff")]); // 방어계수
                 int monHPcoeff = int.Parse(monsterEach[Array.IndexOf(propertyNames, "MonHPCoeff")]); // HP 계수
                 int exp = int.Parse(monsterEach[Array.IndexOf(propertyNames, "Exp")]); // 경험치
+                int dropGold = int.Parse(monsterEach[Array.IndexOf(propertyNames, "DropGold")]); // 골드 계수
                 int stageRank = int.Parse(monsterEach[Array.IndexOf(propertyNames, "StageRank")]); // 몬스터 스테이지 조정
 
-                MonsterInfo monsterDict = new MonsterInfo(name, chrd, monatkcoeff, mondefcoeff, monHPcoeff, exp, stageRank);
+                MonsterInfo monsterDict = new MonsterInfo(name, chrd, monatkcoeff, mondefcoeff, monHPcoeff, exp, dropGold, stageRank);
 
                 Array.Resize(ref AllMonsters, AllMonsters.Length + 1);
                 AllMonsters[monIdx - 1] = monsterDict;
