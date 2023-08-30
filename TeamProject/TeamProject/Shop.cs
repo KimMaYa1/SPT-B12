@@ -22,5 +22,39 @@ namespace TeamProject
             player.ItemDelete(items[num - 1]);      //인벤토리에서 해당 아티엠을 삭제
 
         }
+
+
+        public void UpGradeItem(Player player, Item item)
+        {
+            if(item.Type == 0)
+            {
+
+            }
+        }
+        /*public void ItemUpGrade(Player player, Item item)
+        {
+            if (item.Type == 0)
+            {
+                if (item.Price > 1500)
+                {
+                    item.EqAtk += 5;
+                }
+                else
+                {
+                    item.EqAtk += 2;
+                }
+            }
+            if (item.Type == 1)
+            {
+                if (item.Price > 1500)
+                {
+                    item.EqDef += 4;
+                }
+                else
+                {
+                    item.EqDef += 1;
+                }
+            }
+        }*/
     }
 }
