@@ -21,6 +21,9 @@ namespace TeamProject
         public string Chrd { get; }
         int _critical;
         public MonsterInfo[] MonsterInfo = TeamProject.MonsterInfo.GetMonsterDict();
+        public static Dictionary<string, List<SkillInfoStruct>> bossMonsterInfo = GetBossMonsterInfo();
+
+        public float[][] skills = new float[2][];
         public Monster(string name, string chrd, int level)
         {
             Level = level;
@@ -33,6 +36,22 @@ namespace TeamProject
             Exp = Level * monsterInfo[0].Exp;
             Gold = Level * monsterInfo[0].DropGold;
             _critical = 20;
+        }
+
+        public readonly struct SkillInfoStruct
+        {
+            public string SkillName { get; }
+            public string SkillInfo { get; }
+            public int MP { get; }
+            public int SkillCoeff { get; }
+
+            public SkillInfoStruct(string skillName, string skillInfo, int mp, int skillCoeff)
+            {
+                SkillName = skillName;
+                SkillInfo = skillInfo;
+                MP = mp;
+                SkillCoeff = skillCoeff;
+            }
         }
         public bool Evasion()
         {
@@ -51,7 +70,7 @@ namespace TeamProject
             int realDef = (Def / 100) * damage;
             if (rand <= _critical)
             {
-                return (int)(damage*(1.5)) - realDef;
+                return (int)(damage * (1.5)) - realDef;
             }
             else
             {
@@ -64,6 +83,70 @@ namespace TeamProject
                     return 1;
                 }
             }
+        }
+
+        public static Dictionary<string, List<SkillInfoStruct>> GetBossMonsterInfo()
+        {
+            var bossMonsterInfo = new Dictionary<string, List<SkillInfoStruct>>();
+
+            string fullPath = Pathes.BossSkillDataPath();
+            string[] bossSkillData = File.ReadAllLines(fullPath, Encoding.UTF8);
+            string[] propertyNames = bossSkillData[0].Split(',');
+            string[] bossSkills = bossSkillData.Skip(1).ToArray();
+
+            for (int bossIdx = 0; bossIdx < bossSkills.Length; bossIdx++)
+            {
+                string[] skillData = bossSkills[bossIdx].Split(",");
+
+                string name = skillData[Array.IndexOf(propertyNames, "Name")];
+                string skillName = skillData[Array.IndexOf(propertyNames, "SkillName")];
+                string skillInfo = skillData[Array.IndexOf(propertyNames, "SkillInfo")];
+                int mp = int.Parse(skillData[Array.IndexOf(propertyNames, "MP")]);
+                int skillCoeff = int.Parse(skillData[Array.IndexOf(propertyNames, "SkillCoeff")]);
+
+
+                var skillStruct = new SkillInfoStruct(skillName, skillInfo, mp, skillCoeff);
+                //var skillTuple = new Tuple<string,string,int,int>(skillName, skillInfo, mp, skillCoeff);
+
+                if (bossMonsterInfo.ContainsKey(name))
+                {
+                    bossMonsterInfo[name].Add(skillStruct);
+                }
+                else
+                {
+                    bossMonsterInfo[name] = new List<SkillInfoStruct> { skillStruct };
+                }
+            }
+            return bossMonsterInfo;
+        }
+        public float[][] SkillInfo()
+        {
+            var skillList = bossMonsterInfo[Name];
+            var skillNamesList = new List<string>();
+            var skillInfoList = new List<string>();
+            var skillCoeffList = new List<float>();
+            var skillMpList = new List<float>();
+            foreach (var singleStruct in skillList)
+            {
+                skillNamesList.Add(singleStruct.SkillName);
+                skillInfoList.Add(singleStruct.SkillInfo);
+                skillCoeffList.Add(singleStruct.SkillCoeff * Atk);
+                skillMpList.Add(singleStruct.MP);
+            }
+
+            string[] skillIntroduce = skillNamesList.Zip(skillMpList, (skillName, mp) => $"{skillName} - MP {mp}").ToArray();
+            string[] skillSpecific = skillInfoList.Zip(skillCoeffList, (skillInfo, coeff) => $"{skillInfo} 적에게 공격력 * {coeff}만큼의 피해를 입힙니다.").ToArray();
+            foreach (var skill in skillIntroduce)
+            {
+                Console.WriteLine(skill);
+                Console.WriteLine(skillSpecific[Array.IndexOf(skillIntroduce, skill)]);
+            }
+
+
+            skills[0] = skillCoeffList.ToArray();
+            skills[1] = skillMpList.ToArray();
+
+            return skills;
         }
     }
 
@@ -87,7 +170,7 @@ namespace TeamProject
             Exp = exp;
             DropGold = dropGold;
             StageRank = stageRank;
-            
+
         }
 
         public static MonsterInfo[] GetMonsterDict()
@@ -119,6 +202,5 @@ namespace TeamProject
 
             return AllMonsters;
         }
-
     }
 }

@@ -27,5 +27,13 @@ namespace TeamProject
             return fullPath;
         }
 
+        public static string BossSkillDataPath()
+        {
+            var dataPath = @"Data";
+            var fileName = @"BossSkill.csv";
+            var fullPath = Path.Combine(localPath, dataPath, fileName);
+            return fullPath;
+        }
+
     }
 }
