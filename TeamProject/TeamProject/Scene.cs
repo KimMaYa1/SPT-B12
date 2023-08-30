@@ -445,7 +445,7 @@ namespace TeamProject
             bool isAttack = true;
             if (inputNum == 1)
             {
-                DisplayAttackSelect(round, 1);
+                DisplayAttackSelect(round, 1, 0);
                 if (_player.Hp > 0 && !IsDeadMonsters())
                 {
                     return true;
@@ -474,86 +474,106 @@ namespace TeamProject
             lineY++;
             DrawStar(60, 30);
 
-            SetCursorString(lineX, lineY++, "1. 알파 스트라이크 - 마나 10", false);
-            SetCursorString(lineX, lineY++, "   공격력 * 2 로 하나의 적을 공격합니다.", false);
-            SetCursorString(lineX, lineY++, "2. 더블 스트라이크 - 마나 15", false);
-            SetCursorString(lineX, lineY++, "   공격력 * 1.5 로 2명의 적을 랜덤으로 공격합니다.", false);
+            float[][] skill= _player.SkillInfo(this, lineX, lineY);
+            lineY += 4;
             SetCursorString(lineX, lineY++, "0. 취소", false);
             lineY++;
 
             int input = InputString(0, 2, 0, "원하시는 스킬을 입력해주세요.", lineX, lineY) ;
 
-            if(input == 1)
+            if (input == 1)
             {
-                DisplayAttackSelect(round, 2);
-            }
-            else if(input == 2)
-            {
-                Random ran = new Random();
-
-                bool isSkill = true;
-                while (isSkill)
+                if (_player.Mp >= skill[1][0])
                 {
-                    int num1 = ran.Next(0, _monsters.Length);
-                    int num2 = ran.Next(0, _monsters.Length);
-                    int i = 0;
-                    foreach (Monster mon in _monsters)
-                    {
-                        if (mon.Hp > 0)
-                        {
-                            i++;
-                        }
-                    }
-
-                    if (i < 2)
-                    {
-                        SetCursorString(lineX, lineY++, "살아있는적이 2마리 이하입니다.", false);
-                        Thread.Sleep(1000);
-                        return true;
-                    }
-
-                    if (num1 != num2)
-                    {
-                        if (_monsters[num1].Hp > 0 && _monsters[num2].Hp > 0)
-                        {
-                            Console.Clear();
-                            lineY = 2;
-                            AttackInfo(_player, _monsters[num1], 1.5f, ref lineY);
-                            lineY++;
-                            AttackInfo(_player, _monsters[num2], 1.5f, ref lineY);
-                            lineY++;
-                            isSkill = false;
-                        }
-                    }
-                }
-
-                foreach (Monster mon in _monsters)
-                {
-                    if (_player.Hp > 0)
-                    {
-                        if (mon.Hp > 0)
-                        {
-                            AttackInfo(mon, _player, 1, ref lineY);
-                            lineY++;
-                        }
-                    }
-                }
-
-                if (_player.Hp <= 0 || IsDeadMonsters())
-                {
-                    DisplayBattleClear(round);
+                    DisplayAttackSelect(round, skill[0][0], (int)skill[1][0]);
                 }
                 else
                 {
-                    SetCursorString(15, lineY++, "아무키나 입력하여 다음턴으로 넘어갑니다", false);
-                    SetCursorString(15, lineY++, ">> ", true);
-                    string str = Console.ReadLine();
+                    lineY += 3;
+                    SetCursorString(lineX, lineY++, "마나가 부족합니다.", false);
+                    Thread.Sleep(1000);
+                    return true;
                 }
             }
+            else if (input == 2)
+            {
+                if (_player.Mp >= skill[1][1])
+                {
+                    Random ran = new Random();
+
+                    bool isSkill = true;
+                    while (isSkill)
+                    {
+                        int num1 = ran.Next(0, _monsters.Length);
+                        int num2 = ran.Next(0, _monsters.Length);
+                        int i = 0;
+                        foreach (Monster mon in _monsters)
+                        {
+                            if (mon.Hp > 0)
+                            {
+                                i++;
+                            }
+                        }
+
+                        if (i < 2)
+                        {
+                            SetCursorString(lineX, lineY++, "살아있는적이 2마리 이하입니다.", false);
+                            Thread.Sleep(1000);
+                            return true;
+                        }
+
+                        if (num1 != num2)
+                        {
+                            if (_monsters[num1].Hp > 0 && _monsters[num2].Hp > 0)
+                            {
+                                Console.Clear();
+                                _player.Mp -= (int)skill[1][1];
+                                lineY = 2;
+                                AttackInfo(_player, _monsters[num1], skill[0][1], ref lineY);
+                                lineY++;
+                                AttackInfo(_player, _monsters[num2], skill[0][1], ref lineY);
+                                lineY++;
+                                isSkill = false;
+                            }
+                        }
+                    }
+
+                    foreach (Monster mon in _monsters)
+                    {
+                        if (_player.Hp > 0)
+                        {
+                            if (mon.Hp > 0)
+                            {
+                                AttackInfo(mon, _player, 1, ref lineY);
+                                lineY++;
+                            }
+                        }
+                    }
+
+                    if (_player.Hp <= 0 || IsDeadMonsters())
+                    {
+                        DisplayBattleClear(round);
+                    }
+                    else
+                    {
+                        SetCursorString(15, lineY++, "아무키나 입력하여 다음턴으로 넘어갑니다", false);
+                        SetCursorString(15, lineY++, ">> ", true);
+                        string str = Console.ReadLine();
+                    }
+                }
+                else
+                {
+                    lineY += 3;
+                    SetCursorString(lineX, lineY++, "마나가 부족합니다.", false);
+                    Thread.Sleep(1000);
+                    return true;
+                }
+            }
+            
             return false;
         }
 
-        public void DisplayAttackSelect(int round, int skillDamage)
+        public void DisplayAttackSelect(int round, float skillDamage, float skillMp)
         {
             int lineY = BattleInfo(true, round);
             int lineX = 10;
@@ -591,6 +611,7 @@ namespace TeamProject
                         }
                     }
                 }
+                _player.Mp -= (int)skillMp;
 
                 if (_player.Hp <= 0 || IsDeadMonsters())
                 {
