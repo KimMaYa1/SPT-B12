@@ -45,6 +45,7 @@ namespace TeamProject
             {
                 Console.WriteLine("\n0. 나가기");
                 Console.WriteLine("1. 장착 관리");
+                Console.WriteLine("2. 소비 아이템 관리");
                 int key = scene.InputString(0, 1, 0, "행동 선택");
                 if (key == 0)
                 {
@@ -53,6 +54,10 @@ namespace TeamProject
                 else if (key == 1)
                 {
                     DisplayEq(player, scene);
+                }
+                else if (key == 2)
+                {
+                    DisplayPotion();
                 }
             }
             return isEq;
@@ -71,18 +76,6 @@ namespace TeamProject
                     Console.WriteLine($"{count}.\t{i.Name}\t| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| 1\t| {i.Info}\n");
                     items.Add(count, i);
                 }
-                /*else if (i == HPotions[0])
-                {
-                    count++;
-                    Console.WriteLine($"{count}.\t{i.Name}\t| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| {HPotions.Count}\t| {i.Info}\n");
-                    items.Add(count, i);
-                }
-                else if (i == MPotions[0])
-                {
-                    count++;
-                    Console.WriteLine($"{count}.\t{i.Name}\t| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| {MPotions.Count}\t| {i.Info}\n");
-                    items.Add(count, i);
-                }*/
             }
             bool inf = true;
             Console.WriteLine("0. 나가기");
@@ -117,6 +110,20 @@ namespace TeamProject
                     Console.WriteLine("0. 나가기");
                 }
             }
+        }
+        static void DisplayPotion(Scene scene)
+        {
+            Console.Clear();
+            Console.WriteLine("인벤토리 - 소비 아이템 관리\n");
+            if (HPotions.Count > 0)
+            {
+                Console.WriteLine($"{HPotions[0].Name}\t| {HPotions[0].EqAtk}\t| {HPotions[0].EqDef}\t| {HPotions[0].EqHP}\t| {HPotions[0].EqMP}\t| {HPotions.Count}\t| {HPotions[0].Info}\n");
+            }
+            if (MPotions.Count > 0)
+            {
+                Console.WriteLine($"{MPotions[0].Name}\t| {MPotions[0].EqAtk}\t| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}\n");
+            }
+            int key = scene.InputString(0, 1, 0, "포션을 선택해 주세요");
         }
     }
 }
