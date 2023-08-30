@@ -25,6 +25,7 @@ namespace TeamProject
         public Item[] Inventory = new Item[0];
         public Item[] EqItem = new Item[2];
         public Item[] Potions = new Item[0];
+        public float[][] skills = new float[2][];
         public Player(string name, string chrd, int atk, int def, int hp, int mp, int critical)
         {
             Level = 1;
@@ -40,13 +41,9 @@ namespace TeamProject
             MaxHp = Hp;
             MaxMp = Mp;
         }
-        public virtual void SkillInfo()
+        public virtual float[][] SkillInfo()
         {
-
-        }
-        public virtual void Skill(Monster _mob, int _atk)
-        {
-            
+            return skills;
         }
         public bool Evasion()
         {
@@ -78,10 +75,6 @@ namespace TeamProject
                     return 1;
                 }
             }
-        }
-        public virtual void LevelUp()
-        {
-
         }
         public void ItemAdd(Item item)
         {
@@ -200,6 +193,18 @@ namespace TeamProject
                     item.EqDef += 1;
                 }
             }
+        }
+        public void DisplaySkill(Monster mob)
+        {
+            SkillInfo();
+            Thread.Sleep(1000);
+            Console.WriteLine();
+            if (Chrd == "사제")
+            {
+                Console.WriteLine($"{Name}이 HP를 {Skill(mob, Atk)} 만큼 회복했습니다");
+            }
+            Console.WriteLine($"{Name}이 적에게 {Skill(mob, Atk)} 만큼 피해를 입혔습니다");
+            Thread.Sleep(1000);
         }
     }
 }
