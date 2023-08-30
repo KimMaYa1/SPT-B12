@@ -14,6 +14,7 @@ namespace TeamProject
         static public bool DisplayInventory(Player player, Scene scene)
         {
             Console.Clear();
+            //scene.DrawStar(100, 30);
             Console.WriteLine("인벤토리\n");
             Console.WriteLine("이름\t\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n");
             foreach(Item i in player.Inventory)
@@ -41,12 +42,12 @@ namespace TeamProject
                 Console.WriteLine($"{MPotions[0].Name}\t| {MPotions[0].EqAtk}\t| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}\n");
             }
             bool isEq = true;
-            while (isEq )
+            while (isEq)
             {
                 Console.WriteLine("\n0. 나가기");
                 Console.WriteLine("1. 장착 관리");
                 Console.WriteLine("2. 소비 아이템 관리");
-                int key = scene.InputString(0, 1, 0, "행동 선택");
+                int key = scene.InputString(0, 1, 0, "행동 선택\n", 0, 25);
                 if (key == 0)
                 {
                     isEq = false;
@@ -57,7 +58,7 @@ namespace TeamProject
                 }
                 else if (key == 2)
                 {
-                    DisplayPotion();
+                    DisplayPotion(scene);
                 }
             }
             return isEq;
@@ -81,10 +82,11 @@ namespace TeamProject
             Console.WriteLine("0. 나가기");
             while(inf)
             {
-                int key = scene.InputString(0, items.Count, 0, "장착할 아이템을 선택해 주세요");
+                int key = scene.InputString(0, items.Count, 0, "장착할 아이템을 선택해 주세요", 0, 20);
                 if (key == 0)
                 {
                     inf = false;
+                    Console.Clear();
                 }
                 else
                 {
@@ -123,7 +125,20 @@ namespace TeamProject
             {
                 Console.WriteLine($"{MPotions[0].Name}\t| {MPotions[0].EqAtk}\t| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}\n");
             }
-            int key = scene.InputString(0, 1, 0, "포션을 선택해 주세요");
+            bool inf = true;
+            while(inf)
+            {
+                int key = scene.InputString(0, 2, 0, "포션을 선택해 주세요", 0, 15);
+                if (key == 0)
+                {
+                    inf = false;
+                }
+                else if(key == 1)
+                {
+                    //HPotions[]
+                }
+            }
+            
         }
     }
 }
