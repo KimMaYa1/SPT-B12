@@ -55,14 +55,13 @@ namespace TeamProject
                 Thread.Sleep(1000);
             }
             int temp = 0;
-            string nick = "이름";
             if (player.Inventory.Length > 0)
             {
                 temp = player.Inventory.Max(name => name.Name.Length);
             }
             while (isEq)
             {
-                int y = 6;
+                int y = 7;
                 Console.Clear();
                 scene.DrawStar();
                 scene.SetCursorString(60, 2, "인벤토리", false);
@@ -74,6 +73,7 @@ namespace TeamProject
                     {
                         scene.SetCursorString(10, y, $"{Weapons[i].Name}", false);
                         scene.SetCursorString(33, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                        y++;
                     }
                 }
                 else
@@ -84,6 +84,7 @@ namespace TeamProject
                         {
                             scene.SetCursorString(10, y, $"{Weapons[i].Name}", false);
                             scene.SetCursorString(33, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            y++;
                         }
                     }
                     else
@@ -92,17 +93,20 @@ namespace TeamProject
                         {
                             scene.SetCursorString(10, y, $"{Weapons[i].Name}", false);
                             scene.SetCursorString(33, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            y++;
                         }
                     }
                     if (HPotions.Count > 0)
                     {
                         scene.SetCursorString(10, y, $"{HPotions[0].Name}", false);
                         scene.SetCursorString(33, y++, $"| {HPotions[0].EqAtk}\t| {HPotions[0].EqDef}\t| {HPotions[0].EqHP}\t| {HPotions[0].EqMP}\t| {HPotions.Count}\t| {HPotions[0].Info}\n", false);
+                        y++;
                     }
                     if (MPotions.Count > 0)
                     {
                         scene.SetCursorString(10, y, $"{MPotions[0].Name}", false);
                         scene.SetCursorString(33, y++, $"| {MPotions[0].EqAtk}\t| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}\n", false);
+                        y++;
                     }
                     if(EtcItems.Count > 0)
                     {
@@ -119,19 +123,20 @@ namespace TeamProject
                                 item0.Add( EtcItems[i].Name);
                                 scene.SetCursorString(10, y, $"{EtcItems[i].Name}", false);
                                 scene.SetCursorString(33, y++, $"| {EtcItems[i].EqAtk}\t| {EtcItems[i].EqDef}\t| {EtcItems[i].EqHP}\t| {EtcItems[i].EqMP}\t| {count}\t| {EtcItems[i].Info}\n", false);
+                                y++;
                             }
                         }
                     }
                 }
                 y++;
                 int length = (Weapons.Count / 10) + 1;
-                scene.SetCursorString(40, ++y + 2, $"{(page + 1)} / {length}", false);
-                scene.SetCursorString(4, ++y + 2, "1. 장착 관리", false);
-                scene.SetCursorString(4, ++y + 2, "2. 소비 아이템 관리", false);
-                scene.SetCursorString(4, ++y + 2, "3. 다음 페이지", false);
-                scene.SetCursorString(4, ++y + 2, "4. 이전 페이지", false);
-                scene.SetCursorString(4, ++y + 2, "0. 나가기", false);
-                int key = scene.InputString(0, 5, 0, "행동 선택\n", 40, ++y + 3);
+                scene.SetCursorString(50, ++y, $"{(page + 1)} / {length}", false);
+                scene.SetCursorString(30, ++y + 2, "1. 장착 관리", false);
+                scene.SetCursorString(30, ++y + 2, "2. 소비 아이템 관리", false);
+                scene.SetCursorString(30, ++y + 2, "3. 다음 페이지", false);
+                scene.SetCursorString(30, ++y + 2, "4. 이전 페이지", false);
+                scene.SetCursorString(30, ++y + 2, "0. 나가기", false);
+                int key = scene.InputString(0, 5, 0, "행동 선택\n", 50, ++y + 3);
                 if (key == 0)
                 {
                     isEq = false;
@@ -153,7 +158,7 @@ namespace TeamProject
                     }
                     else
                     {
-                        scene.SetCursorString(4, ++y + 2, "마지막 페이지 입니다", false);
+                        scene.SetCursorString(80, ++y - 4, "마지막 페이지 입니다", false);
                         Thread.Sleep(1000);
                     }
                 }
@@ -165,7 +170,7 @@ namespace TeamProject
                     }
                     else
                     {
-                        scene.SetCursorString(4, ++y + 2, "처음 페이지 입니다", false);
+                        scene.SetCursorString(20, ++y - 4, "처음 페이지 입니다", false);
                         Thread.Sleep(1000);
                     }
                 }
@@ -189,15 +194,15 @@ namespace TeamProject
                 Console.Clear();
                 scene.DrawStar();
                 scene.SetCursorString(60, 2, "인벤토리 - 장착 관리", false);
-                int y = 6;
+                int y = 7;
                 Info(page, scene, y, 31,"[E]");
-                y = 13;
+                y = 23;
                 int length = (Weapons.Count / 10) + 1;
-                scene.SetCursorString(40, ++y + 5, $"{(page + 1)} / {length}", false);
-                scene.SetCursorString(2, ++y + 5, "1. 다음 페이지", false);
-                scene.SetCursorString(2, ++y + 5, "2. 이전 페이지", false);
-                scene.SetCursorString(2, ++y + 5, "0. 나가기", false);
-                int key = scene.InputString(0, Weapons.Count + 2, 0, "장착할 아이템을 선택해 주세요", 40, 22);
+                scene.SetCursorString(50, ++y, $"{(page + 1)} / {length}", false);
+                scene.SetCursorString(30, ++y + 3, "1. 다음 페이지", false);
+                scene.SetCursorString(30, ++y + 3, "2. 이전 페이지", false);
+                scene.SetCursorString(30, ++y + 3, "0. 나가기", false);
+                int key = scene.InputString(0, Weapons.Count + 2, 0, "장착할 아이템을 선택해 주세요", 50, ++y + 4);
                 if (key == 0)
                 {
                     inf = false;
@@ -231,13 +236,17 @@ namespace TeamProject
                 {
                     if (Weapons[key - 3].IsEquiped)
                     {
-                        scene.SetCursorString(40, ++y + 5, "이미 착용중인 아이템 입니다", false);
+                        player.ItemUnEq(Weapons[key - 3]);
+                        scene.SetCursorString(40, ++y + 5, "장비를 해제했습니다", false);
                     }
                     else
                     {
                         player.ItemEq(Weapons[key - 3]);
+                        scene.SetCursorString(40, ++y + 5, "장비를 장착했습니다", false);
                     }
+                    Thread.Sleep(1000);
                 }
+                
             }
         }
         static void DisplayPotion(Player player, Scene scene)
@@ -250,14 +259,14 @@ namespace TeamProject
                 scene.SetCursorString(60, 2, "인벤토리 - 소비 아이템 관리", false);
                 if (HPotions.Count > 0)
                 {
-                    scene.SetCursorString(10, 8, $"1. {HPotions[0].Name}\t| {HPotions[0].EqAtk}\t| {HPotions[0].EqDef}\t| {HPotions[0].EqHP}\t| {HPotions[0].EqMP}\t| {HPotions.Count}\t| {HPotions[0].Info}\n", false);
+                    scene.SetCursorString(50, 8, $"1. {HPotions[0].Name}\t| {HPotions.Count}\t| {HPotions[0].Info}\n", false);
                 }
                 if (MPotions.Count > 0)
                 {
-                    scene.SetCursorString(10, 10, $"2. {MPotions[0].Name}\t| {MPotions[0].EqAtk}\t| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}\n", false);
+                    scene.SetCursorString(50, 10, $"2. {MPotions[0].Name}\t| {MPotions.Count}\t| {MPotions[0].Info}\n", false);
                 }
-                scene.SetCursorString(10, 14, "0. 나가기", false);
-                int key = scene.InputString(0, 2, 0, "포션을 선택해 주세요", 40, 15);
+                scene.SetCursorString(50, 18, "0. 나가기", false);
+                int key = scene.InputString(0, 2, 0, "포션을 선택해 주세요", 50, 20);
                 if (key == 0)
                 {
                     inf = false;
@@ -270,17 +279,17 @@ namespace TeamProject
                         {
                             player.UseItem(HPotions[HPotions.Count - 1]);
                             HPotions.Remove(HPotions[HPotions.Count - 1]);
-                            scene.SetCursorString(30, 13, "체력 회복에 성공했습니다.", false);
+                            scene.SetCursorString(50, 15, "체력 회복에 성공했습니다.", false);
                         }
                         else
                         {
-                            scene.SetCursorString(30, 13, "이미 체력이 가득 찼습니다.", false);
+                            scene.SetCursorString(50, 15, "이미 체력이 가득 찼습니다.", false);
                         }
 
                     }
                     else
                     {
-                        scene.SetCursorString(30, 13, "사용할 수 있는 포션이 없습니다.", false);
+                        scene.SetCursorString(50, 15, "사용할 수 있는 포션이 없습니다.", false);
                     }
                 }
                 else if (key == 2)
@@ -291,17 +300,17 @@ namespace TeamProject
                         {
                             player.UseItem(MPotions[MPotions.Count - 1]);
                             MPotions.Remove(MPotions[MPotions.Count - 1]);
-                            scene.SetCursorString(30, 13, "마나 회복에 성공했습니다.", false);
+                            scene.SetCursorString(50, 15, "마나 회복에 성공했습니다.", false);
                         }
                         else
                         {
-                            scene.SetCursorString(30, 13, "이미 마나가 가득 찼습니다.", false);
+                            scene.SetCursorString(50, 15, "이미 마나가 가득 찼습니다.", false);
                         }
 
                     }
                     else
                     {
-                        scene.SetCursorString(30, 13, "사용할 수 있는 포션이 없습니다.", false);
+                        scene.SetCursorString(50, 15, "사용할 수 있는 포션이 없습니다.", false);
                     }
                 }
                 Thread.Sleep(1000);
@@ -320,11 +329,13 @@ namespace TeamProject
                     {
                         scene.SetCursorString(10, y, $"{eq}{Weapons[i].Name}", false);
                         scene.SetCursorString(38, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                        y++;
                     }
                     else
                     {
                         scene.SetCursorString(10, y, $"{i + 3}.{Weapons[i].Name}", false);
                         scene.SetCursorString(38, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                        y++;
                     }
                 }
             }
@@ -338,11 +349,13 @@ namespace TeamProject
                         {
                             scene.SetCursorString(10, y, $"{eq}{Weapons[i].Name}", false);
                             scene.SetCursorString(38, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            y++;
                         }
                         else
                         {
                             scene.SetCursorString(10, y, $"{i + 3}.{Weapons[i].Name}", false);
                             scene.SetCursorString(38, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            y++;
                         }
                     }
                 }
@@ -354,11 +367,13 @@ namespace TeamProject
                         {
                             scene.SetCursorString(10, y, $"{eq}{Weapons[i].Name}", false);
                             scene.SetCursorString(38, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            y++;
                         }
                         else
                         {
                             scene.SetCursorString(10, y, $"{i + 3}.{Weapons[i].Name}", false);
                             scene.SetCursorString(38, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            y++;
                         }
                     }
                 }
