@@ -376,8 +376,11 @@ namespace TeamProject
                     SetCursorString(lineX, lineY++, "        라운드 선택창으로 이동중", false);
                     SetCursorString(lineX, lineY++, "=====================================", false);
                     Thread.Sleep(1000);
-
-                    input = DisplaySelectRound();
+                    input = -1;
+                    while (input == -1)
+                    {
+                        input = DisplaySelectRound();
+                    }
                 }
 
                 if (input == 0)
