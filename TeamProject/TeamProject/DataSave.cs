@@ -13,6 +13,17 @@ namespace TeamProject
 {
     internal static class DataSave
     {
+        public static bool HowChoose(Scene scene)
+        {
+            int x = 70;
+            int y = 7;
+            scene.DrawStar();
+            scene.SetCursorString(x, y++, "게임 시작", false);
+            scene.SetCursorString(x, ++y + 5, "0. 새로 시작", false);
+            scene.SetCursorString(x, ++y + 7, "1. 불러 오기", false);
+            int key = scene.InputString(0, 1, 0, "선택해 주세요", x, ++y + 10);
+            return key != 0;
+        }
         public static void SavePlayerInfo(Player player, int stage, int round)
         {
             player.Stage = stage;
