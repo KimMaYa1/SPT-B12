@@ -7,6 +7,8 @@
             Scene scene = new Scene();
             bool isSelectNameChrd = true;
 
+            Console.SetWindowSize(161, 41);
+
             while (isSelectNameChrd)
             {
                 isSelectNameChrd = scene.DisplaySelectName();
