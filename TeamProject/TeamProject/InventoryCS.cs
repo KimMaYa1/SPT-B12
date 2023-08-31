@@ -61,12 +61,12 @@ namespace TeamProject
                 Console.Clear();
                 scene.DrawStar();
                 scene.SetCursorString(4, 1, "인벤토리", false);
-                scene.SetCursorString(4, 3, $"{nick.PadRight(temp, ' ')}\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
+                scene.SetCursorString(4, 3, $"{nick.PadRight(25, ' ')}\t\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
                 if(Weapons.Count > page * 10 + 10)
                 {
                     for (int i = page * 10; i < page * 10 + 10; i++)
                     {
-                        scene.SetCursorString(4, ++y, $"{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t | 1\t| {Weapons[i].Info}\n", false);
+                        scene.SetCursorString(4, ++y, $"{Weapons[i].Name.PadRight(25, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t | 1\t| {Weapons[i].Info}\n", false);
                     }
                 }
                 else
@@ -75,23 +75,23 @@ namespace TeamProject
                     {
                         for (int i = page * 10; i < Weapons.Count - ((page - 1) * 10); i++)
                         {
-                            scene.SetCursorString(4, ++y, $"{Weapons[i].Name.PadRight(temp,' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            scene.SetCursorString(4, ++y, $"{Weapons[i].Name.PadRight(25,' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                         }
                     }
                     else
                     {
                         for (int i = page * 10; i < Weapons.Count - page * 10; i++)
                         {
-                            scene.SetCursorString(4, ++y, $"{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            scene.SetCursorString(4, ++y, $"{Weapons[i].Name.PadRight(25, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                         }
                     }
                     if (HPotions.Count > 0)
                     {
-                        scene.SetCursorString(4, ++y, $"{HPotions[0].Name.PadRight(temp, ' ')}\t| {HPotions[0].EqAtk}\t| {HPotions[0].EqDef}\t| {HPotions[0].EqHP}\t| {HPotions[0].EqMP}\t| {HPotions.Count}\t| {HPotions[0].Info}\n", false);
+                        scene.SetCursorString(4, ++y, $"{HPotions[0].Name.PadRight(25, ' ')}\t| {HPotions[0].EqAtk}\t| {HPotions[0].EqDef}\t| {HPotions[0].EqHP}\t| {HPotions[0].EqMP}\t| {HPotions.Count}\t| {HPotions[0].Info}\n", false);
                     }
                     if (MPotions.Count > 0)
                     {
-                        scene.SetCursorString(4, ++y, $"{MPotions[0].Name.PadRight(temp, ' ')}\t| {MPotions[0].EqAtk}\t| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}\n", false);
+                        scene.SetCursorString(4, ++y, $"{MPotions[0].Name.PadRight(25, ' ')}\t| {MPotions[0].EqAtk}\t| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}\n", false);
                     }
                 }
                 y++;
@@ -160,18 +160,13 @@ namespace TeamProject
                 scene.DrawStar();
                 scene.SetCursorString(2, 2, "인벤토리 - 장착 관리", false);
                 int y = 4;
-                int temp = 0;
-                if (player.Inventory.Length > 0)
-                {
-                    temp = player.Inventory.Max(name => name.Name.Length);
-                }
-                Info(page, scene, y, temp + 5,"[E]");
+                Info(page, scene, y, 31,"[E]");
                 y = 11;
                 int length = (Weapons.Count / 10) + 1;
                 scene.SetCursorString(40, ++y + 5, $"{(page + 1)} / {length}", false);
-                scene.SetCursorString(2, ++y + 5, "0. 나가기", false);
                 scene.SetCursorString(2, ++y + 5, "1. 다음 페이지", false);
                 scene.SetCursorString(2, ++y + 5, "2. 이전 페이지", false);
+                scene.SetCursorString(2, ++y + 5, "0. 나가기", false);
                 int key = scene.InputString(0, Weapons.Count + 2, 0, "장착할 아이템을 선택해 주세요", 40, 22);
                 if (key == 0)
                 {
@@ -215,16 +210,16 @@ namespace TeamProject
             {
                 Console.Clear();
                 scene.DrawStar();
-                scene.SetCursorString(2, 2, "인벤토리 - 소비 아이템 관리", false);
+                scene.SetCursorString(4, 2, "인벤토리 - 소비 아이템 관리", false);
                 if (HPotions.Count > 0)
                 {
-                    scene.SetCursorString(2, 4, $"1. {HPotions[0].Name}\t| {HPotions[0].EqAtk}\t| {HPotions[0].EqDef}\t| {HPotions[0].EqHP}\t| {HPotions[0].EqMP}\t| {HPotions.Count}\t| {HPotions[0].Info}\n", false);
+                    scene.SetCursorString(4, 4, $"1. {HPotions[0].Name}\t| {HPotions[0].EqAtk}\t| {HPotions[0].EqDef}\t| {HPotions[0].EqHP}\t| {HPotions[0].EqMP}\t| {HPotions.Count}\t| {HPotions[0].Info}\n", false);
                 }
                 if (MPotions.Count > 0)
                 {
-                    scene.SetCursorString(2, 6, $"2. {MPotions[0].Name}\t| {MPotions[0].EqAtk}\t| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}\n", false);
+                    scene.SetCursorString(4, 6, $"2. {MPotions[0].Name}\t| {MPotions[0].EqAtk}\t| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}\n", false);
                 }
-                scene.SetCursorString(2, 11, "0. 나가기", false);
+                scene.SetCursorString(4, 11, "0. 나가기", false);
                 int key = scene.InputString(0, 2, 0, "포션을 선택해 주세요", 40, 15);
                 if (key == 0)
                 {
@@ -238,17 +233,17 @@ namespace TeamProject
                         {
                             player.UseItem(HPotions[HPotions.Count - 1]);
                             HPotions.Remove(HPotions[HPotions.Count - 1]);
-                            scene.SetCursorString(2, 9, "체력 회복에 성공했습니다.", false);
+                            scene.SetCursorString(4, 9, "체력 회복에 성공했습니다.", false);
                         }
                         else
                         {
-                            scene.SetCursorString(2, 9, "이미 체력이 가득 찼습니다.", false);
+                            scene.SetCursorString(4, 9, "이미 체력이 가득 찼습니다.", false);
                         }
 
                     }
                     else
                     {
-                        scene.SetCursorString(2, 9, "사용할 수 있는 포션이 없습니다.", false);
+                        scene.SetCursorString(4, 9, "사용할 수 있는 포션이 없습니다.", false);
                     }
                 }
                 else if (key == 2)
@@ -259,17 +254,17 @@ namespace TeamProject
                         {
                             player.UseItem(MPotions[MPotions.Count - 1]);
                             MPotions.Remove(MPotions[MPotions.Count - 1]);
-                            scene.SetCursorString(2, 9, "마나 회복에 성공했습니다.", false);
+                            scene.SetCursorString(4, 9, "마나 회복에 성공했습니다.", false);
                         }
                         else
                         {
-                            scene.SetCursorString(2, 9, "이미 마나가 가득 찼습니다.", false);
+                            scene.SetCursorString(4, 9, "이미 마나가 가득 찼습니다.", false);
                         }
 
                     }
                     else
                     {
-                        scene.SetCursorString(2, 9, "사용할 수 있는 포션이 없습니다.", false);
+                        scene.SetCursorString(4, 9, "사용할 수 있는 포션이 없습니다.", false);
                     }
                 }
                 Thread.Sleep(1000);
@@ -278,18 +273,18 @@ namespace TeamProject
         static void Info(int page, Scene scene, int y,int temp, string eq)
         {
             string nick = "이름";
-            scene.SetCursorString(4, 3, $"   {nick.PadRight(temp, ' ')}\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
+            scene.SetCursorString(4, 3, $"   {nick.PadRight(temp, ' ')}\t\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
             if (Weapons.Count > page * 10 + 10)
             {
                 for (int i = page * 10; i < page * 10 + 10; i++)
                 {
                     if (Weapons[i].IsEquiped)
                     {
-                        scene.SetCursorString(4, ++y, $"{i + 3}. {eq}{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                        scene.SetCursorString(4, ++y, $"{i + 3}.{eq}{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                     }
                     else
                     {
-                        scene.SetCursorString(4, ++y, $"{i + 3}. {Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                        scene.SetCursorString(4, ++y, $"{i + 3}.{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                     }
                 }
             }
@@ -301,11 +296,11 @@ namespace TeamProject
                     {
                         if (Weapons[i].IsEquiped)
                         {
-                            scene.SetCursorString(4, ++y, $"{i + 3}. {eq}{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t | 1\t| {Weapons[i].Info}\n", false);
+                            scene.SetCursorString(4, ++y, $"{eq}{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                         }
                         else
                         {
-                            scene.SetCursorString(4, ++y, $"{i + 3}. {Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            scene.SetCursorString(4, ++y, $"{i + 3}.{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                         }
                     }
                 }
@@ -315,11 +310,11 @@ namespace TeamProject
                     {
                         if (Weapons[i].IsEquiped)
                         {
-                            scene.SetCursorString(4, ++y, $"{i + 3}. {eq}{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t | 1\t| {Weapons[i].Info}\n", false);
+                            scene.SetCursorString(4, ++y, $"{eq}{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t | 1\t| {Weapons[i].Info}\n", false);
                         }
                         else
                         {
-                            scene.SetCursorString(4, ++y, $"{i + 3}. {Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            scene.SetCursorString(4, ++y, $"{i + 3}.{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                         }
                     }
                 }
