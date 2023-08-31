@@ -31,7 +31,7 @@ namespace TeamProject
             Name = name;
             Chrd = chrd;
             Exp = 0;
-            Gold = 1000;
+            Gold = 1500;
             Atk = atk;
             Def = def;
             Hp = hp;
@@ -77,8 +77,9 @@ namespace TeamProject
         }
         public void ItemAdd(Item item)
         {
+            Item item1 = new Item(item.EqAtk, item.EqDef, item.EqHP, item.EqMP, item.Type, item.Price, item.Name, item.Info);
             Array.Resize(ref Inventory, Inventory.Length+1);    //inventory 한칸 늘려주고
-            Inventory[Inventory.Length-1] = item;
+            Inventory[Inventory.Length-1] = item1;
         }
         public Item ItemDelete(Item item)
         {
