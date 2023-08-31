@@ -9,10 +9,11 @@ namespace TeamProject
 {
     internal static class InventoryCS
     {
-        static List<Item> Weapons = new List<Item>();
-        static List<Item> HPotions = new List<Item>();
-        static List<Item> MPotions = new List<Item>();
-       
+        static List<Item> Weapons = new List<Item>();      // player.Inventory.Where(item => item.Type == 1).ToList() 
+        static List<Item> HPotions = new List<Item>();     // 포션류 전부 Type 2에 두었습니다. player.Inventory.Where(item => item.Type == 2 && item.EqMP != 0).ToList() ....?
+        static List<Item> MPotions = new List<Item>();     // player.Inventory.Where(item => item.Type == 2 && item.EqHP != 0).ToList() ...?
+      //static List<Item> EtcItems = new List<Item>();   // 기타 아이템 추가한다면,. Type 3    player.Inventory.Where(item => item.Type == 3).ToList()? 기타아이템도 포션처럼 갯수 보이게 구현 가능할까요?
+
         static public bool DisplayInventory(Player player, Scene scene)
         {
             int page = 0;
