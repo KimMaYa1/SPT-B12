@@ -159,7 +159,7 @@ namespace TeamProject
                 Thread.Sleep(1000);
                 return false;
             }
-            else if (input == 1)
+            else if (input >= 1 && input <= length-1)
             {
 
             }
