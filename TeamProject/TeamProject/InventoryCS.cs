@@ -278,7 +278,7 @@ namespace TeamProject
         static void Info(int page, Scene scene, int y,int temp, string eq)
         {
             string nick = "이름";
-            scene.SetCursorString(4, 3, $"    \"{nick.PadRight(temp, ' ')}\t      | 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
+            scene.SetCursorString(4, 3, $"   {nick.PadRight(temp, ' ')}\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
             if (Weapons.Count > page * 10 + 10)
             {
                 for (int i = page * 10; i < page * 10 + 10; i++)
