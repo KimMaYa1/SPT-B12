@@ -13,20 +13,36 @@ namespace TeamProject
 {
     internal static class DataSave
     {
-        public static void SavePlayerInfo(Player player)
+        public static bool HowChoose(Scene scene)
         {
+            int x = 70;
+            int y = 7;
+            scene.DrawStar();
+            scene.SetCursorString(x, y++, "게임 시작", false);
+            scene.SetCursorString(x, ++y + 5, "0. 새로 시작", false);
+            scene.SetCursorString(x, ++y + 7, "1. 불러 오기", false);
+            int key = scene.InputString(0, 1, 0, "선택해 주세요", x, ++y + 10);
+            return key != 0;
+        }
+        public static void SavePlayerInfo(Player player, int stage, int round)
+        {
+            player.Stage = stage;
+            player.Round = round;
+            Encoding encoding = Encoding.UTF8;
             string path = Pathes.SavePlayer();
             FileStream fs = new FileStream(path, FileMode.OpenOrCreate);
 
-            StreamWriter sw = new StreamWriter(fs);
-
+            StreamWriter sw = new StreamWriter(fs, encoding);
+        
             sw.WriteLine("Level,Name,Chrd,Exp,Gold,Atk,Def,Hp,MaxHp,Mp,MaxMp,stage,round");
             sw.WriteLine($"{player.Level},{player.Name},{player.Chrd},{player.Exp},{player.Gold},{player.Atk},{player.Def},{player.Hp},{player.MaxHp},{player.Mp},{player.MaxMp},{player.Stage},{player.Round}");
             sw.Close();
             fs.Close();
+
             path = Pathes.SaveItem();
             fs = new FileStream(path, FileMode.OpenOrCreate);
-            sw = new StreamWriter(fs);
+            sw = new StreamWriter(fs, encoding);
+
             sw.WriteLine("EqAtk,EqDef,EqHp,EqMp,Type,Price,Name,IsEquiped,Info");
             if(player.Inventory.Length> 0)
             {
@@ -52,8 +68,8 @@ namespace TeamProject
             int gold = int.Parse(itemEach[Array.IndexOf(propertyNames, "Gold")]);
             int atk = int.Parse(itemEach[Array.IndexOf(propertyNames, "Atk")]);
             int def = int.Parse(itemEach[Array.IndexOf(propertyNames, "Def")]);
-            int hp = int.Parse(itemEach[Array.IndexOf(propertyNames, "MaxHp")]);
-            int maxHp = int.Parse(itemEach[Array.IndexOf(propertyNames, "Mp")]);
+            int hp = int.Parse(itemEach[Array.IndexOf(propertyNames, "Hp")]);
+            int maxHp = int.Parse(itemEach[Array.IndexOf(propertyNames, "MaxHp")]);
             int mp = int.Parse(itemEach[Array.IndexOf(propertyNames, "Mp")]);
             int maxMp = int.Parse(itemEach[Array.IndexOf(propertyNames, "MaxMp")]);
             int stage = int.Parse(itemEach[Array.IndexOf(propertyNames, "stage")]);

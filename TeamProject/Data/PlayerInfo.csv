@@ -1,5 +1,2 @@
-Level,Name,Chrd,Exp,Gold,Atk,Def,Hp,MaxHp,Mp,MaxMp,stage,round
-1,asd,궁수,0,150,40,13,50,50,50,50,1,1
-
-
-
+﻿Level,Name,Chrd,Exp,Gold,Atk,Def,Hp,MaxHp,Mp,MaxMp,stage,round
+2,asd,사제,2,686,31,11,100,100,20,80,1,3
