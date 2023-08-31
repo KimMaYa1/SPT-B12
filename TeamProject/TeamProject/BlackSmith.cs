@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -91,6 +92,7 @@ namespace TeamProject
             }
             return ItemCombinationTable;
         }
+
         public bool DisplaySmith(Player player, Scene scene)                    // Scene에서 한다면, Scene scene은 빠질듯요?
         {
             Console.Clear();
@@ -99,13 +101,85 @@ namespace TeamProject
             int lineX = 60;
             int lineY = 10;
 
-            scene.SetCursorString(60, lineY++, "      [대장간]", false); //false 가 줄넘김
-            scene.SetCursorString(60, lineY++, "무엇이든 만들어드립니다...", false);
+            CombItemList(player, scene, lineX, ref lineY, false);
+            
+            lineY += 3;
+            lineX = 60;
+            scene.SetCursorString(lineX, lineY++, "        1. 제작", false);
+            scene.SetCursorString(lineX, lineY++, "       0. 나가기", false);
+
+            int input = scene.InputString(0, 1, 0, "원하시는 행동을 입력하세요.", lineX, lineY);
+            lineY += 3;
+            lineX -= 6;
+            if (input == 0)
+            {
+                scene.SetCursorString(lineX, lineY++, "=====================================", false);
+                scene.SetCursorString(lineX, lineY++, "            시작창으로 이동중", false);
+                scene.SetCursorString(lineX, lineY++, "=====================================", false);
+                Thread.Sleep(1000);
+                return false;
+            }
+            else if (input == 1)
+            {
+                scene.SetCursorString(lineX, lineY++, "=====================================", false);
+                scene.SetCursorString(lineX, lineY++, "            제작창으로 이동중", false);
+                scene.SetCursorString(lineX, lineY++, "=====================================", false);
+                Thread.Sleep(1000);
+                bool isEndCreate = true;
+                while (isEndCreate)
+                {
+                    isEndCreate = DisplayCreate(player, scene);
+                }
+            }
+            return true;
+        }
+
+        public bool DisplayCreate(Player player, Scene scene)                    // Scene에서 한다면, Scene scene은 빠질듯요?
+        {
+            Console.Clear();
+            scene.DrawStar();                                            // scene에서 가져온 메서드도 지우셔야할듯
+
+            int lineX = 60;
+            int lineY = 10;
+
+            int length = CombItemList(player, scene, lineX, ref lineY, true);
+
+            lineY += 3;
+            lineX = 60;
+            scene.SetCursorString(lineX, lineY++, "       0. 나가기", false);
+
+            int input = scene.InputString(0, length-1, 0, "원하시는 행동을 입력하세요.", lineX, lineY);
+            lineY += 3;
+            lineX -= 6;
+            if (input == 0)
+            {
+                scene.SetCursorString(lineX, lineY++, "=====================================", false);
+                scene.SetCursorString(lineX, lineY++, "           대장간창으로 이동중", false);
+                scene.SetCursorString(lineX, lineY++, "=====================================", false);
+                Thread.Sleep(1000);
+                return false;
+            }
+            else if (input == 1)
+            {
+
+            }
+            return true;
+        }
+
+        public int CombItemList(Player player, Scene scene, int lineX, ref int lineY , bool isCreate)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            scene.SetCursorString(lineX, lineY++, "      [대장간]", false); //false 가 줄넘김
+            scene.SetCursorString(lineX, lineY++, "무엇이든 만들어드립니다...", false);
             lineY += 2;
-            scene.SetCursorString(5, lineY += 2, "제작 아이템         ||   재료이름    | 필요숫자 |   재료이름    | 필요숫자 |   재료이름    | 필요숫자 |   재료이름    | 필요숫자 |", false);
+            lineX = 7;
+            Console.ForegroundColor = ConsoleColor.White;
+            scene.SetCursorString(lineX, lineY += 2, "제작 아이템         ||   재료이름    ||필요숫자||   재료이름    ||필요숫자||   재료이름    ||필요숫자||   재료이름    ||필요숫자||", false);
             lineY++;
-            int maxItemLength = 0;              
+            int maxItemLength = 0;
             var stallArray = new List<string>();
+            int num = 1;
+
             foreach (BlackSmith.ItemTable table in BlackSmith.GetItemCombinationTable())
             {
                 var stallElementList = new List<string>();
@@ -124,8 +198,15 @@ namespace TeamProject
                     }
                 }
                 //string showString = $"{Utils.LimitString(stallElementList[0], 10)}||{Utils.LimitString(stallElementList[1], 7)}|{Utils.LimitString(stallElementList[2], 4)}/{player.Inventory.Where(item => item.Name == stallElementList[1]).ToArray().Length}|";  // 제작 아이템 || Req1Name | Req1Num |
-                scene.SetCursorString(5, lineY, $"{stallElementList[0]}", false);
-                lineX = 25;
+                lineX = 7;
+                if (isCreate)
+                {
+                    scene.SetCursorString(4, lineY, $"{num++}.", false);
+                }
+                Console.ForegroundColor = ConsoleColor.Green;
+                scene.SetCursorString(lineX, lineY, $"{stallElementList[0]}", false);
+                Console.ForegroundColor = ConsoleColor.White;
+                lineX += 20;
                 string showString = "||";
                 int a = 0;
                 int length = 0;
@@ -142,7 +223,7 @@ namespace TeamProject
                         {
                             j++;
                         }
-                        showString += $" {Utils.LimitString(stallElementList[i], 6)} |   {player.Inventory.Where(item => item.Name == stallElementList[i]).ToArray().Length} / {a.ToString()}  |";
+                        showString += $" {Utils.LimitString(stallElementList[i], 6)} ||  {player.Inventory.Where(item => item.Name == stallElementList[i]).ToArray().Length} / {a.ToString()} ||";
                     }
                     catch
                     {
@@ -166,19 +247,10 @@ namespace TeamProject
                 }*/
                 //scene.SetCursorString(1, lineY++, showString, false);                     // !! 인벤토리에서 재료아아템 갯수 반영된다면, 제작 기능 추가 예정
             }
-
-            lineY += 3;
-            
-            scene.SetCursorString(4, lineY++, "0. 나가기", false);
-            scene.SetCursorString(4, lineY++, "1. 제작", false);
-            scene.SetCursorString(4, lineY++, "2. 인벤토리", false);
-
-            scene.InputString(0, 2, 0, "원하시는 행동을 입력하세요.", 4, lineY);
-            lineY += 3;
-
-            return false; // 임시용 (에러 방지용)
+            return num;
         }
     }
+
     class Utils
     {
         public static float CountString(string str)                         // 숫자, 띄어쓰기, /는 반칸, 한글은 두칸 써먹음. 이를 반영하여, 전체 글자 수 계산

@@ -60,7 +60,7 @@ namespace TeamProject
         public int InputString(int min, int max, int num, string str, int lineX, int lineY)
         {
             SetCursorString(lineX, lineY++, str, false);
-            SetCursorString(lineX, lineY++, "      >> ", true);
+            SetCursorString(lineX, lineY++, "         >> ", true);
             string input = Console.ReadLine();
             int inputNum;
             lineY++;
@@ -432,7 +432,11 @@ namespace TeamProject
                 SetCursorString(lineX, lineY++, "          대장간창으로 이동중", false);
                 SetCursorString(lineX, lineY++, "=====================================", false);
                 Thread.Sleep(1000);
-                b.DisplaySmith(_player, this);
+                bool isEndDisplay = true;
+                while (isEndDisplay)
+                {
+                    isEndDisplay = b.DisplaySmith(_player, this);
+                }
             }
         }
 
