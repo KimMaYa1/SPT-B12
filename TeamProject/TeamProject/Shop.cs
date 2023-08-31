@@ -23,9 +23,10 @@ namespace TeamProject
         }
         public static bool ShowItemList(Scene scene, Player player)
         {
-            
+            lineX = 2;
+            lineY = 2;
             Console.Clear();
-            scene.DrawStar(100, 30);
+            scene.DrawStar();
             scene.SetCursorString(lineX + 20, lineY++, "상점", false);
             scene.SetCursorString(lineX, lineY++, "   \t 이름    \t| 공격력|방어력 | +HP \t| +MP \t| 가격\t| 설명", false);
 
@@ -69,6 +70,8 @@ namespace TeamProject
             {
                 scene.SetCursorString(0, lineY++, "구매에 성공하였습니다.", false);
                 Thread.Sleep(2000);
+                DisplayShop(player, scene);
+                //ShowItemList(scene, player);
             }
             else
             {
@@ -99,7 +102,7 @@ namespace TeamProject
             SellItem(num, player);
             Console.WriteLine("판매에 성공하였습니다.");
             Thread.Sleep(1000);
-            ShowItemList(scene, player);
+            DisplayShop(player, scene);
         }
         public static void SellItem(int num, Player player)
         {
