@@ -95,13 +95,13 @@ namespace TeamProject
                 if (result)
                 {
                     scene.SetCursorString(lineX, lineY++, "구매에 성공하였습니다.", false);
-                    Thread.Sleep(2000);
+                    Thread.Sleep(1000);
                     DisplayShop(player, scene);
                     //ShowItemList(scene, player);
                 }
                 else
                 {
-                    scene.SetCursorString(lineX, lineY++, "구매에 실패하였습니다. 골드를 확인해 보세요.", false);
+                    scene.SetCursorString(lineX, lineY++, "구매에 실패하였습니다. 골드가 부족합니다.", false);
                     Thread.Sleep(1000);
                     DisplayShop(player, scene);
                 }
@@ -156,60 +156,31 @@ namespace TeamProject
             }
             else
             {
-                bool result = UpGradeItem(num, player);
-                if (result)
+                int result = UpGradeItem(num, player);
+                switch (result)
                 {
-                    scene.SetCursorString(lineX, lineY++, "강화에 성공하였습니다.", false);
+                    case 1:
+                        scene.SetCursorString(lineX, lineY++, "강화실패로 아이템이 파괴되었습니다.", false);
+                        break;
+                    case 2:
+                        scene.SetCursorString(lineX, lineY++, "강화에 실패하였습니다.", false);
+                        break;
+                    case 3:
+                        scene.SetCursorString(lineX, lineY++, "강화에 성공하였습니다.", false);
+                        break;
+                    case 4:
+                        scene.SetCursorString(lineX, lineY++, "골드가 부족합니다.", false);
+                        break;
                 }
-                else
-                {
-                    scene.SetCursorString(lineX, lineY++, "강화에 실패하였습니다.", false);
-                }
+
                 Thread.Sleep(1000);
                 DisplayShop(player, scene);
             }
         }
-        public static bool UpGradeItem(int num, Player player)      //아이템 강화
-        {
+         public static int UpGradeItem(int num, Player player)
+         {
             Random random = new Random();
-
-            if( player.Gold >= 500)              //강화 비용 확인
-            {
-                player.Gold -= 500;             //강화비용 차감
-            }
-            else
-            {
-                return false;           //비용 부족으로 강화 실패
-            }
-                                   
-
-            int success = random.Next(10);
-
-            if(success == 0) 
-            {
-                return false;    // 10% 확률로 강화실패
-            }
-            else
-            {
-                if (player.Inventory[num-1].Type == 0)
-                {
-                    player.Inventory[num-1].EqAtk += random.Next(1, 6);    //램덤값으로 강화
-
-                }
-                else if (player.Inventory[num-1].Type == 1)
-                {
-                    player.Inventory[num-1].EqDef += random.Next(1, 6);
-                }
-                return true;    //강화 성공
-            }
-           
-        }
-
-
-        /*  아이템 파괴기능 추가시 
-         public int UpGradeItem(Player player, Item item)
-        {
-            Random random = new Random();
+            Item item = player.Inventory[num-1];
 
             if (player.Gold >= 500)              //강화 비용 확인
             {
@@ -217,7 +188,7 @@ namespace TeamProject
             }
             else
             {
-                return false;           //비용 부족으로 강화 실패
+                return 4;           //비용 부족으로 강화 실패
             }
 
 
@@ -226,9 +197,9 @@ namespace TeamProject
                 player.ItemDelete(item);
                 return 1;
             }
-            else if (1 <= success <= 10 )
+            else if (1 <= success && success <= 20 )
             {
-                return 2;    // 10% 확률로 강화실패
+                return 2;    // 20% 확률로 강화실패
             }
             else
             {
@@ -244,6 +215,6 @@ namespace TeamProject
                 return 3;    //강화 성공
             }
 
-        } */
+        }
     }
 }
