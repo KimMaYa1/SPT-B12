@@ -78,10 +78,10 @@ namespace TeamProject
         public void ItemAdd(Item item)
         {
             Item item1 = new Item(item.EqAtk, item.EqDef, item.EqHP, item.EqMP, item.Type, item.Price, item.Name, item.Info);
-            Array.Resize(ref Inventory, Inventory.Length+1);    //inventory 한칸 늘려주고
+            Array.Resize(ref Inventory, Inventory.Length+1);
             Inventory[Inventory.Length-1] = item1;
         }
-        public Item ItemDelete(Item item)
+        public void ItemDelete(Item item)
         {
             foreach(Item i in Inventory)
             {
@@ -92,10 +92,8 @@ namespace TeamProject
                         ItemUnEq(i);
                     }
                     Inventory = Inventory.Where(num => num != i).ToArray();
-                    return i;
                 }
             }
-            return null;
         }
         public void ItemEq(Item item)
         {

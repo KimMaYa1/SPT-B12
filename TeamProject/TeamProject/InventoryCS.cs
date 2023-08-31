@@ -49,8 +49,8 @@ namespace TeamProject
             {
                 Console.Clear();
                 scene.DrawStar();
-                scene.SetCursorString(60, 2, "인벤토리", false);
-                scene.SetCursorString(4, 4, "이름\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
+                scene.SetCursorString(70, 2, "인벤토리", false);
+                scene.SetCursorString(40, 4, "이름\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
                 scene.SetCursorString(60, 10, "아무것도 없습니다", false);
                 Thread.Sleep(1000);
             }
@@ -61,18 +61,20 @@ namespace TeamProject
             }
             while (isEq)
             {
-                int y = 7;
+                int y = 6;
                 Console.Clear();
                 scene.DrawStar();
-                scene.SetCursorString(60, 2, "인벤토리", false);
-                scene.SetCursorString(10, 5, "이름", false);
-                scene.SetCursorString(33, 5,"|공격력| 방어력| 체력  |마나\t|수량\t|설명\n", false);
+                scene.SetCursorString(70, 2, "인벤토리", false);
+                scene.SetCursorString(20, 4, "이름", false);
+                scene.SetCursorString(43, 4,"|공격력", false);
+                scene.SetCursorString(53, 4, "|방어력\t|체력\t|마나\t|수량\t|설명\n", false);
                 if(Weapons.Count > page * 10 + 10)
                 {
                     for (int i = page * 10; i < page * 10 + 10; i++)
                     {
-                        scene.SetCursorString(10, y, $"{Weapons[i].Name}", false);
-                        scene.SetCursorString(33, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                        scene.SetCursorString(20, y, $"{Weapons[i].Name}", false);
+                        scene.SetCursorString(43, y, $"| {Weapons[i].EqAtk}", false);
+                        scene.SetCursorString(53, y++, $"| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}", false);
                         y++;
                     }
                 }
@@ -82,8 +84,9 @@ namespace TeamProject
                     {
                         for (int i = page * 10; i < Weapons.Count - ((page - 1) * 10); i++)
                         {
-                            scene.SetCursorString(10, y, $"{Weapons[i].Name}", false);
-                            scene.SetCursorString(33, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            scene.SetCursorString(20, y, $"{Weapons[i].Name}", false);
+                            scene.SetCursorString(43, y, $"| {Weapons[i].EqAtk}", false);
+                            scene.SetCursorString(53, y++, $"| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}", false);
                             y++;
                         }
                     }
@@ -91,21 +94,24 @@ namespace TeamProject
                     {
                         for (int i = page * 10; i < Weapons.Count - page * 10; i++)
                         {
-                            scene.SetCursorString(10, y, $"{Weapons[i].Name}", false);
-                            scene.SetCursorString(33, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            scene.SetCursorString(20, y, $"{Weapons[i].Name}", false);
+                            scene.SetCursorString(43, y, $"| {Weapons[i].EqAtk}", false);
+                            scene.SetCursorString(53, y++, $"| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}", false);
                             y++;
                         }
                     }
                     if (HPotions.Count > 0)
                     {
-                        scene.SetCursorString(10, y, $"{HPotions[0].Name}", false);
-                        scene.SetCursorString(33, y++, $"| {HPotions[0].EqAtk}\t| {HPotions[0].EqDef}\t| {HPotions[0].EqHP}\t| {HPotions[0].EqMP}\t| {HPotions.Count}\t| {HPotions[0].Info}\n", false);
+                        scene.SetCursorString(20, y, $"{HPotions[0].Name}", false);
+                        scene.SetCursorString(43, y, $"| {HPotions[0].EqAtk}", false);
+                        scene.SetCursorString(53, y++, $"| {HPotions[0].EqDef}\t| {HPotions[0].EqHP}\t| {HPotions[0].EqMP}\t| {HPotions.Count}\t| {HPotions[0].Info}", false);
                         y++;
                     }
                     if (MPotions.Count > 0)
                     {
-                        scene.SetCursorString(10, y, $"{MPotions[0].Name}", false);
-                        scene.SetCursorString(33, y++, $"| {MPotions[0].EqAtk}\t| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}\n", false);
+                        scene.SetCursorString(20, y, $"{MPotions[0].Name}", false);
+                        scene.SetCursorString(43, y, $"| {MPotions[0].EqAtk}", false);
+                        scene.SetCursorString(53, y++, $"| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}", false);
                         y++;
                     }
                     if(EtcItems.Count > 0)
@@ -121,8 +127,9 @@ namespace TeamProject
                             if (!item0.Contains(EtcItems[i].Name))
                             {
                                 item0.Add( EtcItems[i].Name);
-                                scene.SetCursorString(10, y, $"{EtcItems[i].Name}", false);
-                                scene.SetCursorString(33, y++, $"| {EtcItems[i].EqAtk}\t| {EtcItems[i].EqDef}\t| {EtcItems[i].EqHP}\t| {EtcItems[i].EqMP}\t| {count}\t| {EtcItems[i].Info}\n", false);
+                                scene.SetCursorString(20, y, $"{EtcItems[i].Name}", false);
+                                scene.SetCursorString(43, y, $"| {EtcItems[i].EqAtk}", false);
+                                scene.SetCursorString(53, y++, $"| {EtcItems[i].EqDef}\t| {EtcItems[i].EqHP}\t| {EtcItems[i].EqMP}\t| {count}\t| {EtcItems[i].Info}\n", false);
                                 y++;
                             }
                         }
@@ -130,13 +137,13 @@ namespace TeamProject
                 }
                 y++;
                 int length = (Weapons.Count / 10) + 1;
-                scene.SetCursorString(50, ++y, $"{(page + 1)} / {length}", false);
-                scene.SetCursorString(30, ++y + 2, "1. 장착 관리", false);
-                scene.SetCursorString(30, ++y + 2, "2. 소비 아이템 관리", false);
-                scene.SetCursorString(30, ++y + 2, "3. 다음 페이지", false);
-                scene.SetCursorString(30, ++y + 2, "4. 이전 페이지", false);
-                scene.SetCursorString(30, ++y + 2, "0. 나가기", false);
-                int key = scene.InputString(0, 5, 0, "행동 선택\n", 50, ++y + 3);
+                scene.SetCursorString(70, y, $"{(page + 1)} / {length}", false);
+                scene.SetCursorString(40, --y, "1. 장착 관리", false);
+                scene.SetCursorString(40, ++y, "2. 소비 아이템 관리", false);
+                scene.SetCursorString(40, ++y, "3. 다음 페이지", false);
+                scene.SetCursorString(40, ++y, "4. 이전 페이지", false);
+                scene.SetCursorString(40, ++y, "0. 나가기", false);
+                int key = scene.InputString(0, 5, 0, "행동 선택\n", 90, --y);
                 if (key == 0)
                 {
                     isEq = false;
@@ -158,7 +165,7 @@ namespace TeamProject
                     }
                     else
                     {
-                        scene.SetCursorString(80, ++y - 4, "마지막 페이지 입니다", false);
+                        scene.SetCursorString(85, ++y - 4, "마지막 페이지 입니다", false);
                         Thread.Sleep(1000);
                     }
                 }
@@ -170,7 +177,7 @@ namespace TeamProject
                     }
                     else
                     {
-                        scene.SetCursorString(20, ++y - 4, "처음 페이지 입니다", false);
+                        scene.SetCursorString(85, ++y - 4, "처음 페이지 입니다", false);
                         Thread.Sleep(1000);
                     }
                 }
@@ -193,16 +200,16 @@ namespace TeamProject
             {
                 Console.Clear();
                 scene.DrawStar();
-                scene.SetCursorString(60, 2, "인벤토리 - 장착 관리", false);
+                scene.SetCursorString(70, 2, "인벤토리 - 장착 관리", false);
                 int y = 7;
                 Info(page, scene, y, 31,"[E]");
-                y = 23;
+                y = 27;
                 int length = (Weapons.Count / 10) + 1;
-                scene.SetCursorString(50, ++y, $"{(page + 1)} / {length}", false);
-                scene.SetCursorString(30, ++y + 3, "1. 다음 페이지", false);
-                scene.SetCursorString(30, ++y + 3, "2. 이전 페이지", false);
-                scene.SetCursorString(30, ++y + 3, "0. 나가기", false);
-                int key = scene.InputString(0, Weapons.Count + 2, 0, "장착할 아이템을 선택해 주세요", 50, ++y + 4);
+                scene.SetCursorString(70, ++y, $"{(page + 1)} / {length}", false);
+                scene.SetCursorString(44, ++y + 3, "1. 다음 페이지", false);
+                scene.SetCursorString(44, ++y + 3, "2. 이전 페이지", false);
+                scene.SetCursorString(44, ++y + 3, "0. 나가기", false);
+                int key = scene.InputString(0, Weapons.Count + 2, 0, "장착할 아이템을 선택해 주세요", 64, ++y + 4);
                 if (key == 0)
                 {
                     inf = false;
@@ -216,7 +223,7 @@ namespace TeamProject
                     }
                     else
                     {
-                        scene.SetCursorString(40, ++y + 5, "마지막 페이지 입니다", false);
+                        scene.SetCursorString(90, y, "마지막 페이지 입니다", false);
                         Thread.Sleep(1000);
                     }
                 }
@@ -228,7 +235,7 @@ namespace TeamProject
                     }
                     else
                     {
-                        scene.SetCursorString(40, ++y + 5, "처음 페이지 입니다", false);
+                        scene.SetCursorString(90, y, "처음 페이지 입니다", false);
                         Thread.Sleep(1000);
                     }
                 }
@@ -237,12 +244,12 @@ namespace TeamProject
                     if (Weapons[key - 3].IsEquiped)
                     {
                         player.ItemUnEq(Weapons[key - 3]);
-                        scene.SetCursorString(40, ++y + 5, "장비를 해제했습니다", false);
+                        scene.SetCursorString(90, y, "장비를 해제했습니다", false);
                     }
                     else
                     {
                         player.ItemEq(Weapons[key - 3]);
-                        scene.SetCursorString(40, ++y + 5, "장비를 장착했습니다", false);
+                        scene.SetCursorString(90, y, "장비를 장착했습니다", false);
                     }
                     Thread.Sleep(1000);
                 }
@@ -319,22 +326,22 @@ namespace TeamProject
         static void Info(int page, Scene scene, int y,int temp, string eq)
         {
             string nick = "이름";
-            scene.SetCursorString(10, 5, $"  이름", false);
-            scene.SetCursorString(38, 5, $"| 공격력\t| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
+            scene.SetCursorString(20, 5, $"  이름", false);
+            scene.SetCursorString(48, 5, $"| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
             if (Weapons.Count > page * 10 + 10)
             {
                 for (int i = page * 10; i < page * 10 + 10; i++)
                 {
                     if (Weapons[i].IsEquiped)
                     {
-                        scene.SetCursorString(10, y, $"{eq}{Weapons[i].Name}", false);
-                        scene.SetCursorString(38, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                        scene.SetCursorString(20, y, $"{eq}{Weapons[i].Name}", false);
+                        scene.SetCursorString(48, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                         y++;
                     }
                     else
                     {
-                        scene.SetCursorString(10, y, $"{i + 3}.{Weapons[i].Name}", false);
-                        scene.SetCursorString(38, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                        scene.SetCursorString(20, y, $"{i + 3}.{Weapons[i].Name}", false);
+                        scene.SetCursorString(48, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                         y++;
                     }
                 }
@@ -347,14 +354,14 @@ namespace TeamProject
                     {
                         if (Weapons[i].IsEquiped)
                         {
-                            scene.SetCursorString(10, y, $"{eq}{Weapons[i].Name}", false);
-                            scene.SetCursorString(38, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            scene.SetCursorString(20, y, $"{eq}{Weapons[i].Name}", false);
+                            scene.SetCursorString(48, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                             y++;
                         }
                         else
                         {
-                            scene.SetCursorString(10, y, $"{i + 3}.{Weapons[i].Name}", false);
-                            scene.SetCursorString(38, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            scene.SetCursorString(20, y, $"{i + 3}.{Weapons[i].Name}", false);
+                            scene.SetCursorString(48, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                             y++;
                         }
                     }
@@ -365,14 +372,14 @@ namespace TeamProject
                     {
                         if (Weapons[i].IsEquiped)
                         {
-                            scene.SetCursorString(10, y, $"{eq}{Weapons[i].Name}", false);
-                            scene.SetCursorString(38, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            scene.SetCursorString(20, y, $"{eq}{Weapons[i].Name}", false);
+                            scene.SetCursorString(48, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                             y++;
                         }
                         else
                         {
-                            scene.SetCursorString(10, y, $"{i + 3}.{Weapons[i].Name}", false);
-                            scene.SetCursorString(38, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            scene.SetCursorString(20, y, $"{i + 3}.{Weapons[i].Name}", false);
+                            scene.SetCursorString(48, y++, $"| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                             y++;
                         }
                     }
