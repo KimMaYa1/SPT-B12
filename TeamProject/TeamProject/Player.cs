@@ -21,6 +21,8 @@ namespace TeamProject
         public string Chrd { get; }
         public int Exp;
         public int Gold;
+        public int Stage;
+        public int Round;
         protected int _critical;
         public Item[] Inventory = new Item[0];
         public Item[] EqItem = new Item[2];
@@ -39,6 +41,27 @@ namespace TeamProject
             _critical = critical;
             MaxHp = Hp;
             MaxMp = Mp;
+            Stage = 1;
+            Round = 1;
+        }
+        public Player(int level, int hp, int maxHp, int mp, int maxMp, int atk, int def, string name, string chrd, int exp, int gold, int stage, int round, int critical, Item[] inventory, Item[] eqItem)
+        {
+            Level = level;
+            Hp = hp;
+            MaxHp = maxHp;
+            Mp = mp;
+            MaxMp = maxMp;
+            Atk = atk;
+            Def = def;
+            Name = name;
+            Chrd = chrd;
+            Exp = exp;
+            Gold = gold;
+            Stage = stage;
+            Round = round;
+            _critical = critical;
+            Inventory = inventory;
+            EqItem = eqItem;
         }
         public virtual float[][] SkillInfo(Scene scene, int lineX, int lineY)
         {

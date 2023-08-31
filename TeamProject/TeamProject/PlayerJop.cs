@@ -9,6 +9,7 @@ namespace TeamProject
     internal class Warrior : Player
     {
         public Warrior(string name) : base(name, "전사", 25, 10, 150, 40, 15) { }
+        public Warrior(int level, int hp, int maxHp, int mp, int maxMp, int atk, int def, string name, string chrd, int exp, int gold, int stage, int round, Item[] inventory, Item[] eqItem) : base(level, hp, maxHp, mp, maxMp, atk, def, name, chrd, exp, gold, stage, round, 15, inventory, eqItem) { }
         public override float[][] SkillInfo(Scene scene, int lineX, int lineY)
         {
             scene.SetCursorString(lineX, lineY++, "1. 알파 스트라이크 - 마나 15", false);
@@ -25,6 +26,7 @@ namespace TeamProject
     internal class Prist : Player
     {
         public Prist(string name) : base(name, "사제", 20, 5, 100, 80, 20) { }
+        public Prist(int level, int hp, int maxHp, int mp, int maxMp, int atk, int def, string name, string chrd, int exp, int gold, int stage, int round, Item[] inventory, Item[] eqItem) : base(level, hp, maxHp, mp, maxMp, atk, def, name, chrd, exp, gold, stage, round, 15, inventory, eqItem) { }
         public override float[][] SkillInfo(Scene scene, int lineX, int lineY)
         {
             scene.SetCursorString(lineX, lineY++, "1. 홀리 엔젤 - 마나 20", false);
@@ -41,6 +43,7 @@ namespace TeamProject
     internal class Archer : Player
     {
         public Archer(string name) : base(name, "궁수", 30, 3, 100, 50, 40) { }
+        public Archer(int level, int hp, int maxHp, int mp, int maxMp, int atk, int def, string name, string chrd, int exp, int gold, int stage, int round, Item[] inventory, Item[] eqItem) : base(level, hp, maxHp, mp, maxMp, atk, def, name, chrd, exp, gold, stage, round, 15, inventory, eqItem) { }
         public override float[][] SkillInfo(Scene scene, int lineX, int lineY)
         {
             scene.SetCursorString(lineX, lineY++, "1. 천공의 바람 - 마나 25", false);

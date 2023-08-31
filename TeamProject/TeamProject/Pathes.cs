@@ -50,5 +50,19 @@ namespace TeamProject
             var fullPath = Path.Combine(localPath, dataPath, fileName);
             return fullPath;
         }
+        public static string SaveItem()
+        {
+            var dataPath = @"Data";
+            var fileName = @"PlayerItem.csv";
+            var fullPath = Path.Combine(localPath, dataPath, fileName);
+            return fullPath;
+        }
+        public static string SavePlayer()
+        {
+            var dataPath = @"Data";
+            var fileName = @"PlayerInfo.csv";
+            var fullPath = Path.Combine(localPath, dataPath, fileName);
+            return fullPath;
+        }
     }
 }

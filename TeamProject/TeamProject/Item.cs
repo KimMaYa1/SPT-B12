@@ -49,6 +49,19 @@ namespace TeamProject
             Info = info;
             IsEquiped = false;
         }
+        public Item(int eqAtk, int eqDef, int eqHp, int eqMp, int type, int price, string name, string info, bool isEquiped)
+        {
+            //Item item = (Item)ItemInfo.Where(it => it.Name == name);
+            EqAtk = eqAtk;
+            EqDef = eqDef;
+            EqHP = eqHp;
+            EqMP = eqMp;
+            Type = type;
+            Price = price;
+            Name = name;
+            Info = info;
+            IsEquiped = isEquiped;
+        }
         public virtual void Perfomence()
         {
         }
