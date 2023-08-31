@@ -119,17 +119,14 @@ namespace TeamProject
         }
         public static bool BuyItem(int num , int count, Player player)
         {
-            if ( player.Gold < items[num - 1].Price)         //가지고 있는돈이 가격보다 적다면 구매 실패
+            if ( player.Gold < items[num - 1].Price * count)         //가지고 있는돈이 가격보다 적다면 구매 실패
             {
                 return false;
             }
             else
             {
-                for(int i = 1; i <= count; i++)
-                {
-                    player.Gold -= items[num - 1].Price;
-                    player.ItemAdd(items[num - 1]);
-                }
+                player.Gold -= items[num - 1].Price * count;
+                player.ItemAdd(items[num - 1]);
                 return true;
             }
         }
