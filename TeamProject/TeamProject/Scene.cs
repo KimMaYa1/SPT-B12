@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿/*using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
+using System.Xml.Linq;*/
+using System;
+using System.Diagnostics;
 
 namespace TeamProject
 {
@@ -41,7 +41,7 @@ namespace TeamProject
                 Console.Write("*");
             }
         }
-        
+
         public void SetCursorString(int lineX, int lineY, string str, bool isNextLine)
         {
             if (isNextLine)
@@ -56,10 +56,10 @@ namespace TeamProject
             }
         }
 
-        public int InputString(int min, int max, int num, string str,int lineX, int lineY)
+        public int InputString(int min, int max, int num, string str, int lineX, int lineY)
         {
-            SetCursorString(lineX, lineY++,str,false);
-            SetCursorString(lineX, lineY++, "      >> ",true);
+            SetCursorString(lineX, lineY++, str, false);
+            SetCursorString(lineX, lineY++, "      >> ", true);
             string input = Console.ReadLine();
             int inputNum;
             lineY++;
@@ -78,9 +78,9 @@ namespace TeamProject
                 if (!isSelect || !(inputNum >= min && inputNum <= max) || ismon)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    SetCursorString(lineX, lineY++, "=====================",false);
-                    SetCursorString(lineX, lineY++, "  잘못된 대상입니다",false);
-                    SetCursorString(lineX, lineY++, "=====================",false);
+                    SetCursorString(lineX, lineY++, "=====================", false);
+                    SetCursorString(lineX, lineY++, "  잘못된 대상입니다", false);
+                    SetCursorString(lineX, lineY++, "=====================", false);
                     Thread.Sleep(1000);
                     return -1;
                 }
@@ -107,45 +107,44 @@ namespace TeamProject
             DrawStar();
 
 
-            int lineX = 12;
-            int lineY = 2;
+            int lineX = 60;
+            int lineY = 10;
             Console.ForegroundColor = ConsoleColor.Red;
-            SetCursorString(8, lineY++, "스파르타 던전에 오신 여러분 환영합니다.", false);
-            SetCursorString(7, lineY++, "원하시는 이름을 설정해주세요.(최대 5글자)", false);
-            lineY = 5;
+            SetCursorString(lineX, lineY++, "스파르타 던전에 오신 여러분 환영합니다.", false);
+            SetCursorString(lineX - 1, lineY++, "원하시는 이름을 설정해주세요.(최대 5글자)", false);
+            lineY++;
             Console.ForegroundColor = ConsoleColor.White;
-            SetCursorString(15, lineY++, "이름 : ", true);
+            SetCursorString(lineX + 10, lineY++, "이름 : ", true);
             string name = Console.ReadLine();
-
-            lineY = 7;
+            lineY += 2;
             if (name.Length >= 6)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                SetCursorString(lineX, lineY++, "=======================", false);
-                SetCursorString(lineX, lineY++, "  이름이 너무 깁니다.", false);
-                SetCursorString(lineX, lineY++, "  다시 설정해 주세요.", false);
-                SetCursorString(lineX, lineY++, "=======================", false);
+                SetCursorString(lineX, lineY++, "=========================================", false);
+                SetCursorString(lineX, lineY++, "           이름이 너무 깁니다.", false);
+                SetCursorString(lineX, lineY++, "           다시 설정해 주세요.", false);
+                SetCursorString(lineX, lineY++, "=========================================", false);
             }
             else if (name == "")
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                SetCursorString(lineX, lineY++, "=======================", false);
-                SetCursorString(lineX, lineY++, "   잘못된 입력입니다.", false);
-                SetCursorString(lineX, lineY++, "   다시 입력해주세요.", false);
-                SetCursorString(lineX, lineY++, "=======================", false);
+                SetCursorString(lineX, lineY++, "=========================================", false);
+                SetCursorString(lineX, lineY++, "           잘못된 입력입니다.", false);
+                SetCursorString(lineX, lineY++, "           다시 입력해주세요.", false);
+                SetCursorString(lineX, lineY++, "=========================================", false);
             }
             else
             {
-                SetCursorString(lineX, lineY++,"=============================", false);
-                SetCursorString(lineX, lineY++, $"      이름 : {name}", false);
-                SetCursorString(lineX, lineY++, "  확정 하시겠습니까 ?(Y/N)", false);
-                SetCursorString(lineX, lineY++, "        >> ", true);
+                SetCursorString(lineX, lineY++, "=========================================", false);
+                SetCursorString(lineX, lineY++, $"              이름 : {name}", false);
+                SetCursorString(lineX, lineY++, "        확정 하시겠습니까 ?(Y/N)", false);
+                SetCursorString(lineX, lineY++, "               >> ", true);
                 string str = Console.ReadLine();
                 if (str == "Y")
                 {
-                    SetCursorString(lineX, lineY++, "      확정 하셨습니다.", false);
-                    SetCursorString(lineX, lineY++, " 직업선택 창으로 이동합니다.", false);
-                    SetCursorString(lineX, lineY++, "=============================", false);
+                    SetCursorString(lineX, lineY++, "            확정 하셨습니다.", false);
+                    SetCursorString(lineX, lineY++, "       직업선택 창으로 이동합니다.", false);
+                    SetCursorString(lineX, lineY++, "=========================================", false);
                     Thread.Sleep(1000);
                     bool isNext = true;
                     while (isNext)
@@ -156,15 +155,15 @@ namespace TeamProject
                 }
                 else if (str == "N")
                 {
-                    SetCursorString(lineX, lineY++, "      취소 하셨습니다.", false);
-                    SetCursorString(lineX, lineY++, "     다시 입력해주세요.", false);
-                    SetCursorString(lineX, lineY++, "=============================", false);
+                    SetCursorString(lineX, lineY++, "             취소 하셨습니다.", false);
+                    SetCursorString(lineX, lineY++, "            다시 입력해주세요.", false);
+                    SetCursorString(lineX, lineY++, "=========================================", false);
                 }
                 else
                 {
-                    SetCursorString(lineX, lineY++, "     잘못된 입력입니다.", false);
-                    SetCursorString(lineX, lineY++, "   초기 단계로 돌아갑니다.", false);
-                    SetCursorString(lineX, lineY++, "=============================" , false);
+                    SetCursorString(lineX, lineY++, "             잘못된 입력입니다.", false);
+                    SetCursorString(lineX, lineY++, "          초기 단계로 돌아갑니다.", false);
+                    SetCursorString(lineX, lineY++, "=========================================", false);
                 }
             }
             Thread.Sleep(1000);
@@ -177,33 +176,36 @@ namespace TeamProject
 
             DrawStar();
 
-            int lineY = 2;
-            int lineX = 15;
+            int lineX = 70;
+            int lineY = 10;
             Console.ForegroundColor = ConsoleColor.White;
-            SetCursorString(lineX, lineY++, "    직업 선택",false);
+            SetCursorString(lineX, lineY++, "    직업 선택", false);
             lineY++;
-            SetCursorString(lineX, lineY++, "   ============",false);
+            SetCursorString(lineX, lineY++, "  ==============", false);
+            lineY++;
             Console.ForegroundColor = ConsoleColor.Red;
             SetCursorString(lineX, lineY++, "     1. 전사", false);
+            lineY++;
             Console.ForegroundColor = ConsoleColor.Yellow;
             SetCursorString(lineX, lineY++, "    2. 성직자", false);
+            lineY++;
             Console.ForegroundColor = ConsoleColor.Green;
             SetCursorString(lineX, lineY++, "     3. 궁수", false);
-            Console.ForegroundColor = ConsoleColor.White;
-            SetCursorString(lineX, lineY++, "   ============",false);
             lineY++;
-            int input = InputString(1, 3, 0, "원하는 직업을 선택해주세요.", lineX-3, lineY);
-            if(input == -1)
+            Console.ForegroundColor = ConsoleColor.White;
+            SetCursorString(lineX, lineY++, "  ==============", false);
+            lineY++;
+            lineX -= 2;
+            int input = InputString(1, 3, 0, "원하는 직업을 선택해주세요.", lineX, lineY);
+            if (input == -1)
             {
                 return true;
             }
             Console.WriteLine();
-
-            lineY = 13;
-            lineX = 12;
-
-            SetCursorString(lineX - 1, lineY++, "=============================", false);
-            SetCursorString(lineX, lineY, $"      직업 : ", true);
+            lineY += 3;
+            lineX--;
+            SetCursorString(lineX - 4, lineY++, "=====================================", false);
+            SetCursorString(lineX, lineY, "        직업 : ", true);
 
             string chrd = "";
             if (input == 1)
@@ -222,18 +224,18 @@ namespace TeamProject
                 Console.ForegroundColor = ConsoleColor.Green;
             }
 
-            Console.WriteLine(chrd);
+            Console.Write(chrd);
             lineY++;
             Console.ForegroundColor = ConsoleColor.White;
-            SetCursorString(lineX, lineY++, "  확정 하시겠습니까 ?(Y/N)",false);
-            SetCursorString(lineX, lineY++, "        >> ", true);
+            SetCursorString(lineX, lineY++, "   확정 하시겠습니까 ?(Y/N)", false);
+            SetCursorString(lineX, lineY++, "          >> ", true);
             string str = Console.ReadLine();
 
             if (str == "Y")
             {
-                SetCursorString(lineX, lineY++, "      확정 하셨습니다.", false);
-                SetCursorString(lineX, lineY++, "    마을로 이동하겠습니다.", false);
-                SetCursorString(lineX-1, lineY++, "=============================", false);
+                SetCursorString(lineX, lineY++, "        확정 하셨습니다.", false);
+                SetCursorString(lineX, lineY++, "      마을로 이동하겠습니다.", false);
+                SetCursorString(lineX - 4, lineY++, "=====================================", false);
                 if (input == 1)
                 {
                     _player = new Warrior(name);
@@ -252,15 +254,15 @@ namespace TeamProject
             }
             else if (str == "N")
             {
-                SetCursorString(lineX, lineY++, "      취소 하셨습니다.", false);
-                SetCursorString(lineX, lineY++, "   초기 단계로 돌아갑니다.", false);
-                SetCursorString(lineX - 1, lineY++, "=============================", false);
+                SetCursorString(lineX, lineY++, "         취소 하셨습니다.", false);
+                SetCursorString(lineX, lineY++, "      초기 단계로 돌아갑니다.", false);
+                SetCursorString(lineX - 4, lineY++, "=====================================", false);
             }
             else
             {
-                SetCursorString(lineX, lineY++, "     잘못된 입력입니다.", false);
-                SetCursorString(lineX, lineY++, "   초기 단계로 돌아갑니다.", false);
-                SetCursorString(lineX - 1, lineY++, "=============================", false);
+                SetCursorString(lineX, lineY++, "         잘못된 입력입니다.", false);
+                SetCursorString(lineX, lineY++, "      초기 단계로 돌아갑니다.", false);
+                SetCursorString(lineX - 4, lineY++, "=====================================", false);
             }
             Thread.Sleep(1000);
             return true;
@@ -270,12 +272,13 @@ namespace TeamProject
         {
             Console.Clear();
             DrawStar();
-            int lineX = 8;
-            int lineY = 2;
-            Console.ForegroundColor = ConsoleColor.White;
+            int lineX = 60;
+            int lineY = 10;
+            Console.ForegroundColor = ConsoleColor.Red;
             SetCursorString(lineX, lineY++, "상태 보기", false);
             SetCursorString(lineX, lineY++, "캐릭터의 정보가 표시됩니다.", false);
             lineY++;
+            Console.ForegroundColor = ConsoleColor.White;
             SetCursorString(lineX, lineY++, $"이름   | {_player.Name}", false);
             SetCursorString(lineX, lineY++, $"레벨   | {_player.Level}", false);
             SetCursorString(lineX, lineY++, $"경험치 | {_player.Exp} / {_player.Level * 5}", false);
@@ -299,14 +302,15 @@ namespace TeamProject
             SetCursorString(lineX, lineY++, "0. 나가기", true);
             lineY++;
 
-            int inputNum = InputString(0, 0, 0, "원하시는 행동을 입력해주세요.", lineX-3,lineY);
+            int inputNum = InputString(0, 0, 0, "원하시는 행동을 입력해주세요.", lineX - 3, lineY);
 
-            lineY = 20;
+            lineY += 3;
+            lineX -= 6;
             if (inputNum == 0)
             {
-                SetCursorString(lineX, lineY++, "=====================", false);
-                SetCursorString(lineX, lineY++, "  시작창으로 이동중", false);
-                SetCursorString(lineX, lineY++, "=====================", false);
+                SetCursorString(lineX, lineY++, "=====================================", false);
+                SetCursorString(lineX, lineY++, "           시작창으로 이동중", false);
+                SetCursorString(lineX, lineY++, "=====================================", false);
                 Thread.Sleep(1000);
 
                 return false;
@@ -323,12 +327,12 @@ namespace TeamProject
 
             DrawStar();
 
-            int lineX = 10;
-            int lineY = 2;
+            int lineX = 60;
+            int lineY = 10;
 
             Console.ForegroundColor = ConsoleColor.Red;
             SetCursorString(lineX, lineY++, "스파르타 던전에 오신 여러분 환영합니다.", false);
-            SetCursorString(lineX, lineY++, "  이제 전투를 시작할 수 있습니다.", false);
+            SetCursorString(lineX, lineY++, "    이제 전투를 시작할 수 있습니다.", false);
             lineY++;
             Console.ForegroundColor = ConsoleColor.White;
             SetCursorString(lineX, lineY++, "           1. 상태 보기", false);
@@ -343,16 +347,17 @@ namespace TeamProject
             SetCursorString(lineX, lineY++, "           3. 인벤토리", false);
             SetCursorString(lineX, lineY++, "             4. 상점", false);
             lineY++;
-            lineX = 15;
-            int inputNum = InputString(1, 4, 0, "원하시는 행동을 입력해주세요.", lineX-3, lineY);
+            lineX += 5;
+            int inputNum = InputString(1, 4, 0, "원하시는 행동을 입력해주세요.", lineX, lineY);
 
-            lineY+=2;
+            lineY += 3;
+            lineX -= 4;
             bool isStat = true;
             if (inputNum == 1)
             {
-                SetCursorString(lineX, lineY++, "===========================", false);
-                SetCursorString(lineX, lineY++, "  상태 보기 창으로 이동중", false);
-                SetCursorString(lineX, lineY++, "===========================", false);
+                SetCursorString(lineX, lineY++, "=====================================", false);
+                SetCursorString(lineX, lineY++, "       상태 보기 창으로 이동중", false);
+                SetCursorString(lineX, lineY++, "=====================================", false);
                 Thread.Sleep(1000);
 
                 while (isStat)
@@ -363,11 +368,11 @@ namespace TeamProject
             else if (inputNum == 2)
             {
                 int input = _round;
-                if(_round == 4)
+                if (_round == 4)
                 {
-                    SetCursorString(lineX, lineY++, "============================", false);
-                    SetCursorString(lineX, lineY++, "  라운드 선택창으로 이동중", false);
-                    SetCursorString(lineX, lineY++, "============================", false);
+                    SetCursorString(lineX, lineY++, "=====================================", false);
+                    SetCursorString(lineX, lineY++, "        라운드 선택창으로 이동중", false);
+                    SetCursorString(lineX, lineY++, "=====================================", false);
                     Thread.Sleep(1000);
 
                     input = DisplaySelectRound();
@@ -375,16 +380,16 @@ namespace TeamProject
 
                 if (input == 0)
                 {
-                    SetCursorString(lineX, lineY++, "=====================", false);
-                    SetCursorString(lineX, lineY++, "  시작창으로 이동중", false);
-                    SetCursorString(lineX, lineY++, "=====================", false);
+                    SetCursorString(lineX, lineY++, "=====================================", false);
+                    SetCursorString(lineX, lineY++, "            시작창으로 이동중", false);
+                    SetCursorString(lineX, lineY++, "=====================================", false);
                     Thread.Sleep(1000);
                     return;
                 }
-                
-                SetCursorString(lineX, lineY++, "=====================", false);
-                SetCursorString(lineX, lineY++, "  전투창으로 이동중", false);
-                SetCursorString(lineX, lineY++, "=====================", false);
+
+                SetCursorString(lineX, lineY++, "=====================================", false);
+                SetCursorString(lineX, lineY++, "           전투창으로 이동중", false);
+                SetCursorString(lineX, lineY++, "=====================================", false);
                 Thread.Sleep(1000);
 
                 _dungeon = new Dungeon(_stage, input);
@@ -404,10 +409,18 @@ namespace TeamProject
             }
             else if (inputNum == 3)
             {
+                SetCursorString(lineX, lineY++, "=====================================", false);
+                SetCursorString(lineX, lineY++, "         인벤토리창으로 이동중", false);
+                SetCursorString(lineX, lineY++, "=====================================", false);
+                Thread.Sleep(1000);
                 InventoryCS.DisplayInventory(_player, this);
             }
             else if (inputNum == 4)
             {
+                SetCursorString(lineX, lineY++, "=====================================", false);
+                SetCursorString(lineX, lineY++, "           상점창으로 이동중", false);
+                SetCursorString(lineX, lineY++, "=====================================", false);
+                Thread.Sleep(1000);
                 Shop.DisplayShop(_player, this);
             }
         }
@@ -420,14 +433,14 @@ namespace TeamProject
             SetCursorString(lineX, lineY++, "0. 다시시작", false);
             SetCursorString(lineX, lineY++, "1. 나가기", false);
             lineY++;
-            int input = InputString(0, 1, 0, "다시 시작하시겟습니까?", lineX, lineY) ;
+            int input = InputString(0, 1, 0, "다시 시작하시겟습니까?", lineX, lineY);
 
             Console.WriteLine();
             if (input == 0)
             {
                 RestartApplication();
             }
-            else if(input == 1)
+            else if (input == 1)
             {
                 Environment.Exit(0);
             }
@@ -445,8 +458,8 @@ namespace TeamProject
         {
             Console.Clear();
             DrawStar();
-            int lineX = 10;
-            int lineY = 2;
+            int lineX = 60;
+            int lineY = 10;
             Console.ForegroundColor = ConsoleColor.White;
             SetCursorString(lineX, lineY++, "라운드 선택", false);
             SetCursorString(3, lineY++, "원하시는 라운드로 입장하실수 있습니다.", false);
@@ -459,7 +472,7 @@ namespace TeamProject
             SetCursorString(lineX, lineY++, "0. 나가기", false);
             lineY++;
 
-            int input = InputString(0, 4, 0, "원하시는 던전을 입력해주세요.",lineX ,lineY);
+            int input = InputString(0, 4, 0, "원하시는 던전을 입력해주세요.", lineX, lineY);
 
             if (input == 0)
             {
@@ -474,7 +487,7 @@ namespace TeamProject
         public bool DisplayBattle(int round)
         {
             int lineY = BattleInfo(false, round);
-            int lineX = 10;
+            int lineX = 60;
             lineY++;
             DrawStar();
 
@@ -513,17 +526,17 @@ namespace TeamProject
         public bool DisplaySkillSelect(int round)
         {
             int lineY = BattleInfo(false, round);
-            int lineX = 8;
+            int lineX = 60;
             lineY++;
             DrawStar();
 
             Console.ForegroundColor = ConsoleColor.White;
-            float[][] skill= _player.SkillInfo(this, lineX, lineY);
+            float[][] skill = _player.SkillInfo(this, lineX, lineY);
             lineY += 4;
             SetCursorString(lineX, lineY++, "0. 취소", false);
             lineY++;
 
-            int input = InputString(0, 2, 0, "원하시는 스킬을 입력해주세요.", lineX, lineY) ;
+            int input = InputString(0, 2, 0, "원하시는 스킬을 입력해주세요.", lineX, lineY);
 
             if (input == 1)
             {
@@ -572,7 +585,7 @@ namespace TeamProject
                             {
                                 Console.Clear();
                                 _player.Mp -= (int)skill[1][1];
-                                lineY = 2;
+                                lineY = 10;
                                 AttackInfo(_player, _monsters[num1], skill[0][1], ref lineY);
                                 lineY++;
                                 AttackInfo(_player, _monsters[num2], skill[0][1], ref lineY);
@@ -600,8 +613,8 @@ namespace TeamProject
                     }
                     else
                     {
-                        SetCursorString(15, lineY++, "아무키나 입력하여 다음턴으로 넘어갑니다", false);
-                        SetCursorString(15, lineY++, ">> ", true);
+                        SetCursorString(lineX, lineY++, "아무키나 입력하여 다음턴으로 넘어갑니다", false);
+                        SetCursorString(lineX, lineY++, ">> ", true);
                         string str = Console.ReadLine();
                     }
                 }
@@ -613,14 +626,14 @@ namespace TeamProject
                     return true;
                 }
             }
-            
+
             return false;
         }
 
         public void DisplayAttackSelect(int round, float skillDamage, float skillMp)
         {
             int lineY = BattleInfo(true, round);
-            int lineX = 10;
+            int lineX = 60;
             lineY++;
             DrawStar();
 
@@ -637,17 +650,18 @@ namespace TeamProject
                     isDeadMon = 1;
                 }
             }
-            int inputNum = InputString(0, _monsters.Length, isDeadMon, "대상을 입력해주세요.",lineX,lineY);
+
+            int inputNum = InputString(0, _monsters.Length, isDeadMon, "대상을 입력해주세요.", lineX, lineY);
 
             if (inputNum >= 1 && inputNum <= _monsters.Length)
             {
                 Console.Clear();
-                lineY = 2;
+                lineY = 10;
                 AttackInfo(_player, _monsters[inputNum - 1], skillDamage, ref lineY);
                 lineY++;
                 foreach (Monster mon in _monsters)
                 {
-                    if(_player.Hp > 0)
+                    if (_player.Hp > 0)
                     {
                         if (mon.Hp > 0)
                         {
@@ -664,8 +678,8 @@ namespace TeamProject
                 }
                 else
                 {
-                    SetCursorString(15, lineY++, "아무키나 입력하여 다음턴으로 넘어갑니다", false);
-                    SetCursorString(15, lineY++, ">> ", true);
+                    SetCursorString(lineX, lineY++, "아무키나 입력하여 다음턴으로 넘어갑니다", false);
+                    SetCursorString(lineX, lineY++, ">> ", true);
                     string str = Console.ReadLine();
                 }
             }
@@ -674,8 +688,8 @@ namespace TeamProject
         public int BattleInfo(bool isBattle, int round)
         {
             Console.Clear();
-            int lineX = 10;
-            int lineY = 2;
+            int lineX = 60;
+            int lineY = 10;
             Console.ForegroundColor = ConsoleColor.Red;
             if (round == 4)
             {
@@ -688,24 +702,24 @@ namespace TeamProject
             lineY++;
             Console.ForegroundColor = ConsoleColor.White;
             SetCursorString(lineX, lineY++, "[몬스터 정보]", false);
-            int j = 5;
+            int j = lineY;
             if (!isBattle)
             {
                 foreach (Monster mon in _monsters)
                 {
                     Console.ForegroundColor = ConsoleColor.White;
-                    SetCursorString(lineX, lineY++, $"레벨 | {mon.Level} \t이름 | {mon.Name}", true);
-                    Console.SetCursorPosition(lineX+37, j++);
+                    SetCursorString(lineX, lineY, $"레벨 | {mon.Level} \t이름 | {mon.Name}", false);
+                    Console.SetCursorPosition(lineX + 37, j++);
                     if (mon.Hp <= 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.WriteLine("Dead");
+                        SetCursorString(lineX + 37, lineY++, "Dead", false);
                     }
                     else
                     {
-                        Console.Write("체력 | ");
+                        SetCursorString(lineX + 37, lineY, "체력 | ", false);
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("{0}", mon.Hp);
+                        SetCursorString(lineX + 44, lineY++, $"{mon.Hp}", false);
                     }
                 }
             }
@@ -715,18 +729,17 @@ namespace TeamProject
                 foreach (Monster mon in _monsters)
                 {
                     Console.ForegroundColor = ConsoleColor.White;
-                    SetCursorString(lineX, lineY++, $"{i++}| 레벨 | {mon.Level} \t이름 | {mon.Name}", true);
-                    Console.SetCursorPosition(lineX+37, j++);
+                    SetCursorString(lineX, lineY, $"{i++}| 레벨 | {mon.Level} \t이름 | {mon.Name}", false);
                     if (mon.Hp <= 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.WriteLine("Dead");
+                        SetCursorString(lineX + 37, lineY++, "Dead", false);
                     }
                     else
                     {
-                        Console.Write("체력 | ");
+                        SetCursorString(lineX + 37, lineY, "체력 | ", false);
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("{0}", mon.Hp);
+                        SetCursorString(lineX + 44, lineY++, $"{mon.Hp}", false);
                     }
                 }
             }
@@ -751,7 +764,7 @@ namespace TeamProject
         public void AttackInfo(Character aCharacter, Character tCharacter, float skillDamage, ref int lineY)
         {
             Console.WriteLine();
-            int lineX = 10;
+            int lineX = 60;
 
             Console.ForegroundColor = ConsoleColor.White;
             if (tCharacter.Evasion())
@@ -799,10 +812,10 @@ namespace TeamProject
         {
             Console.Clear();
             DrawStar();
-            int lineX = 10;
-            int lineY = 2;
+            int lineX = 60;
+            int lineY = 5;
 
-            SetCursorString(lineX, lineY, "Battle!! - Result",false);
+            SetCursorString(lineX, lineY, "Battle!! - Result", false);
             lineY++;
             Console.ForegroundColor = ConsoleColor.White;
             if (_player.Hp > 0)
@@ -818,7 +831,7 @@ namespace TeamProject
                 _player.Exp += exp;
                 _player.Gold += gold;
                 int beforeMaxExp = _player.Level * 5;
-                
+
 
                 if (_player.Exp >= beforeMaxExp)
                 {
@@ -827,9 +840,9 @@ namespace TeamProject
                     _player.Atk += 1;
                     _player.Def += 1;
                     Console.WriteLine();
-                    SetCursorString(lineX, lineY++, "========================", false);
-                    SetCursorString(lineX, lineY++, "  ☆★☆ 레벨업 ★☆★", false);
-                    SetCursorString(lineX, lineY++, "========================", false);
+                    SetCursorString(lineX, lineY++, "=====================================", false);
+                    SetCursorString(lineX, lineY++, "           ☆★☆ 레벨업 ★☆★", false);
+                    SetCursorString(lineX, lineY++, "=====================================", false);
                 }
 
                 lineY++;
@@ -887,21 +900,13 @@ namespace TeamProject
             SetCursorString(lineX, lineY++, ">> ", true);
             Console.ReadLine();
 
-            lineY ++;
-            SetCursorString(lineX, lineY++, "=====================", false);
-            SetCursorString(lineX, lineY++, "  시작창으로 이동중", false);
-            SetCursorString(lineX, lineY++, "=====================", false);
+            lineY++;
+
+            SetCursorString(lineX, lineY++, "=====================================", false);
+            SetCursorString(lineX, lineY++, "           시작창으로 이동중", false);
+            SetCursorString(lineX, lineY++, "=====================================", false);
             Thread.Sleep(1000);
         }
 
-        public void DisplayInventory()
-        {
-
-        }
-
-        public void ItemList()
-        {
-
-        }
     }
 }
