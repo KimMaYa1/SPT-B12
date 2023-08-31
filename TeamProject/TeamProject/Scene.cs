@@ -346,7 +346,7 @@ namespace TeamProject
             lineX = 15;
             int inputNum = InputString(1, 4, 0, "원하시는 행동을 입력해주세요.", lineX-3, lineY);
 
-            lineY = 11;
+            lineY+=2;
             bool isStat = true;
             if (inputNum == 1)
             {
@@ -814,10 +814,11 @@ namespace TeamProject
                 int beforeGold = _player.Gold;
                 int exp = _dungeon.GetExp(_monsters);
                 int gold = _dungeon.GetGold(_monsters);
+                Item[] items = _dungeon.GetItem(_monsters);
                 _player.Exp += exp;
                 _player.Gold += gold;
                 int beforeMaxExp = _player.Level * 5;
-
+                
 
                 if (_player.Exp >= beforeMaxExp)
                 {
@@ -844,7 +845,15 @@ namespace TeamProject
                 lineY++;
                 Console.ForegroundColor = ConsoleColor.Blue;
                 SetCursorString(lineX, lineY++, $"마나   | {_beforeMp} / {_player.MaxMp} -> {_player.Mp} / {_player.MaxMp}", false);
-
+                lineY++;
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                SetCursorString(lineX, lineY++, "[획득 아이템]", false);
+                foreach (Item item in items)
+                {
+                    _player.ItemAdd(item);
+                    SetCursorString(lineX, lineY++, $"아이템 | {item.Name}", false);
+                }
+                Console.ForegroundColor = ConsoleColor.White;
                 if (_round == 4)
                 {
                     if (round == 4)
