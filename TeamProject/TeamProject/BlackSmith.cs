@@ -24,6 +24,7 @@ namespace TeamProject
         public int? Req4Num;
 
         public static ItemTable[] CombinationTable = GetItemCombinationTable();
+        public BlackSmith() { }
         public BlackSmith(Item item)
         {
             ItemTable matchingTable = CombinationTable.Where(it => it.CombItem.Name == item.Name).ToArray()[0];         // 파라미터로 주어진 아이템이름과 조합표 아이템 이름이 같은가?
@@ -94,17 +95,15 @@ namespace TeamProject
         {
             Console.Clear();
             scene.DrawStar();                                            // scene에서 가져온 메서드도 지우셔야할듯
-            scene.DrawStar();
-            scene.DrawStar();
 
-            int lineX = 24;
-            int lineY = 2;
+            int lineX = 60;
+            int lineY = 10;
 
-            scene.SetCursorString(3, lineY++, "[대장간]", false); //false 가 줄넘김
-            scene.SetCursorString(3, lineY++, "무엇이든 만들어드립니다...", false);
+            scene.SetCursorString(60, lineY++, "      [대장간]", false); //false 가 줄넘김
+            scene.SetCursorString(60, lineY++, "무엇이든 만들어드립니다...", false);
             lineY += 2;
-            scene.SetCursorString(1, lineY += 2, "제작 아이템         ||   재료이름   |필요숫자|   재료이름   |필요숫자|   재료이름   |필요숫자|   재료이름   |필요숫자", false);
-            scene.SetCursorString(1, lineY++, "", false);
+            scene.SetCursorString(5, lineY += 2, "제작 아이템         ||   재료이름    | 필요숫자 |   재료이름    | 필요숫자 |   재료이름    | 필요숫자 |   재료이름    | 필요숫자 |", false);
+            lineY++;
             int maxItemLength = 0;              
             var stallArray = new List<string>();
             foreach (BlackSmith.ItemTable table in BlackSmith.GetItemCombinationTable())
@@ -124,27 +123,58 @@ namespace TeamProject
                         stallElementList.Add(value.ToString());
                     }
                 }
-                string showString = $"{Utils.LimitString(stallElementList[0], 10)}||{Utils.LimitString(stallElementList[1], 7)}|{Utils.LimitString(stallElementList[2], 4)}/{player.Inventory.Where(item => item.Name == stallElementList[1]).ToArray().Length}|";  // 제작 아이템 || Req1Name | Req1Num |
-                for (int i = 3; i < 9; i += 2)                                                                             // 인벤토리에서 갯수 반환받으면, 갖고 있는 숫자 보여주는 기능 : player.Inventory.Where(item => item.Name == stallElementList[1]).ToArray().Length;
+                //string showString = $"{Utils.LimitString(stallElementList[0], 10)}||{Utils.LimitString(stallElementList[1], 7)}|{Utils.LimitString(stallElementList[2], 4)}/{player.Inventory.Where(item => item.Name == stallElementList[1]).ToArray().Length}|";  // 제작 아이템 || Req1Name | Req1Num |
+                scene.SetCursorString(5, lineY, $"{stallElementList[0]}", false);
+                lineX = 25;
+                string showString = "||";
+                int a = 0;
+                int length = 0;
+                while (!int.TryParse(stallElementList[length + 1], out a))
+                {
+                    length++;
+                }
+                for (int i = 1; i <= length; i++)
+                {
+                    try
+                    {
+                        int j = i;
+                        while (!int.TryParse(stallElementList[j + 1], out a))
+                        {
+                            j++;
+                        }
+                        showString += $" {Utils.LimitString(stallElementList[i], 6)} |   {player.Inventory.Where(item => item.Name == stallElementList[i]).ToArray().Length} / {a.ToString()}  |";
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                }
+                scene.SetCursorString(lineX, lineY++, showString, false);
+                //리스트에 조합아이템이름이 먼저 들어가고 필요조합개수는 뒤에 들어감
+                //string showString = $"{stallElementList[0]}";  //조합아이템 이름
+                /*for (int i = 3; i < 9; i += 2)                                                                             // 인벤토리에서 갯수 반환받으면, 갖고 있는 숫자 보여주는 기능 : player.Inventory.Where(item => item.Name == stallElementList[1]).ToArray().Length;
                 {
                     try
                     {
                         showString += $"{Utils.LimitString(stallElementList[i], 7)}|{Utils.LimitString(stallElementList[i + 1], 4)}/{player.Inventory.Where(item => item.Name == stallElementList[i]).ToArray().Length}|";                                          // null 이 아니라면 ReqNName | ReqNNum
+                        
                     }
                     catch                                                                                                                                                       // null 이여서 오류 일어나면 반복 넘김
                     {
                         continue;
                     }
-                }
-                scene.SetCursorString(1, lineY++, showString, false);                     // !! 인벤토리에서 재료아아템 갯수 반영된다면, 제작 기능 추가 예정
+                }*/
+                //scene.SetCursorString(1, lineY++, showString, false);                     // !! 인벤토리에서 재료아아템 갯수 반영된다면, 제작 기능 추가 예정
             }
 
-            Console.WriteLine("\n\n");
-            lineY += 2;
-            scene.SetCursorString(1, lineY++, "", false);
+            lineY += 3;
+            
             scene.SetCursorString(4, lineY++, "0. 나가기", false);
             scene.SetCursorString(4, lineY++, "1. 제작", false);
             scene.SetCursorString(4, lineY++, "2. 인벤토리", false);
+
+            scene.InputString(0, 2, 0, "원하시는 행동을 입력하세요.", 4, lineY);
+            lineY += 3;
 
             return false; // 임시용 (에러 방지용)
         }
@@ -162,9 +192,13 @@ namespace TeamProject
 
         public static string LimitString(string str, int limitNum)         // 아이템 이름이 제한 글자수 (칸당 글자수)를 넘으면 적당히 잘라서.. 으로 보이게 하는 메서드
         {
-            string resultString = (str.Length > limitNum) ? str.Substring(0, 6) + ".. " : str;
+            string resultString = (str.Length > limitNum) ? str.Substring(0, 6) + ".." : str;
             string copy = resultString;
             for (int i = 0; i < ((float)limitNum - CountString(copy)) * 2; i++)
+            {
+                resultString += " ";
+            }
+            if (str.Length <= limitNum)
             {
                 resultString += " ";
             }

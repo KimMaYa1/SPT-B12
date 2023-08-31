@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;*/
 using System;
 using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace TeamProject
 {
@@ -346,9 +347,10 @@ namespace TeamProject
             }
             SetCursorString(lineX, lineY++, "           3. 인벤토리", false);
             SetCursorString(lineX, lineY++, "             4. 상점", false);
+            SetCursorString(lineX, lineY++, "            5. 대장간", false);
             lineY++;
             lineX += 5;
-            int inputNum = InputString(1, 4, 0, "원하시는 행동을 입력해주세요.", lineX, lineY);
+            int inputNum = InputString(1, 5, 0, "원하시는 행동을 입력해주세요.", lineX, lineY);
 
             lineY += 3;
             lineX -= 4;
@@ -422,6 +424,15 @@ namespace TeamProject
                 SetCursorString(lineX, lineY++, "=====================================", false);
                 Thread.Sleep(1000);
                 Shop.DisplayShop(_player, this);
+            }
+            else if (inputNum == 5)
+            {
+                BlackSmith b = new BlackSmith();
+                SetCursorString(lineX, lineY++, "=====================================", false);
+                SetCursorString(lineX, lineY++, "          대장간창으로 이동중", false);
+                SetCursorString(lineX, lineY++, "=====================================", false);
+                Thread.Sleep(1000);
+                b.DisplaySmith(_player, this);
             }
         }
 
