@@ -51,13 +51,15 @@ namespace TeamProject
                 count++;
             }
 
+            lineX = 72;
             Console.ForegroundColor = ConsoleColor.Yellow;
-            scene.SetCursorString(72, lineY++, "0.나가기", false);
-            scene.SetCursorString(72, lineY++, "1.아이템 구매하기", false);
-            scene.SetCursorString(72, lineY++, "2.아이템 판매하기", false);
-            scene.SetCursorString(72, lineY++, "3.아이템 강화하기", false);
+            scene.SetCursorString(lineX, lineY++, "0.나가기", false);
+            scene.SetCursorString(lineX, lineY++, "1.아이템 구매하기", false);
+            scene.SetCursorString(lineX, lineY++, "2.아이템 판매하기", false);
+            scene.SetCursorString(lineX, lineY++, "3.아이템 강화하기", false);
 
-            int num = scene.InputString(0, 3, 0, "원하시는 행동의 번호를 입력하세요.", 63, lineY);
+            lineX = 63;
+            int num = scene.InputString(0, 3, 0, "원하시는 행동의 번호를 입력하세요.", lineX, lineY);
             lineY += 2;
 
             if(num == 0)
@@ -80,27 +82,29 @@ namespace TeamProject
 
         public static void CheckBuyItem(Scene scene, Player player)
         {
-            int num = scene.InputString(0, items.Length, 0, "구매할 아이템의 번호를 입력하세요. (취소는 0)", 63, lineY);
+            int num = scene.InputString(0, items.Length, 0, "구매할 아이템의 번호를 입력하세요. (취소는 0)", lineX, lineY);
             lineY += 2;
 
             if( num == 0)
             {
                 DisplayShop(player, scene);
             }
-
-            bool result = BuyItem(num, player);         // 플레이어와 입력 번호 바이아이템 호출
-            if (result)
-            {
-                scene.SetCursorString(63, lineY++, "구매에 성공하였습니다.", false);
-                Thread.Sleep(2000);
-                DisplayShop(player, scene);
-                //ShowItemList(scene, player);
-            }
             else
             {
-                scene.SetCursorString(63, lineY++, "구매에 실패하였습니다. 골드를 확인해 보세요.", false);
-                Thread.Sleep(1000);
-                DisplayShop(player, scene);
+                bool result = BuyItem(num, player);         // 플레이어와 입력 번호 바이아이템 호출
+                if (result)
+                {
+                    scene.SetCursorString(lineX, lineY++, "구매에 성공하였습니다.", false);
+                    Thread.Sleep(1000);
+                    DisplayShop(player, scene);
+                    //ShowItemList(scene, player);
+                }
+                else
+                {
+                    scene.SetCursorString(lineX, lineY++, "구매에 실패하였습니다. 골드가 부족합니다.", false);
+                    Thread.Sleep(1000);
+                    DisplayShop(player, scene);
+                }
             }
         }
         public static bool BuyItem(int num , Player player)
@@ -119,18 +123,20 @@ namespace TeamProject
 
         public static void CheckSellItem(Scene scene, Player player)
         {
-            int num = scene.InputString(0, player.Inventory.Length, 0, "판매할 아이템의 인벤토리 번호를 입력하세요. (취소는 0)", 63, lineY);
+            int num = scene.InputString(0, player.Inventory.Length, 0, "판매할 아이템의 인벤토리 번호를 입력하세요. (취소는 0)", lineX, lineY);
             lineY += 2;
 
             if (num == 0)
             {
                 DisplayShop(player, scene);
             }
-
-            SellItem(num, player);
-            scene.SetCursorString(63, lineY++, "판매에 성공하였습니다.", false);
-            Thread.Sleep(1000);
-            DisplayShop(player, scene);
+            else
+            {
+                SellItem(num, player);
+                scene.SetCursorString(lineX, lineY++, "판매에 성공하였습니다.", false);
+                Thread.Sleep(1000);
+                DisplayShop(player, scene);
+            }
         }
         public static void SellItem(int num, Player player)
         {
@@ -141,67 +147,40 @@ namespace TeamProject
 
         public static void CheckUpGradeItem(Scene scene, Player player)
         {
-            int num = scene.InputString(0, player.Inventory.Length, 0, "강화할 아이템의 인벤토리 번호를 입력하세요. (취소는 0)", 63, lineY);
+            int num = scene.InputString(0, player.Inventory.Length, 0, "강화할 아이템의 인벤토리 번호를 입력하세요. (취소는 0)", lineX, lineY);
             lineY += 2;
 
             if (num == 0)
             {
                 DisplayShop(player, scene);
             }
-
-            bool result = UpGradeItem(num, player);
-            if (result)
-            {
-                scene.SetCursorString(63, lineY++, "강화에 성공하였습니다.", false);
-            }
             else
             {
-                scene.SetCursorString(63, lineY++, "강화에 실패하였습니다.", false);
-            }
-            Thread.Sleep(1000);
-            DisplayShop(player, scene);
-        }
-        public static bool UpGradeItem(int num, Player player)      //아이템 강화
-        {
-            Random random = new Random();
-
-            if( player.Gold >= 500)              //강화 비용 확인
-            {
-                player.Gold -= 500;             //강화비용 차감
-            }
-            else
-            {
-                return false;           //비용 부족으로 강화 실패
-            }
-                                   
-
-            int success = random.Next(10);
-
-            if(success == 0) 
-            {
-                return false;    // 10% 확률로 강화실패
-            }
-            else
-            {
-                if (player.Inventory[num-1].Type == 0)
+                int result = UpGradeItem(num, player);
+                switch (result)
                 {
-                    player.Inventory[num-1].EqAtk += random.Next(1, 6);    //램덤값으로 강화
+                    case 1:
+                        scene.SetCursorString(lineX, lineY++, "강화실패로 아이템이 파괴되었습니다.", false);
+                        break;
+                    case 2:
+                        scene.SetCursorString(lineX, lineY++, "강화에 실패하였습니다.", false);
+                        break;
+                    case 3:
+                        scene.SetCursorString(lineX, lineY++, "강화에 성공하였습니다.", false);
+                        break;
+                    case 4:
+                        scene.SetCursorString(lineX, lineY++, "골드가 부족합니다.", false);
+                        break;
+                }
 
-                }
-                else if (player.Inventory[num-1].Type == 1)
-                {
-                    player.Inventory[num-1].EqDef += random.Next(1, 6);
-                }
-                return true;    //강화 성공
+                Thread.Sleep(1000);
+                DisplayShop(player, scene);
             }
-           
         }
-
-
-        /*  아이템 파괴기능 추가시 
-         public int UpGradeItem(Player player, Item item)
-        {
+         public static int UpGradeItem(int num, Player player)
+         {
             Random random = new Random();
+            Item item = player.Inventory[num-1];
 
             if (player.Gold >= 500)              //강화 비용 확인
             {
@@ -209,7 +188,7 @@ namespace TeamProject
             }
             else
             {
-                return false;           //비용 부족으로 강화 실패
+                return 4;           //비용 부족으로 강화 실패
             }
 
 
@@ -218,9 +197,9 @@ namespace TeamProject
                 player.ItemDelete(item);
                 return 1;
             }
-            else if (1 <= success <= 10 )
+            else if (1 <= success && success <= 20 )
             {
-                return 2;    // 10% 확률로 강화실패
+                return 2;    // 20% 확률로 강화실패
             }
             else
             {
@@ -236,6 +215,6 @@ namespace TeamProject
                 return 3;    //강화 성공
             }
 
-        } */
+        }
     }
 }
