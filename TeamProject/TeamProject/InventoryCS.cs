@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Formats.Asn1.AsnWriter;
@@ -26,7 +27,7 @@ namespace TeamProject
                     {
                         Weapons.Add(i);
                     }
-                    else
+                    else if(i.Type == 2)
                     {
                         if (i.Name.Contains("HP"))
                         {
@@ -37,6 +38,10 @@ namespace TeamProject
                             MPotions.Add(i);
                         }
                     }
+                    else if(i.Type == 3)
+                    {
+                        EtcItems.Add(i);
+                    }
                 }
                 isEq = true;
             }
@@ -44,9 +49,9 @@ namespace TeamProject
             {
                 Console.Clear();
                 scene.DrawStar();
-                scene.SetCursorString(4, 1, "인벤토리", false);
-                scene.SetCursorString(4, 3, "이름\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
-                scene.SetCursorString(4, 5, "아무것도 없습니다", false);
+                scene.SetCursorString(60, 2, "인벤토리", false);
+                scene.SetCursorString(4, 4, "이름\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
+                scene.SetCursorString(60, 10, "아무것도 없습니다", false);
                 Thread.Sleep(1000);
             }
             int temp = 0;
@@ -57,11 +62,11 @@ namespace TeamProject
             }
             while (isEq)
             {
-                int y = 4;
+                int y = 6;
                 Console.Clear();
                 scene.DrawStar();
-                scene.SetCursorString(4, 1, "인벤토리", false);
-                scene.SetCursorString(4, 3, $"{nick.PadRight(25, ' ')}\t\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
+                scene.SetCursorString(60, 2, "인벤토리", false);
+                scene.SetCursorString(4, 5, $"{nick.PadRight(25, ' ')}\t\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
                 if(Weapons.Count > page * 10 + 10)
                 {
                     for (int i = page * 10; i < page * 10 + 10; i++)
@@ -92,6 +97,23 @@ namespace TeamProject
                     if (MPotions.Count > 0)
                     {
                         scene.SetCursorString(4, ++y, $"{MPotions[0].Name.PadRight(25, ' ')}\t| {MPotions[0].EqAtk}\t| {MPotions[0].EqDef}\t| {MPotions[0].EqHP}\t| {MPotions[0].EqMP}\t| {MPotions.Count}\t| {MPotions[0].Info}\n", false);
+                    }
+                    if(EtcItems.Count > 0)
+                    {
+                        List<string> item0 = new List<string>();
+                        for(int i = 0; i< EtcItems.Count; i++)
+                        {
+                            int count = 0;
+                            foreach (Item item in EtcItems)
+                            {
+                                count = EtcItems.Where(name => name.Name == EtcItems[i].Name).Count();
+                            }
+                            if (!item0.Contains(EtcItems[i].Name))
+                            {
+                                item0.Add( EtcItems[i].Name);
+                                scene.SetCursorString(4, ++y, $"{EtcItems[i].Name.PadRight(25, ' ')}\t| {EtcItems[i].EqAtk}\t| {EtcItems[i].EqDef}\t| {EtcItems[i].EqHP}\t| {EtcItems[i].EqMP}\t| {count}\t| {EtcItems[i].Info}\n", false);
+                            }
+                        }
                     }
                 }
                 y++;
@@ -148,6 +170,7 @@ namespace TeamProject
             Weapons.Clear();
             HPotions.Clear();
             MPotions.Clear();
+            EtcItems.Clear();
             return isEq;
         }
         static void DisplayEq(Player player, Scene scene)
@@ -158,10 +181,10 @@ namespace TeamProject
             {
                 Console.Clear();
                 scene.DrawStar();
-                scene.SetCursorString(2, 2, "인벤토리 - 장착 관리", false);
-                int y = 4;
+                scene.SetCursorString(60, 2, "인벤토리 - 장착 관리", false);
+                int y = 6;
                 Info(page, scene, y, 31,"[E]");
-                y = 11;
+                y = 13;
                 int length = (Weapons.Count / 10) + 1;
                 scene.SetCursorString(40, ++y + 5, $"{(page + 1)} / {length}", false);
                 scene.SetCursorString(2, ++y + 5, "1. 다음 페이지", false);
@@ -199,7 +222,14 @@ namespace TeamProject
                 }
                 else
                 {
-                    player.ItemEq(Weapons[key - 3]);
+                    if (Weapons[key - 3].IsEquiped)
+                    {
+                        scene.SetCursorString(40, ++y + 5, "이미 착용중인 아이템 입니다", false);
+                    }
+                    else
+                    {
+                        player.ItemEq(Weapons[key - 3]);
+                    }
                 }
             }
         }
@@ -210,7 +240,7 @@ namespace TeamProject
             {
                 Console.Clear();
                 scene.DrawStar();
-                scene.SetCursorString(4, 2, "인벤토리 - 소비 아이템 관리", false);
+                scene.SetCursorString(60, 2, "인벤토리 - 소비 아이템 관리", false);
                 if (HPotions.Count > 0)
                 {
                     scene.SetCursorString(4, 4, $"1. {HPotions[0].Name}\t| {HPotions[0].EqAtk}\t| {HPotions[0].EqDef}\t| {HPotions[0].EqHP}\t| {HPotions[0].EqMP}\t| {HPotions.Count}\t| {HPotions[0].Info}\n", false);
@@ -273,18 +303,18 @@ namespace TeamProject
         static void Info(int page, Scene scene, int y,int temp, string eq)
         {
             string nick = "이름";
-            scene.SetCursorString(4, 3, $"   {nick.PadRight(temp, ' ')}\t\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
+            scene.SetCursorString(9, 5, $"   {nick.PadRight(temp, ' ')}\t| 공격력\t| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
             if (Weapons.Count > page * 10 + 10)
             {
                 for (int i = page * 10; i < page * 10 + 10; i++)
                 {
                     if (Weapons[i].IsEquiped)
                     {
-                        scene.SetCursorString(4, ++y, $"{i + 3}.{eq}{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                        scene.SetCursorString(9, ++y, $"{eq}{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                     }
                     else
                     {
-                        scene.SetCursorString(4, ++y, $"{i + 3}.{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                        scene.SetCursorString(9, ++y, $"{i + 3}.{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                     }
                 }
             }
@@ -296,11 +326,11 @@ namespace TeamProject
                     {
                         if (Weapons[i].IsEquiped)
                         {
-                            scene.SetCursorString(4, ++y, $"{eq}{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            scene.SetCursorString(9, ++y, $"{eq}{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                         }
                         else
                         {
-                            scene.SetCursorString(4, ++y, $"{i + 3}.{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            scene.SetCursorString(9, ++y, $"{i + 3}.{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                         }
                     }
                 }
@@ -310,11 +340,11 @@ namespace TeamProject
                     {
                         if (Weapons[i].IsEquiped)
                         {
-                            scene.SetCursorString(4, ++y, $"{eq}{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t | 1\t| {Weapons[i].Info}\n", false);
+                            scene.SetCursorString(9, ++y, $"{eq}{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                         }
                         else
                         {
-                            scene.SetCursorString(4, ++y, $"{i + 3}.{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
+                            scene.SetCursorString(9, ++y, $"{i + 3}.{Weapons[i].Name.PadRight(temp, ' ')}\t| {Weapons[i].EqAtk}\t| {Weapons[i].EqDef}\t| {Weapons[i].EqHP}\t| {Weapons[i].EqMP}\t| 1\t| {Weapons[i].Info}\n", false);
                         }
                     }
                 }
