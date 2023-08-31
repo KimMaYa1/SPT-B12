@@ -23,27 +23,39 @@ namespace TeamProject
         }
         public static bool ShowItemList(Scene scene, Player player)
         {
-            lineX = 2;
-            lineY = 2;
             Console.Clear();
             scene.DrawStar();
-            scene.SetCursorString(lineX + 20, lineY++, "상점", false);
-            scene.SetCursorString(lineX, lineY++, "   \t 이름    \t| 공격력|방어력 | +HP \t| +MP \t| 가격\t| 설명", false);
+
+            lineX = 4;
+            lineY = 2;
+            
+            scene.SetCursorString(77, lineY++, "상점", false);
+            lineY++;
+            scene.SetCursorString(33, lineY, "이름", false);
+            scene.SetCursorString(58, lineY++, "|공격력|방어력 | +HP \t| +MP \t| 가격\t| 설명", false);
+            scene.SetCursorString(30, lineY++, "-----------------------------------------------------------------------------------------------", false);
+            lineY++;
 
             int count = 1;
             foreach (Item i in items)
             {
-                scene.SetCursorString(lineX , lineY++, $"{count}.\t{i.Name}\t| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| {i.Price}\t| {i.Info}", false);
+                lineX = 30;
+                scene.SetCursorString(lineX, lineY, String.Format("{0,-3}", $"{count}. {i.Name}"), false);
+                lineX += 28;
+                scene.SetCursorString(lineX , lineY++, $"| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| {i.Price}\t| {i.Info}", false);
+                lineY++;
                 count++;
             }
-            lineY += 3;
+            lineY ++;
 
-            scene.SetCursorString(0, lineY++, "0.나가기", false);
-            scene.SetCursorString(0, lineY++, "1.아이템 구매하기", false);
-            scene.SetCursorString(0, lineY++, "2.아이템 판매하기", false);
+            scene.SetCursorString(72, lineY++, "0.나가기", false);
+            scene.SetCursorString(72, lineY++, "1.아이템 구매하기", false);
+            scene.SetCursorString(72, lineY++, "2.아이템 판매하기", false);
             //Console.WriteLine("3. 아이템 강화하기");
 
-            int num = CheckValidInput(0, 2, scene);
+            int num = scene.InputString(0, 2, 0, "원하시는 행동의 번호를 입력하세요.", 63, lineY);
+            lineY += 2;
+
 
             if(num == 0)
             {
@@ -61,23 +73,28 @@ namespace TeamProject
 
         public static void CheckBuyItem(Scene scene, Player player)
         {
-            //lineY += 2;
-            scene.SetCursorString(0, lineY++, "어떤 아이템을 구매하시겠습니까?", false);
-            int num = CheckValidInput(1, items.Length, scene);
+            int num = scene.InputString(0, items.Length, 0, "구매할 아이템의 번호를 입력하세요. (취소는 0)", 63, lineY);
+            lineY += 2;
+
+            if( num == 0)
+            {
+                DisplayShop(player, scene);
+            }
+
 
             bool result = BuyItem(num, player);         // 플레이어와 입력 번호 바이아이템 호출
             if (result)
             {
-                scene.SetCursorString(0, lineY++, "구매에 성공하였습니다.", false);
+                scene.SetCursorString(63, lineY++, "구매에 성공하였습니다.", false);
                 Thread.Sleep(2000);
                 DisplayShop(player, scene);
                 //ShowItemList(scene, player);
             }
             else
             {
-                scene.SetCursorString(0, lineY++, "구매에 실패하였습니다. 골드를 확인해 보세요.", false);
+                scene.SetCursorString(63, lineY++, "구매에 실패하였습니다. 골드를 확인해 보세요.", false);
                 Thread.Sleep(1000);
-                ShowItemList(scene, player);
+                DisplayShop(player, scene);
             }
         }
         public static bool BuyItem(int num , Player player)
@@ -95,12 +112,16 @@ namespace TeamProject
         }
         public static void CheckSellItem(Scene scene, Player player)
         {
-            //lineY += 2;
-            scene.SetCursorString(0, lineY++, "어떤 아이템을 판매하시겠습니까?", false);         //판매할 아이템 선택
-            scene.SetCursorString(0, lineY++, "판매할 아이템의 인벤토리 번호를 입력해주세요.", false);  //판매할 아이템 선택
-            int num = CheckValidInput(1, player.Inventory.Length, scene);
+            int num = scene.InputString(0, player.Inventory.Length, 0, "판매할 아이템의 인벤토리 번호를 입력하세요. (취소는 0)", 63, lineY);
+            lineY += 2;
+
+            if (num == 0)
+            {
+                DisplayShop(player, scene);
+            }
+
             SellItem(num, player);
-            Console.WriteLine("판매에 성공하였습니다.");
+            scene.SetCursorString(63, lineY++, "판매에 성공하였습니다.", false);
             Thread.Sleep(1000);
             DisplayShop(player, scene);
         }
@@ -148,21 +169,6 @@ namespace TeamProject
            
         }
 
-        static int CheckValidInput(int min, int max, Scene scene)
-        {
-            while (true)
-            {
-                string input = Console.ReadLine();
-                lineY++;
-                bool parseSuccess = int.TryParse(input, out int ret);
-                if (parseSuccess)
-                {
-                    if (ret >= min && ret <= max)
-                        return ret;
-                }
-                scene.SetCursorString(0, lineY++, "잘못된 입력입니다. 다시 입력하세요.", false);
-            }
-        }
 
         /*  아이템 파괴기능 추가시 
          public int UpGradeItem(Player player, Item item)
