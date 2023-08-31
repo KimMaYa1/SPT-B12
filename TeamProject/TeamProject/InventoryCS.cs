@@ -17,6 +17,7 @@ namespace TeamProject
 
         static public bool DisplayInventory(Player player, Scene scene)
         {
+            EtcItems.Clear();
             int page = 0;
             bool isEq = false;
             if(player.Inventory.Length > 0)
@@ -189,7 +190,6 @@ namespace TeamProject
             Weapons.Clear();
             HPotions.Clear();
             MPotions.Clear();
-            EtcItems.Clear();
             return isEq;
         }
         static void DisplayEq(Player player, Scene scene)
@@ -202,8 +202,7 @@ namespace TeamProject
                 scene.DrawStar();
                 scene.SetCursorString(70, 2, "인벤토리 - 장착 관리", false);
                 int y = 7;
-                Info(page, scene, y, 31,"[E]");
-                y = 27;
+                y = Info(page, scene, y, 31,"[E]");
                 int length = (Weapons.Count / 10) + 1;
                 scene.SetCursorString(70, ++y, $"{(page + 1)} / {length}", false);
                 scene.SetCursorString(44, ++y + 3, "1. 다음 페이지", false);
@@ -323,7 +322,7 @@ namespace TeamProject
                 Thread.Sleep(1000);
             }
         }
-        static void Info(int page, Scene scene, int y,int temp, string eq)
+        static int Info(int page, Scene scene, int y,int temp, string eq)
         {
             string nick = "이름";
             scene.SetCursorString(20, 5, $"  이름", false);
@@ -385,6 +384,7 @@ namespace TeamProject
                     }
                 }
             }
+            return y;
         }
     }
 }
