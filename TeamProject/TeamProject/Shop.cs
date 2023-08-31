@@ -28,13 +28,17 @@ namespace TeamProject
 
             lineX = 4;
             lineY = 2;
-            
+
+            Console.ForegroundColor = ConsoleColor.Green;
             scene.SetCursorString(77, lineY++, "상점", false);
+            Console.ForegroundColor = ConsoleColor.Yellow;
             lineY++;
+
             scene.SetCursorString(33, lineY, "이름", false);
             scene.SetCursorString(58, lineY++, "|공격력|방어력 | +HP \t| +MP \t| 가격\t| 설명", false);
             scene.SetCursorString(30, lineY++, "-----------------------------------------------------------------------------------------------", false);
             lineY++;
+            Console.ForegroundColor = ConsoleColor.White;
 
             int count = 1;
             foreach (Item i in items)
@@ -46,8 +50,8 @@ namespace TeamProject
                 lineY++;
                 count++;
             }
-            //lineY ++;
 
+            Console.ForegroundColor = ConsoleColor.Yellow;
             scene.SetCursorString(72, lineY++, "0.나가기", false);
             scene.SetCursorString(72, lineY++, "1.아이템 구매하기", false);
             scene.SetCursorString(72, lineY++, "2.아이템 판매하기", false);
@@ -55,7 +59,6 @@ namespace TeamProject
 
             int num = scene.InputString(0, 3, 0, "원하시는 행동의 번호를 입력하세요.", 63, lineY);
             lineY += 2;
-
 
             if(num == 0)
             {
@@ -85,7 +88,6 @@ namespace TeamProject
                 DisplayShop(player, scene);
             }
 
-
             bool result = BuyItem(num, player);         // 플레이어와 입력 번호 바이아이템 호출
             if (result)
             {
@@ -110,11 +112,11 @@ namespace TeamProject
             else
             {
                 player.Gold -= items[num - 1].Price;
-                Item item = new Item(items[num-1].Name);
-                player.ItemAdd(item);
+                player.ItemAdd(items[num -1]);
                 return true;
             }
         }
+
         public static void CheckSellItem(Scene scene, Player player)
         {
             int num = scene.InputString(0, player.Inventory.Length, 0, "판매할 아이템의 인벤토리 번호를 입력하세요. (취소는 0)", 63, lineY);
@@ -159,8 +161,7 @@ namespace TeamProject
             Thread.Sleep(1000);
             DisplayShop(player, scene);
         }
-
-        public static bool UpGradeItem(int num, Player player)
+        public static bool UpGradeItem(int num, Player player)      //아이템 강화
         {
             Random random = new Random();
 
