@@ -12,7 +12,7 @@ namespace TeamProject
         static List<Item> Weapons = new List<Item>();      // player.Inventory.Where(item => item.Type == 1).ToList() 
         static List<Item> HPotions = new List<Item>();     // 포션류 전부 Type 2에 두었습니다. player.Inventory.Where(item => item.Type == 2 && item.EqMP != 0).ToList() ....?
         static List<Item> MPotions = new List<Item>();     // player.Inventory.Where(item => item.Type == 2 && item.EqHP != 0).ToList() ...?
-        //static List<Item> EtcItems = new List<Item>();   // 기타 아이템 추가한다면,. Type 3    player.Inventory.Where(item => item.Type == 3).ToList()? 기타아이템도 포션처럼 갯수 보이게 구현 가능할까요?
+        static List<Item> EtcItems = new List<Item>();    // 기타 아이템 추가한다면,. Type 3    player.Inventory.Where(item => item.Type == 3).ToList()? 기타아이템도 포션처럼 갯수 보이게 구현 가능할까요?
 
         static public bool DisplayInventory(Player player, Scene scene)
         {
@@ -22,7 +22,7 @@ namespace TeamProject
             {
                 foreach (Item i in player.Inventory)
                 {
-                    if (i.Type != 2)
+                    if (i.Type == 0 || i.Type == 1)
                     {
                         Weapons.Add(i);
                     }
@@ -43,13 +43,14 @@ namespace TeamProject
             else
             {
                 Console.Clear();
-                scene.DrawStar(97, 30);
+                scene.DrawStar();
                 scene.SetCursorString(4, 1, "인벤토리", false);
-                scene.SetCursorString(4, 3, "이름\t\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
+                scene.SetCursorString(4, 3, "이름\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
                 scene.SetCursorString(4, 5, "아무것도 없습니다", false);
                 Thread.Sleep(1000);
             }
             int temp = 0;
+            string nick = "이름";
             if (player.Inventory.Length > 0)
             {
                 temp = player.Inventory.Max(name => name.Name.Length);
@@ -58,10 +59,9 @@ namespace TeamProject
             {
                 int y = 4;
                 Console.Clear();
-                scene.DrawStar(120, 30);
+                scene.DrawStar();
                 scene.SetCursorString(4, 1, "인벤토리", false);
-                scene.SetCursorString(13, 1, $"{temp}", false);
-                scene.SetCursorString(4, 3, "이름\t\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
+                scene.SetCursorString(4, 3, $"{nick.PadRight(temp, ' ')}\t| 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
                 if(Weapons.Count > page * 10 + 10)
                 {
                     for (int i = page * 10; i < page * 10 + 10; i++)
@@ -97,11 +97,11 @@ namespace TeamProject
                 y++;
                 int length = (Weapons.Count / 10) + 1;
                 scene.SetCursorString(40, ++y + 2, $"{(page + 1)} / {length}", false);
-                scene.SetCursorString(4, ++y + 2, "0. 나가기", false);
                 scene.SetCursorString(4, ++y + 2, "1. 장착 관리", false);
                 scene.SetCursorString(4, ++y + 2, "2. 소비 아이템 관리", false);
                 scene.SetCursorString(4, ++y + 2, "3. 다음 페이지", false);
                 scene.SetCursorString(4, ++y + 2, "4. 이전 페이지", false);
+                scene.SetCursorString(4, ++y + 2, "0. 나가기", false);
                 int key = scene.InputString(0, 5, 0, "행동 선택\n", 40, ++y + 3);
                 if (key == 0)
                 {
@@ -157,7 +157,7 @@ namespace TeamProject
             while (inf)
             {
                 Console.Clear();
-                scene.DrawStar(120, 30);
+                scene.DrawStar();
                 scene.SetCursorString(2, 2, "인벤토리 - 장착 관리", false);
                 int y = 4;
                 int temp = 0;
@@ -172,7 +172,7 @@ namespace TeamProject
                 scene.SetCursorString(2, ++y + 5, "0. 나가기", false);
                 scene.SetCursorString(2, ++y + 5, "1. 다음 페이지", false);
                 scene.SetCursorString(2, ++y + 5, "2. 이전 페이지", false);
-                int key = scene.InputString(0, Weapons.Count - 1, 0, "장착할 아이템을 선택해 주세요", 40, 22);
+                int key = scene.InputString(0, Weapons.Count + 2, 0, "장착할 아이템을 선택해 주세요", 40, 22);
                 if (key == 0)
                 {
                     inf = false;
@@ -214,7 +214,7 @@ namespace TeamProject
             while (inf)
             {
                 Console.Clear();
-                scene.DrawStar(90, 20);
+                scene.DrawStar();
                 scene.SetCursorString(2, 2, "인벤토리 - 소비 아이템 관리", false);
                 if (HPotions.Count > 0)
                 {
@@ -277,7 +277,8 @@ namespace TeamProject
         }
         static void Info(int page, Scene scene, int y,int temp, string eq)
         {
-            scene.SetCursorString(4, 3, "    이름\t\t      | 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
+            string nick = "이름";
+            scene.SetCursorString(4, 3, $"    \"{nick.PadRight(temp, ' ')}\t      | 공격력| 방어력| 체력\t| 마나\t| 수량\t| 설명\n", false);
             if (Weapons.Count > page * 10 + 10)
             {
                 for (int i = page * 10; i < page * 10 + 10; i++)
