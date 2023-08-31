@@ -23,6 +23,8 @@ namespace TeamProject
         public int? Req2Num;
         public int? Req3Num;
         public int? Req4Num;
+        public int?[] ReqNums = new int?[4];
+        public string?[] ReqNames = new string?[4];
 
         public static ItemTable[] CombinationTable = GetItemCombinationTable();
         public BlackSmith() { }
@@ -39,6 +41,8 @@ namespace TeamProject
             Req2Num = tableArray.Length > 3 ? int.Parse(tableArray[3]) : null;
             Req3Num = tableArray.Length > 5 ? int.Parse(tableArray[5]) : null;
             Req4Num = tableArray.Length > 7 ? int.Parse(tableArray[7]) : null;
+            ReqNums = new int?[] { Req1Num, Req2Num, Req3Num, Req4Num };
+            ReqNames = new string?[] { Req1Name, Req2Name, Req3Name, Req4Name };
         }
 
         public struct ItemTable
@@ -161,7 +165,45 @@ namespace TeamProject
             }
             else if (input >= 1 && input <= length-1)
             {
-
+                Item targetItem = CombinationTable[input - 1].CombItem;
+                BlackSmith targetSmith = new BlackSmith(targetItem);
+                bool isCreat = false;
+                for (int i = 0; i < 4 && targetSmith.ReqNums[i] > 0; i++)
+                {
+                    if (!(targetSmith.ReqNums[i] <= player.Inventory.Where(item => item.Name == targetSmith.ReqNames[i]).ToArray().Length))
+                    {
+                        scene.SetCursorString(lineX, lineY++, "=====================================", false);
+                        scene.SetCursorString(lineX, lineY++, "            재료가 부족합니다", false);
+                        scene.SetCursorString(lineX, lineY++, "=====================================", false);
+                        isCreat = false;
+                        break;
+                    }
+                    isCreat = true;
+                }
+                if (isCreat)
+                {
+                    for (int i = 0; i < 4 && targetSmith.ReqNums[i] > 0; i++)
+                    {
+                        int count = 0;
+                        for (int j = 0; j < player.Inventory.Length; j++)
+                        {
+                            if (player.Inventory[j].Name == targetSmith.ReqNames[i])
+                            {
+                                player.ItemDelete(player.Inventory[j]);
+                                count++;
+                            }
+                            if(count>= targetSmith.ReqNums[i])
+                            {
+                                break;
+                            }
+                        }
+                    }
+                    player.ItemAdd(targetItem);
+                    scene.SetCursorString(lineX, lineY++, "=====================================", false);
+                    scene.SetCursorString(lineX, lineY++, $"   {targetItem.Name}을 제작하였습니다.", false);
+                    scene.SetCursorString(lineX, lineY++, "=====================================", false);
+                }
+                Thread.Sleep(1000);
             }
             return true;
         }
