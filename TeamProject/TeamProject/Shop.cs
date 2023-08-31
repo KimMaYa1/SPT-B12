@@ -101,19 +101,26 @@ namespace TeamProject
             {
                 scene.SetCursorString(lineX, lineY + 1, "                                                  ", true);
                 int count = scene.InputString(1, 10, 0, "몇개 구입하시겠습니까? (최대 10개)", lineX, lineY);
-
-                bool result = BuyItem(num, count, player);         // 플레이어와 입력 번호 바이아이템 호출
-                if (result)
+                if (num == -1)
                 {
-                    scene.SetCursorString(lineX, lineY++, "구매에 성공하였습니다.", false);
-                    Thread.Sleep(1000);
                     ShowItemList(scene, player);
                 }
                 else
                 {
-                    scene.SetCursorString(lineX, lineY++, "구매에 실패하였습니다. 골드가 부족합니다.", false);
-                    Thread.Sleep(1000);
-                    ShowItemList(scene, player);
+                    bool result = false; 
+                    result = BuyItem(num, count, player);         // 플레이어와 입력 번호 바이아이템 호출
+                    if (result)
+                    {
+                        scene.SetCursorString(lineX, lineY++, "구매에 성공하였습니다.", false);
+                        Thread.Sleep(1000);
+                        ShowItemList(scene, player);
+                    }
+                    else
+                    {
+                        scene.SetCursorString(lineX, lineY++, "구매에 실패하였습니다. 골드가 부족합니다.", false);
+                        Thread.Sleep(1000);
+                        ShowItemList(scene, player);
+                    }
                 }
             }
         }
@@ -135,6 +142,10 @@ namespace TeamProject
         {
             scene.SetCursorString(lineX, lineY + 1, "                                                  ", true);
             int num = scene.InputString(0, player.Inventory.Length, 0, "판매할 아이템의 인벤토리 번호를 입력하세요. (취소는 0)", lineX, lineY);
+            if (num == -1)
+            {
+                ShowItemList(scene, player);
+            }
 
             if (num == 0)
             {
@@ -159,6 +170,10 @@ namespace TeamProject
         {
             scene.SetCursorString(lineX, lineY + 1, "                                                  ", true);
             int num = scene.InputString(0, player.Inventory.Length, 0, "강화할 아이템의 인벤토리 번호를 입력하세요. (취소는 0)", lineX, lineY);
+            if (num == -1)
+            {
+                ShowItemList(scene, player);
+            }
 
             if (num == 0)
             {
