@@ -20,24 +20,24 @@ namespace TeamProject
         int _stage = 1;
         int _round = 1;
 
-        public void DrawStar(int x, int y)
+        public void DrawStar()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            for (int i = 0; i < x; i++)
+            for (int i = 0; i < 160; i++)
             {
                 Console.SetCursorPosition(i, 0);
                 Console.Write("*");
             }
-            for (int i = 0; i < y; i++)
+            for (int i = 0; i < 40; i++)
             {
                 Console.SetCursorPosition(0, i);
                 Console.Write("*");
-                Console.SetCursorPosition(x - 1, i);
+                Console.SetCursorPosition(160 - 1, i);
                 Console.Write("*");
             }
-            for (int i = 0; i < x; i++)
+            for (int i = 0; i < 160; i++)
             {
-                Console.SetCursorPosition(i, y);
+                Console.SetCursorPosition(i, 40);
                 Console.Write("*");
             }
         }
@@ -104,7 +104,7 @@ namespace TeamProject
         {
             Console.Clear();
 
-            DrawStar(60,15);
+            DrawStar();
 
 
             int lineX = 12;
@@ -175,7 +175,7 @@ namespace TeamProject
         {
             Console.Clear();
 
-            DrawStar(60, 21);
+            DrawStar();
 
             int lineY = 2;
             int lineX = 15;
@@ -269,7 +269,7 @@ namespace TeamProject
         public bool DisplayStat()
         {
             Console.Clear();
-            DrawStar(40, 26);
+            DrawStar();
             int lineX = 8;
             int lineY = 2;
             Console.ForegroundColor = ConsoleColor.White;
@@ -321,7 +321,7 @@ namespace TeamProject
             _beforeMp = _player.Mp;
             Console.Clear();
 
-            DrawStar(60, 20);
+            DrawStar();
 
             int lineX = 10;
             int lineY = 2;
@@ -444,7 +444,7 @@ namespace TeamProject
         public int DisplaySelectRound()
         {
             Console.Clear();
-            DrawStar(45,15);
+            DrawStar();
             int lineX = 10;
             int lineY = 2;
             Console.ForegroundColor = ConsoleColor.White;
@@ -476,7 +476,7 @@ namespace TeamProject
             int lineY = BattleInfo(false, round);
             int lineX = 10;
             lineY++;
-            DrawStar(60, 25);
+            DrawStar();
 
             Console.ForegroundColor = ConsoleColor.White;
             SetCursorString(lineX, lineY++, "1. 공격", false);
@@ -515,7 +515,7 @@ namespace TeamProject
             int lineY = BattleInfo(false, round);
             int lineX = 8;
             lineY++;
-            DrawStar(60, 30);
+            DrawStar();
 
             Console.ForegroundColor = ConsoleColor.White;
             float[][] skill= _player.SkillInfo(this, lineX, lineY);
@@ -622,7 +622,7 @@ namespace TeamProject
             int lineY = BattleInfo(true, round);
             int lineX = 10;
             lineY++;
-            DrawStar(60, 30);
+            DrawStar();
 
             Console.ForegroundColor = ConsoleColor.White;
             SetCursorString(lineX, lineY++, "0. 취소", false);
@@ -798,7 +798,7 @@ namespace TeamProject
         public void DisplayBattleClear(int round)
         {
             Console.Clear();
-            DrawStar(60, 25);
+            DrawStar();
             int lineX = 10;
             int lineY = 2;
 

@@ -93,9 +93,9 @@ namespace TeamProject
         public bool DisplaySmith(Player player, Scene scene)                    // Scene에서 한다면, Scene scene은 빠질듯요?
         {
             Console.Clear();
-            scene.DrawStar(120, 30);                                            // scene에서 가져온 메서드도 지우셔야할듯
-            scene.DrawStar(120, 5);
-            scene.DrawStar(120, 7);
+            scene.DrawStar();                                            // scene에서 가져온 메서드도 지우셔야할듯
+            scene.DrawStar();
+            scene.DrawStar();
 
             int lineX = 24;
             int lineY = 2;
