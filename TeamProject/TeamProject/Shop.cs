@@ -46,14 +46,14 @@ namespace TeamProject
                 lineY++;
                 count++;
             }
-            lineY ++;
+            //lineY ++;
 
             scene.SetCursorString(72, lineY++, "0.나가기", false);
             scene.SetCursorString(72, lineY++, "1.아이템 구매하기", false);
             scene.SetCursorString(72, lineY++, "2.아이템 판매하기", false);
-            //Console.WriteLine("3. 아이템 강화하기");
+            scene.SetCursorString(72, lineY++, "3.아이템 강화하기", false);
 
-            int num = scene.InputString(0, 2, 0, "원하시는 행동의 번호를 입력하세요.", 63, lineY);
+            int num = scene.InputString(0, 3, 0, "원하시는 행동의 번호를 입력하세요.", 63, lineY);
             lineY += 2;
 
 
@@ -64,9 +64,13 @@ namespace TeamProject
             {
                 CheckBuyItem(scene, player);
             }
-            else
+            else if( num == 2)
             {
                 CheckSellItem(scene, player);
+            }
+            else
+            {
+                CheckUpGradeItem(scene, player);
             }
             return true;
         }
@@ -106,7 +110,8 @@ namespace TeamProject
             else
             {
                 player.Gold -= items[num - 1].Price;
-                player.ItemAdd(items[num - 1]);
+                Item item = new Item(items[num-1].Name);
+                player.ItemAdd(item);
                 return true;
             }
         }
@@ -132,8 +137,30 @@ namespace TeamProject
 
         }
 
+        public static void CheckUpGradeItem(Scene scene, Player player)
+        {
+            int num = scene.InputString(0, player.Inventory.Length, 0, "강화할 아이템의 인벤토리 번호를 입력하세요. (취소는 0)", 63, lineY);
+            lineY += 2;
 
-        public bool UpGradeItem(Player player, Item item)
+            if (num == 0)
+            {
+                DisplayShop(player, scene);
+            }
+
+            bool result = UpGradeItem(num, player);
+            if (result)
+            {
+                scene.SetCursorString(63, lineY++, "강화에 성공하였습니다.", false);
+            }
+            else
+            {
+                scene.SetCursorString(63, lineY++, "강화에 실패하였습니다.", false);
+            }
+            Thread.Sleep(1000);
+            DisplayShop(player, scene);
+        }
+
+        public static bool UpGradeItem(int num, Player player)
         {
             Random random = new Random();
 
@@ -155,14 +182,14 @@ namespace TeamProject
             }
             else
             {
-                if (item.Type == 0)
+                if (player.Inventory[num-1].Type == 0)
                 {
-                    item.EqAtk += random.Next(1, 6);    //램덤값으로 강화
+                    player.Inventory[num-1].EqAtk += random.Next(1, 6);    //램덤값으로 강화
 
                 }
-                else if (item.Type == 1)
+                else if (player.Inventory[num-1].Type == 1)
                 {
-                    item.EqDef += random.Next(1, 6);
+                    player.Inventory[num-1].EqDef += random.Next(1, 6);
                 }
                 return true;    //강화 성공
             }
