@@ -15,14 +15,42 @@ namespace TeamProject
     {
         public static bool HowChoose(Scene scene)
         {
-            int x = 70;
-            int y = 7;
-            scene.DrawStar();
-            scene.SetCursorString(x, y++, "게임 시작", false);
-            scene.SetCursorString(x, ++y + 5, "0. 새로 시작", false);
-            scene.SetCursorString(x, ++y + 7, "1. 불러 오기", false);
-            int key = scene.InputString(0, 1, 0, "선택해 주세요", x, ++y + 10);
-            return key != 0;
+            bool choose = false;
+            int key = 0;
+            while (!choose)
+            {
+                int x = 70;
+                int y = 7;
+                scene.DrawStar();
+                scene.SetCursorString(x, y++, "게임 시작", false);
+                scene.SetCursorString(x, ++y + 5, "0. 새로 시작", false);
+                scene.SetCursorString(x, ++y + 7, "1. 불러 오기", false);
+                key = scene.InputString(0, 1, 0, "선택해 주세요", x, ++y + 10);
+                if (key == 1)
+                {
+                    choose = true;
+                    try
+                    {
+                        LoadPlayer();
+                    }
+                    catch (Exception e)
+                    {
+                        scene.SetCursorString(x, ++y + 7, "저장된 정보가 없습니다", false);
+                        Thread.Sleep(1000);
+                        Console.Clear();
+                        choose = false;
+                    }
+                }
+                else if(key == 0)
+                {
+                    choose = true;
+                }
+            }
+            if(key == 0)
+            {
+                choose = false;
+            }
+            return choose;
         }
         public static void SavePlayerInfo(Player player, int stage, int round)
         {
