@@ -103,7 +103,7 @@ namespace TeamProject
             scene.DrawStar();                                            // scene에서 가져온 메서드도 지우셔야할듯
 
             int lineX = 60;
-            int lineY = 10;
+            int lineY = 3;
 
             CombItemList(player, scene, lineX, ref lineY, false);
             
@@ -213,17 +213,19 @@ namespace TeamProject
             Console.ForegroundColor = ConsoleColor.Red;
             scene.SetCursorString(lineX, lineY++, "      [대장간]", false); //false 가 줄넘김
             scene.SetCursorString(lineX, lineY++, "무엇이든 만들어드립니다...", false);
-            lineY += 2;
+            lineY +=2;
             lineX = 7;
             Console.ForegroundColor = ConsoleColor.White;
-            scene.SetCursorString(lineX, lineY += 2, "제작 아이템         ||   재료이름    ||필요숫자||   재료이름    ||필요숫자||   재료이름    ||필요숫자||   재료이름    ||필요숫자||", false);
-            lineY++;
+            scene.SetCursorString(lineX, lineY++, "----------------------------------------------------------------------------------------------------------------------------------", false);
+            scene.SetCursorString(lineX, lineY++, "제작 아이템         ||   재료이름    ||필요숫자||   재료이름    ||필요숫자||   재료이름    ||필요숫자||   재료이름    ||필요숫자||", false);
+            scene.SetCursorString(lineX, lineY++, "----------------------------------------------------------------------------------------------------------------------------------", false);
             int maxItemLength = 0;
             var stallArray = new List<string>();
             int num = 1;
 
             foreach (BlackSmith.ItemTable table in BlackSmith.GetItemCombinationTable())
             {
+                lineY++;
                 var stallElementList = new List<string>();
                 BlackSmith itemSmith = new BlackSmith(table.CombItem);
                 maxItemLength = (maxItemLength > itemSmith.SmithItem.Name.Length) ? maxItemLength : itemSmith.SmithItem.Name.Length;
@@ -239,7 +241,7 @@ namespace TeamProject
                         stallElementList.Add(value.ToString());
                     }
                 }
-                //string showString = $"{Utils.LimitString(stallElementList[0], 10)}||{Utils.LimitString(stallElementList[1], 7)}|{Utils.LimitString(stallElementList[2], 4)}/{player.Inventory.Where(item => item.Name == stallElementList[1]).ToArray().Length}|";  // 제작 아이템 || Req1Name | Req1Num |
+                
                 lineX = 7;
                 if (isCreate)
                 {
@@ -273,21 +275,6 @@ namespace TeamProject
                     }
                 }
                 scene.SetCursorString(lineX, lineY++, showString, false);
-                //리스트에 조합아이템이름이 먼저 들어가고 필요조합개수는 뒤에 들어감
-                //string showString = $"{stallElementList[0]}";  //조합아이템 이름
-                /*for (int i = 3; i < 9; i += 2)                                                                             // 인벤토리에서 갯수 반환받으면, 갖고 있는 숫자 보여주는 기능 : player.Inventory.Where(item => item.Name == stallElementList[1]).ToArray().Length;
-                {
-                    try
-                    {
-                        showString += $"{Utils.LimitString(stallElementList[i], 7)}|{Utils.LimitString(stallElementList[i + 1], 4)}/{player.Inventory.Where(item => item.Name == stallElementList[i]).ToArray().Length}|";                                          // null 이 아니라면 ReqNName | ReqNNum
-                        
-                    }
-                    catch                                                                                                                                                       // null 이여서 오류 일어나면 반복 넘김
-                    {
-                        continue;
-                    }
-                }*/
-                //scene.SetCursorString(1, lineY++, showString, false);                     // !! 인벤토리에서 재료아아템 갯수 반영된다면, 제작 기능 추가 예정
             }
             return num;
         }
