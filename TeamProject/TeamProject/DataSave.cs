@@ -21,6 +21,7 @@ namespace TeamProject
             {
                 int x = 70;
                 int y = 7;
+                Console.Clear();
                 scene.DrawStar();
                 scene.SetCursorString(x, y++, "  게임 시작", false);
                 scene.SetCursorString(x, ++y + 5, "0. 새로 시작", false);
