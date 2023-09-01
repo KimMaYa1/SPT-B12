@@ -855,7 +855,7 @@ namespace TeamProject
                 int beforeGold = _player.Gold;
                 int exp = _dungeon.GetExp(_monsters);
                 int gold = _dungeon.GetGold(_monsters);
-                Item?[] items = _dungeon.GetItem(_monsters);
+                Item[] items = _dungeon.GetItem(_monsters);
                 _player.Exp += exp;
                 _player.Gold += gold;
                 int beforeMaxExp = _player.Level * 5;
@@ -888,7 +888,7 @@ namespace TeamProject
                 SetCursorString(lineX, lineY++, $"마나   | {_beforeMp} / {_player.MaxMp} -> {_player.Mp} / {_player.MaxMp}", false);
                 lineY++;
                 Console.ForegroundColor = ConsoleColor.Magenta;
-                if (items[0] != null)
+                if (items.Length > 0)
                 {
                     SetCursorString(lineX, lineY++, "[획득 아이템]", false);
                     foreach (Item item in items)
