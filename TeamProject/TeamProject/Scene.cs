@@ -348,9 +348,10 @@ namespace TeamProject
             SetCursorString(lineX, lineY++, "           3. 인벤토리", false);
             SetCursorString(lineX, lineY++, "             4. 상점", false);
             SetCursorString(lineX, lineY++, "            5. 대장간", false);
+            SetCursorString(lineX, lineY++, "            6. 나가기", false);
             lineY++;
             lineX += 5;
-            int inputNum = InputString(1, 5, 0, "원하시는 행동을 입력해주세요.", lineX, lineY);
+            int inputNum = InputString(1, 6, 0, "원하시는 행동을 입력해주세요.", lineX, lineY);
 
             lineY += 3;
             lineX -= 4;
@@ -440,6 +441,14 @@ namespace TeamProject
                 {
                     isEndDisplay = b.DisplaySmith(_player, this);
                 }
+            }
+            else if(inputNum == 6)
+            {
+                SetCursorString(lineX, lineY++, "=====================================", false);
+                SetCursorString(lineX, lineY++, "          저장후 종료합니다.", false);
+                SetCursorString(lineX, lineY++, "=====================================", false);
+                Thread.Sleep(1000);
+                DataSave.ExitGame(this);
             }
         }
 

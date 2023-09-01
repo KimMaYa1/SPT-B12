@@ -17,8 +17,6 @@
             {
                 isSelectNameChrd = true;
             }
-            
-            isSelectNameChrd = true;
 
             while (isSelectNameChrd)
             {

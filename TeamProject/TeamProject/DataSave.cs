@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Drawing;
 using System.IO;
-
+using System.Net.Sockets;
 
 namespace TeamProject
 {
@@ -22,10 +22,10 @@ namespace TeamProject
                 int x = 70;
                 int y = 7;
                 scene.DrawStar();
-                scene.SetCursorString(x, y++, "게임 시작", false);
+                scene.SetCursorString(x, y++, "  게임 시작", false);
                 scene.SetCursorString(x, ++y + 5, "0. 새로 시작", false);
                 scene.SetCursorString(x, ++y + 7, "1. 불러 오기", false);
-                key = scene.InputString(0, 1, 0, "선택해 주세요", x, ++y + 10);
+                key = scene.InputString(0, 1, 0, "원하는 행동을 선택해 주세요", x-6, ++y + 10);
                 if (key == 1)
                 {
                     choose = true;
@@ -161,12 +161,13 @@ namespace TeamProject
         }
         public static void ExitGame(Scene scene)
         {
-            int x = 50;
-            int y = 10;
-            scene.DrawStar();
+            int x = 70;
+            int y = 20;
+            Console.Clear();
             scene.SetCursorString(x - 1, y - 2, "===================", false);
             scene.SetCursorString(x, y, "게임을 종료합니다", false);
             scene.SetCursorString(x - 1, y + 2, "===================", false);
+            scene.DrawStar();
             try
             {
                 SavePlayerInfo(scene._player, scene._stage, scene._round);
