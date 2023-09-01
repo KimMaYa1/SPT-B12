@@ -85,7 +85,7 @@
 - 나가기 버튼을 누를 시 현재 플레이어의 정보가 csv파일에 저장 됩니다.
 
 
-- ![불러오기창](https://github.com/KimMaYa1/SPT-B12/assets/100994140/3fabe416-ed9e-4d84-a703-08919666e72e)
+![불러오기창](https://github.com/KimMaYa1/SPT-B12/assets/100994140/3fabe416-ed9e-4d84-a703-08919666e72e)
 
 
 - 불러오기 버튼을 누를 시 현재 저장된 플레이어의 정보를 불러옵니다.
