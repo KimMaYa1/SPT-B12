@@ -37,7 +37,7 @@ namespace TeamProject
                     {
                         scene.SetCursorString(x, ++y + 7, $"{e}", false);
                         scene.SetCursorString(x, ++y + 9, "저장된 정보가 없습니다", false);
-                        Thread.Sleep(1000);
+                        Thread.Sleep(10000);
                         Console.Clear();
                         choose = false;
                     }
@@ -69,6 +69,7 @@ namespace TeamProject
             fs.Close();
 
             path = Pathes.SaveItem();
+            encoding = Encoding.UTF8;
             fs = new FileStream(path, FileMode.OpenOrCreate);
             sw = new StreamWriter(fs, encoding);
 
