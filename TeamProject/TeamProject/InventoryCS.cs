@@ -144,6 +144,7 @@ namespace TeamProject
                 scene.SetCursorString(x + 20, --y, "1. 장착 관리", false);
                 scene.SetCursorString(x + 20, ++y, "2. 소비 아이템 관리", false);
                 scene.SetCursorString(x + 20, ++y, "3. 다음 페이지", false);
+                scene.SetCursorString(x, y, $"G : {player.Gold}", false);
                 scene.SetCursorString(x + 20, ++y, "4. 이전 페이지", false);
                 scene.SetCursorString(x + 20, ++y, "0. 나가기", false);
                 int key = scene.InputString(0, 5, 0, "행동 선택\n", x + 70, --y);
@@ -211,6 +212,7 @@ namespace TeamProject
                 scene.SetCursorString(x + 24, ++y + 3, "1. 다음 페이지", false);
                 scene.SetCursorString(x + 24, ++y + 3, "2. 이전 페이지", false);
                 scene.SetCursorString(x + 24, ++y + 3, "0. 나가기", false);
+                scene.SetCursorString(x, y, $"G : {player.Gold}", false);
                 int key = scene.InputString(0, Weapons.Count + 2, 0, "장착할 아이템을 선택해 주세요", x + 44, ++y + 4);
                 if (key == 0)
                 {
@@ -276,6 +278,7 @@ namespace TeamProject
                     scene.SetCursorString(x, 10, $"2. {MPotions[0].Name}\t| {MPotions.Count}\t| {MPotions[0].Info}\n", false);
                 }
                 scene.SetCursorString(x, 18, "0. 나가기", false);
+                scene.SetCursorString(x - 25, 18, $"G : {player.Gold}", false);
                 int key = scene.InputString(0, 2, 0, "포션을 선택해 주세요", x, 20);
                 if (key == 0)
                 {
