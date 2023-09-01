@@ -79,9 +79,9 @@ namespace TeamProject
                 if (!isSelect || !(inputNum >= min && inputNum <= max) || ismon)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    SetCursorString(lineX, lineY++, "=====================", false);
-                    SetCursorString(lineX, lineY++, "  잘못된 대상입니다", false);
-                    SetCursorString(lineX, lineY++, "=====================", false);
+                    SetCursorString(lineX, lineY++, "=========================================", false);
+                    SetCursorString(lineX, lineY++, "          잘못된 대상입니다", false);
+                    SetCursorString(lineX, lineY++, "=========================================", false);
                     Thread.Sleep(1000);
                     return -1;
                 }
@@ -91,9 +91,9 @@ namespace TeamProject
                 if (!int.TryParse(input, out inputNum) || !(inputNum >= min && inputNum <= max))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    SetCursorString(lineX, lineY++, "=====================", false);
-                    SetCursorString(lineX, lineY++, "  잘못된 입력입니다", false);
-                    SetCursorString(lineX, lineY++, "=====================", false);
+                    SetCursorString(lineX, lineY++, "=========================================", false);
+                    SetCursorString(lineX, lineY++, "          잘못된 입력입니다", false);
+                    SetCursorString(lineX, lineY++, "=========================================", false);
                     Thread.Sleep(1000);
                     return -1;
                 }
@@ -480,7 +480,7 @@ namespace TeamProject
             int lineY = 10;
             Console.ForegroundColor = ConsoleColor.White;
             SetCursorString(lineX, lineY++, "라운드 선택", false);
-            SetCursorString(3, lineY++, "원하시는 라운드로 입장하실수 있습니다.", false);
+            SetCursorString(lineX-10, lineY++, "원하시는 라운드로 입장하실수 있습니다.", false);
             lineY++;
             SetCursorString(lineX, lineY++, $"3. {_stage}-1", false);
             SetCursorString(lineX, lineY++, $"3. {_stage}-2", false);
@@ -787,9 +787,9 @@ namespace TeamProject
             Console.ForegroundColor = ConsoleColor.White;
             if (tCharacter.Evasion())
             {
-                SetCursorString(lineX, lineY++, "========================================", false);
-                SetCursorString(lineX, lineY++, $" {tCharacter.Name}이(가) {aCharacter.Name}의 공격을 회피하였습니다.", false);
-                SetCursorString(lineX, lineY++, "========================================", false);
+                SetCursorString(lineX, lineY++, "==============================================", false);
+                SetCursorString(lineX, lineY++, $"  {tCharacter.Name}이(가) {aCharacter.Name}의 공격을 회피하였습니다.", false);
+                SetCursorString(lineX, lineY++, "==============================================", false);
             }
             else
             {
@@ -845,7 +845,7 @@ namespace TeamProject
                 int beforeGold = _player.Gold;
                 int exp = _dungeon.GetExp(_monsters);
                 int gold = _dungeon.GetGold(_monsters);
-                Item[] items = _dungeon.GetItem(_monsters);
+                Item?[] items = _dungeon.GetItem(_monsters);
                 _player.Exp += exp;
                 _player.Gold += gold;
                 int beforeMaxExp = _player.Level * 5;
@@ -878,11 +878,14 @@ namespace TeamProject
                 SetCursorString(lineX, lineY++, $"마나   | {_beforeMp} / {_player.MaxMp} -> {_player.Mp} / {_player.MaxMp}", false);
                 lineY++;
                 Console.ForegroundColor = ConsoleColor.Magenta;
-                SetCursorString(lineX, lineY++, "[획득 아이템]", false);
-                foreach (Item item in items)
+                if (items[0] != null)
                 {
-                    _player.ItemAdd(item);
-                    SetCursorString(lineX, lineY++, $"아이템 | {item.Name}", false);
+                    SetCursorString(lineX, lineY++, "[획득 아이템]", false);
+                    foreach (Item item in items)
+                    {
+                        _player.ItemAdd(item);
+                        SetCursorString(lineX, lineY++, $"아이템 | {item.Name}", false);
+                    }
                 }
                 Console.ForegroundColor = ConsoleColor.White;
                 if (_round == 4)
