@@ -133,7 +133,10 @@ namespace TeamProject
             else
             {
                 player.Gold -= items[num - 1].Price * count;
-                player.ItemAdd(items[num - 1]);
+                for( int i =0; i < count; i++)
+                {
+                    player.ItemAdd(items[num - 1]);
+                }
                 return true;
             }
         }
