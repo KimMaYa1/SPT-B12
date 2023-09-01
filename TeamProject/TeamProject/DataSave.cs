@@ -35,7 +35,8 @@ namespace TeamProject
                     }
                     catch (Exception e)
                     {
-                        scene.SetCursorString(x, ++y + 7, "저장된 정보가 없습니다", false);
+                        scene.SetCursorString(x, ++y + 7, $"{e}", false);
+                        scene.SetCursorString(x, ++y + 9, "저장된 정보가 없습니다", false);
                         Thread.Sleep(1000);
                         Console.Clear();
                         choose = false;
@@ -157,6 +158,27 @@ namespace TeamProject
                 }
             }
             return allItems;
+        }
+        public static void ExitGame(Scene scene)
+        {
+            int x = 50;
+            int y = 10;
+            scene.DrawStar();
+            scene.SetCursorString(x - 1, y - 2, "===================", false);
+            scene.SetCursorString(x, y, "게임을 종료합니다", false);
+            scene.SetCursorString(x - 1, y + 2, "===================", false);
+            try
+            {
+                SavePlayerInfo(scene._player, scene._stage, scene._round);
+            }
+            catch(Exception ex)
+            {
+                Console.Clear();
+                scene.SetCursorString(x, y - 7, $"{ex}", false);
+                scene.SetCursorString(x, y, "저장에 실패했습니다.", false);
+            }
+            Thread.Sleep(1000);
+            Environment.Exit(0);
         }
     }
 }
