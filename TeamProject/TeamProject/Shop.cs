@@ -30,7 +30,7 @@ namespace TeamProject
             lineY = 2;
 
             Console.ForegroundColor = ConsoleColor.Green;
-            scene.SetCursorString(77, lineY++, "상점", false);
+            scene.SetCursorString(77, lineY++, $"상점                           보유 골드 : {player.Gold}G", false);
             Console.ForegroundColor = ConsoleColor.Yellow;
             lineY++;
 
