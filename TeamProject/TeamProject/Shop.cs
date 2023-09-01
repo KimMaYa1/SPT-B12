@@ -299,11 +299,18 @@ namespace TeamProject
                 if (item.Type == 0)
                 {
                     item.EqAtk += random.Next(1, 6);    //램덤값으로 강화
-
                 }
                 else if (item.Type == 1)
                 {
                     item.EqDef += random.Next(1, 6);
+                }
+                if (item.Name.Substring(item.Name.Length - 2, 1) != "+")
+                {
+                    item.Name += "+1";
+                }
+                else
+                {
+                    item.Name = item.Name.Substring(0, item.Name.Length-1) + (int.Parse(item.Name.Substring(item.Name.Length - 1, 1)) + 1);
                 }
                 return 3;    //강화 성공
             }

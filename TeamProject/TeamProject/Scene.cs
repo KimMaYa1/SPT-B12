@@ -64,6 +64,7 @@ namespace TeamProject
             string input = Console.ReadLine();
             int inputNum;
             lineY++;
+            lineX -= 6;
             if (num != 0)
             {
                 bool isSelect = int.TryParse(input, out inputNum);
