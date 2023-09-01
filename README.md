@@ -7,7 +7,7 @@
 
 # 게임시연
 
-<htr>
+<htr>https://www.youtube.com/watch?v=1MdGLlin0U8&feature=youtu.be
 
 # 게임설명
 
