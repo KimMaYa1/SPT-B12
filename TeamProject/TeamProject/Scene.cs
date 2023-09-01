@@ -13,13 +13,13 @@ namespace TeamProject
 {
     internal class Scene
     {
-        Player _player;
+        public Player _player;
         Dungeon _dungeon;
         Monster[] _monsters;
         int _beforeHp = 0;
         int _beforeMp = 0;
-        int _stage = 1;
-        int _round = 1;
+        public int _stage = 1;
+        public int _round = 1;
 
         public void DrawStar()
         {
