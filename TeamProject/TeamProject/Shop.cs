@@ -87,6 +87,9 @@ namespace TeamProject
         public static void CheckBuyItem(Scene scene, Player player)
         {
             scene.SetCursorString(lineX, lineY+1 , "                                                  ", true);
+            scene.SetCursorString(lineX, lineY - 1, "                                                  ", true);
+            scene.SetCursorString(lineX, lineY - 2, "                                                  ", true);
+            scene.SetCursorString(lineX, lineY - 3, "                                                  ", true);
             int num = scene.InputString(0, items.Length, 0, "구매할 아이템의 번호를 입력하세요. (취소는 0)", lineX, lineY);
             if( num == -1)
             {
@@ -143,8 +146,31 @@ namespace TeamProject
 
         public static void CheckSellItem(Scene scene, Player player)
         {
-            scene.SetCursorString(lineX, lineY + 1, "                                                  ", true);
-            int num = scene.InputString(0, player.Inventory.Length, 0, "판매할 아이템의 인벤토리 번호를 입력하세요. (취소는 0)", lineX, lineY);
+            Console.Clear();
+            scene.DrawStar();
+            lineY = 2;
+            scene.SetCursorString(77, lineY++, $"상점                           보유 골드 : {player.Gold}G", false);
+            int num = 1;
+            lineY++;
+            scene.SetCursorString(33, lineY, "이름", false);
+            scene.SetCursorString(58, lineY++, "|공격력|방어력 | +HP \t| +MP \t| 가격\t| 설명", false);
+            scene.SetCursorString(30, lineY++, "-----------------------------------------------------------------------------------------------", false);
+            lineY++;
+            foreach (Item i in player.Inventory)
+            {
+                if (i.Type == 0 || i.Type == 1)
+                {
+                    lineX = 30;
+                    scene.SetCursorString(lineX, lineY, String.Format("{0,-3}", $"{num}.") + $"{i.Name}", false);
+                    lineX += 28;
+                    scene.SetCursorString(lineX, lineY++, $"| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| {i.Price}\t| {i.Info}", false);
+                    lineY++;
+                    num++;
+                }
+            }
+            lineY++;
+
+            num = scene.InputString(0, player.Inventory.Length, 0, "판매할 아이템의 인벤토리 번호를 입력하세요. (취소는 0)", lineX, lineY);
             if (num == -1)
             {
                 ShowItemList(scene, player);
@@ -171,8 +197,30 @@ namespace TeamProject
 
         public static void CheckUpGradeItem(Scene scene, Player player)
         {
-            scene.SetCursorString(lineX, lineY + 1, "                                                  ", true);
-            int num = scene.InputString(0, player.Inventory.Length, 0, "강화할 아이템의 인벤토리 번호를 입력하세요. (취소는 0)", lineX, lineY);
+            Console.Clear();
+            scene.DrawStar();
+            lineY = 2;
+            scene.SetCursorString(77, lineY++, $"상점                           보유 골드 : {player.Gold}G", false);
+            int num = 1;
+            lineY++;
+            scene.SetCursorString(33, lineY, "이름", false);
+            scene.SetCursorString(58, lineY++, "|공격력|방어력 | +HP \t| +MP \t| 가격\t| 설명", false);
+            scene.SetCursorString(30, lineY++, "-----------------------------------------------------------------------------------------------", false);
+            lineY++;
+            foreach (Item i in player.Inventory)
+            {
+                if(i.Type == 0 || i.Type == 1)
+                {
+                    lineX = 30;
+                    scene.SetCursorString(lineX, lineY, String.Format("{0,-3}", $"{num}.") + $"{i.Name}", false);
+                    lineX += 28;
+                    scene.SetCursorString(lineX, lineY++, $"| {i.EqAtk}\t| {i.EqDef}\t| {i.EqHP}\t| {i.EqMP}\t| {i.Price}\t| {i.Info}", false);
+                    lineY++;
+                    num++;
+                }
+            }
+            lineY++;
+            num = scene.InputString(0, player.Inventory.Length, 0, "강화할 아이템의 인벤토리 번호를 입력하세요. (취소는 0)", lineX, lineY);
             if (num == -1)
             {
                 ShowItemList(scene, player);
