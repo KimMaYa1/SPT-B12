@@ -13,6 +13,19 @@ namespace TeamProject
 {
     internal static class DataSave
     {
+        public static bool HaveCsv()
+        {
+            string filePath = Pathes.SavePlayer();
+
+            if (File.Exists(filePath))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public static bool HowChoose(Scene scene)
         {
             bool choose = false;
