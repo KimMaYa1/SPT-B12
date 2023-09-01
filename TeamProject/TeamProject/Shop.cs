@@ -183,7 +183,12 @@ namespace TeamProject
             else
             {
                 SellItem(num, player);
-                scene.SetCursorString(lineX, lineY++, "판매에 성공하였습니다.", false);
+                Console.Clear();
+                lineY = 15;
+                lineX = 60;
+                scene.SetCursorString(lineX, lineY++, "=====================================", false);
+                scene.SetCursorString(lineX, lineY++, "        판매에 성공하였습니다.", false);
+                scene.SetCursorString(lineX, lineY++, "=====================================", false);
                 Thread.Sleep(1000);
                 ShowItemList(scene, player);
             }
@@ -232,20 +237,32 @@ namespace TeamProject
             }
             else
             {
+                Console.Clear();
+                scene.DrawStar();
                 int result = UpGradeItem(num, player);
+                lineX = 60;
+                lineY = 15;
                 switch (result)
                 {
                     case 1:
-                        scene.SetCursorString(lineX, lineY++, "강화실패로 아이템이 파괴되었습니다.", false);
+                        scene.SetCursorString(lineX, lineY++, "=====================================", false);
+                        scene.SetCursorString(lineX, lineY++, "  강화실패로 아이템이 파괴되었습니다.", false);
+                        scene.SetCursorString(lineX, lineY++, "=====================================", false);
                         break;
                     case 2:
-                        scene.SetCursorString(lineX, lineY++, "강화에 실패하였습니다.", false);
+                        scene.SetCursorString(lineX, lineY++, "=====================================", false);
+                        scene.SetCursorString(lineX, lineY++, "        강화에 실패하였습니다.", false);
+                        scene.SetCursorString(lineX, lineY++, "=====================================", false);
                         break;
                     case 3:
-                        scene.SetCursorString(lineX, lineY++, "강화에 성공하였습니다.", false);
+                        scene.SetCursorString(lineX, lineY++, "=====================================", false);
+                        scene.SetCursorString(lineX, lineY++, "         강화에 성공하였습니다.", false);
+                        scene.SetCursorString(lineX, lineY++, "=====================================", false);
                         break;
                     case 4:
-                        scene.SetCursorString(lineX, lineY++, "골드가 부족합니다.", false);
+                        scene.SetCursorString(lineX, lineY++, "=====================================", false);
+                        scene.SetCursorString(lineX, lineY++, "           골드가 부족합니다.", false);
+                        scene.SetCursorString(lineX, lineY++, "=====================================", false);
                         break;
                 }
 
